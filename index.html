@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AM Calcs — Freedom Forever</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Calibri,Arial,sans-serif;background:#0f1a0f;color:#333;min-height:100vh}
+
+/* COLOR TOKENS */
+:root{
+  --green-dark:#1a3d1a;
+  --green-mid:#2d6a2d;
+  --green-light:#4CAF50;
+  --green-pale:#e8f5e9;
+  --green-border:#a5d6a7;
+  --slate-dark:#1a2a2a;
+  --slate-mid:#2a4040;
+  --slate-light:#3d5c5c;
+  --slate-pale:#e8f0f0;
+  --slate-border:#b0c8c8;
+  --gold:#e6a817;
+  --gold-pale:#fff8e1;
+  --red:#d32f2f;
+  --text:#333;
+  --text-muted:#666;
+  --text-light:#999;
+  --border:#e0e0e0;
+  --bg-input:#FFF9EC;
+  --bg-card:#fff;
+  --bg-calc:#f5f5f5;
+}
+
+.site-header{background:linear-gradient(160deg,var(--green-dark) 0%,var(--slate-dark) 60%,var(--green-dark) 100%);color:#fff;text-align:center;padding:28px 20px 18px;border-bottom:3px solid var(--green-light)}
+.site-header .co{font-size:11px;letter-spacing:5px;color:#81c784;font-weight:700;margin-bottom:4px}
+.site-header h1{font-size:30px;font-weight:700;letter-spacing:2px;margin-bottom:10px}
+.badge{display:inline-block;padding:3px 12px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.badge-green{background:rgba(76,175,80,.15);color:#81c784;border:1px solid rgba(76,175,80,.3)}
+.badge-slate{background:rgba(176,200,200,.1);color:#b0c8c8;border:1px solid rgba(176,200,200,.25)}
+
+.tab-nav{display:flex;justify-content:center;gap:3px;padding:0 16px;background:#0a120a;flex-wrap:wrap}
+.tab-btn{padding:9px 18px;border:none;cursor:pointer;font-family:Calibri,Arial,sans-serif;font-size:13px;font-weight:700;border-radius:6px 6px 0 0;transition:all .2s;color:#6a8a6a;background:#141e14;margin-top:8px;letter-spacing:.3px}
+.tab-btn.active{background:var(--green-dark);color:#fff;border-bottom:3px solid var(--green-light)}
+.tab-btn:hover:not(.active){background:#1a261a;color:#a5d6a7}
+
+.main-content{max-width:1100px;margin:0 auto;padding:20px 14px}
+.page{display:none}.page.active{display:block}
+
+/* PRODUCT BAR */
+.product-bar{display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.product-bar label{font-size:11px;font-weight:700;color:#81c784;letter-spacing:1px;text-transform:uppercase}
+.prod-btn{padding:7px 18px;border:2px solid #2a3a2a;border-radius:20px;background:#141e14;color:#6a8a6a;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:Calibri,Arial,sans-serif}
+.prod-btn.active{border-color:var(--green-light);background:var(--green-dark);color:#fff}
+.prod-btn:hover:not(.active){border-color:#4a6a4a;color:#a5d6a7}
+
+/* CARDS */
+.card{background:var(--bg-card);border-radius:10px;box-shadow:0 2px 14px rgba(0,0,0,.25);margin-bottom:18px;overflow:hidden}
+.card-header{padding:11px 18px;font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.card-header.green{background:var(--green-dark);color:#fff;border-bottom:2px solid var(--green-light)}
+.card-header.slate{background:var(--slate-dark);color:#e0efef;border-bottom:2px solid var(--slate-light)}
+.card-header.gold{background:#3d2e00;color:#ffd54f;border-bottom:2px solid var(--gold)}
+.card-body{padding:16px}
+
+/* FORMS */
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px}
+.fg input,.fg select{padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-family:Calibri,Arial,sans-serif;font-size:14px;background:var(--bg-input);transition:border .2s;color:var(--text)}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(45,106,45,.1)}
+.fg input[readonly]{background:#f0f0f0;color:#555;cursor:default}
+.fg select{background:var(--bg-input)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* OUTPUT */
+.out{background:var(--bg-calc);border:1.5px solid var(--border);border-radius:6px;padding:8px 12px;font-size:14px;font-weight:700;min-height:36px;display:flex;align-items:center;color:var(--text)}
+
+/* RESULT ROWS */
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0f0}
+.rrow:last-child{border-bottom:none}
+.rlabel{font-size:13px;color:var(--text-muted);font-weight:600}
+.rval{font-size:14px;font-weight:700}
+
+/* ADDER TABLE */
+.atable{width:100%;border-collapse:collapse;font-size:13px}
+.atable th{background:var(--green-dark);color:#fff;padding:7px 9px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.atable td{padding:5px 8px;border-bottom:1px solid #f0f0f0}
+.atable tr:nth-child(even) td{background:#fafafa}
+.atable input{width:100%;border:1px solid var(--border);border-radius:4px;padding:5px 7px;font-family:Calibri,Arial,sans-serif;font-size:13px;background:var(--bg-input)}
+.atable .ccell{background:#fff;font-weight:700;font-size:13px}
+
+/* ADJ BOXES */
+.adj{background:#f7f9f7;border:1px solid #ddeedd;border-radius:8px;padding:13px;margin-bottom:10px}
+.adj-title{font-size:11px;font-weight:700;color:var(--slate-mid);margin-bottom:9px;text-transform:uppercase;letter-spacing:.6px}
+
+/* REFUND / AURA */
+.refund-section{background:var(--green-pale);border:2px solid var(--green-border);border-radius:10px;padding:16px;margin-bottom:18px}
+.refund-title{font-size:14px;font-weight:700;color:var(--green-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.circle{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.circle.c1{background:var(--slate-mid)}
+.circle.c2{background:var(--green-mid)}
+.circle .cv{font-size:14px}
+.circle .cl{font-size:10px;opacity:.85}
+.circle-label{text-align:center;font-size:11px;color:#555;margin-top:4px;font-weight:600;max-width:90px}
+.choice-box{background:#fff;border:1.5px solid var(--green-border);border-radius:8px;padding:12px;min-width:160px}
+.choice-title{font-size:11px;font-weight:700;color:var(--text-muted);text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px}
+.choice-btns{display:flex;gap:6px;margin-bottom:8px}
+.choice-btn{flex:1;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;background:#f5f5f5;font-size:11px;font-weight:700;cursor:pointer;font-family:Calibri,Arial,sans-serif;transition:all .2s}
+.choice-btn.active{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+.refund-total{font-size:13px;font-weight:700;color:#2d6a2d;text-align:center}
+
+/* AURA DISCOUNT BANNER */
+.discount-box{background:var(--green-pale);border:2px solid var(--green-border);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+
+/* TPO */
+.tpo-rate-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:14px;width:fit-content}
+.tpo-toggle-btn{padding:6px 16px;border:none;cursor:pointer;font-family:Calibri,Arial,sans-serif;font-size:12px;font-weight:700;background:#f5f5f5;color:var(--text-muted);transition:all .2s}
+.tpo-toggle-btn.active{background:var(--slate-dark);color:#fff}
+.esc-year-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.esc-year-table th{background:var(--slate-dark);color:#e0efef;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.esc-year-table td{padding:5px 8px;border:1px solid #e8e8e8;text-align:center}
+.esc-year-table tr:nth-child(even) td{background:#f5f5f5}
+
+/* DF CALC */
+.df-block{background:#f7f9f7;border:1.5px solid var(--green-border);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.df-block-hdr{background:var(--green-dark);color:#fff;padding:9px 16px;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+.df-block-body{padding:16px}
+
+/* ESC TABLE */
+.etable{width:100%;border-collapse:collapse;font-size:12px}
+.etable th{background:var(--slate-dark);color:#e0efef;padding:7px 8px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.etable td{padding:6px 8px;border:1px solid #e8e8e8;text-align:center;font-size:12px}
+.etable .erow-lbl{text-align:left;font-weight:700;background:#f0f5f0;font-size:12px}
+.etable .ycell{background:var(--gold-pale)}
+
+/* BASIC CALCS */
+.result-big{text-align:center;padding:14px;border-radius:8px;margin-top:12px}
+.result-big .rv{font-size:28px;font-weight:700}
+.result-big .ru{font-size:11px;font-weight:600;margin-top:2px;color:#666}
+
+/* CONV */
+.conv-out{background:var(--green-pale);border:1.5px solid var(--green-border);border-radius:8px;padding:14px;text-align:center}
+.conv-out .cv{font-size:26px;font-weight:700;color:var(--green-dark)}
+.conv-out .cu{font-size:12px;color:#555;font-weight:600}
+
+/* HELP */
+.help-card{background:#fff;border-radius:8px;padding:16px;margin-bottom:14px;box-shadow:0 1px 6px rgba(0,0,0,.1)}
+
+/* UTILS */
+.hidden{display:none!important}
+.section-gap{margin-bottom:12px}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+@media(max-width:760px){
+  .grid2,.grid3,.grid4,.two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="co">Freedom Forever</div>
+  <h1>AM CALCS</h1>
+  <div style="display:flex;gap:8px;justify-content:center">
+    <span class="badge badge-green">Account Management</span>
+    <span class="badge badge-slate">Internal Use Only</span>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('pricing',this)">Pricing Calc</button>
+  <button class="tab-btn" onclick="showTab('basic',this)">Basic Calcs</button>
+  <button class="tab-btn" onclick="showTab('df',this)">DF Calc</button>
+  <button class="tab-btn" onclick="showTab('escalations',this)">Adder Escalations</button>
+  <button class="tab-btn" onclick="showTab('conversions',this)">Conversions</button>
+  <button class="tab-btn" onclick="showTab('help',this)">Help</button>
+</nav>
+
+<div class="main-content">
+
+<!-- ===== PRICING CALC ===== -->
+<div id="page-pricing" class="page active">
+
+  <div class="product-bar">
+    <label>Product:</label>
+    <button class="prod-btn active" onclick="setProduct('loan',this)">Loan (Mosaic)</button>
+    <button class="prod-btn" onclick="setProduct('cash',this)">Cash</button>
+    <button class="prod-btn" onclick="setProduct('tpo',this)">TPO</button>
+    <button class="prod-btn" onclick="setProduct('aura',this)">Aura</button>
+    <button class="prod-btn" onclick="setProduct('auraplus',this)">Aura+</button>
+  </div>
+
+  <!-- AURA STANDARD BANNER -->
+  <div id="aura-discount-banner" class="discount-box hidden">
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--green-dark)">30% Upfront Discount Applied</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:3px">Customer pays 70% of GSP upfront. Dealer fee still applies to full GSP.</div>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <div style="text-align:right">
+        <div style="font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.3px">Discount</div>
+        <div style="font-size:20px;font-weight:700;color:#2d6a2d" id="aura-discount-amt">—</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:10px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.3px">Customer Pays</div>
+        <div style="font-size:20px;font-weight:700;color:var(--green-dark)" id="aura-net-price">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AURA+ REFUND SECTION -->
+  <div id="auraplus-refund" class="refund-section hidden">
+    <div class="refund-title">
+      How the 30% Refund Works
+      <span style="font-size:10px;font-weight:700;background:var(--green-dark);color:#fff;padding:2px 8px;border-radius:10px;letter-spacing:.3px">AURA+</span>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="text-align:center">
+          <div class="circle c1"><span class="cv" id="ap-at-install">$0</span><span class="cl">5%</span></div>
+          <div class="circle-label">At Install<br><span style="font-size:10px;color:#777">5% after install</span></div>
+        </div>
+        <span style="color:#aaa;font-size:20px">→</span>
+        <div style="text-align:center">
+          <div class="circle c2"><span class="cv" id="ap-at-pto">$0</span><span class="cl">25%</span></div>
+          <div class="circle-label">After PTO<br><span style="font-size:10px;color:#777">25% after PTO</span></div>
+        </div>
+        <span style="color:#aaa;font-size:20px">→</span>
+      </div>
+      <div class="choice-box">
+        <div class="choice-title">Customer's Choice</div>
+        <div class="choice-btns">
+          <button class="choice-btn active" id="cb-apply" onclick="setRefundChoice('apply')">Apply to Loan</button>
+          <button class="choice-btn" id="cb-cash" onclick="setRefundChoice('cash')">Cash in Pocket</button>
+        </div>
+        <div class="refund-total" id="ap-refund-total">$0 Total Refund</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TPO SECTION -->
+  <div id="tpo-section" class="hidden">
+    <div class="card">
+      <div class="card-header slate">TPO — Rate &amp; Escalator</div>
+      <div class="card-body">
+        <div class="tpo-rate-toggle">
+          <button class="tpo-toggle-btn active" id="tpo-mode-input" onclick="setTPOMode('input')">Input Rate</button>
+          <button class="tpo-toggle-btn" id="tpo-mode-calc" onclick="setTPOMode('calc')">Calculate Rate</button>
+        </div>
+        <div class="grid3">
+          <div class="fg"><label>Starting Monthly Rate ($/mo)</label><input type="number" id="tpo-rate" placeholder="150.00" oninput="calcTPO()"></div>
+          <div class="fg"><label>Escalator % / Year</label><input type="number" id="tpo-esc" placeholder="2.9" step="0.1" oninput="calcTPO()"></div>
+          <div class="fg"><label>Contract Term (Years)</label><input type="number" id="tpo-term" placeholder="25" oninput="calcTPO()"></div>
+        </div>
+        <div id="tpo-calc-inputs" class="hidden" style="margin-top:14px;padding-top:14px;border-top:1px solid #eee">
+          <div style="font-size:11px;font-weight:700;color:var(--slate-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">Calculate Rate from Target PPW</div>
+          <div class="grid3">
+            <div class="fg"><label>Target PPW</label><input type="number" id="tpo-target-ppw" placeholder="2.54" step="0.01" oninput="calcTPO()"></div>
+            <div class="fg"><label>System Size (W)</label><input type="number" id="tpo-calc-size" placeholder="15000" oninput="calcTPO()"></div>
+            <div class="fg"><label>Adders ($)</label><input type="number" id="tpo-calc-adders" placeholder="0" oninput="calcTPO()"></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap">
+            <div style="background:var(--green-pale);border:1.5px solid var(--green-border);border-radius:6px;padding:10px 16px">
+              <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px">Calculated Monthly Rate</div>
+              <div style="font-size:20px;font-weight:700;color:var(--green-dark)" id="tpo-calc-rate">—</div>
+            </div>
+            <div style="background:var(--slate-pale);border:1.5px solid var(--slate-border);border-radius:6px;padding:10px 16px">
+              <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px">PPW from Input Rate</div>
+              <div style="font-size:20px;font-weight:700;color:var(--slate-mid)" id="tpo-ppw-from-rate">—</div>
+            </div>
+          </div>
+        </div>
+        <div id="tpo-esc-table-wrap" style="margin-top:16px" class="hidden">
+          <div style="font-size:11px;font-weight:700;color:var(--slate-mid);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">Escalator Impact Over Term</div>
+          <div style="overflow-x:auto"><table class="esc-year-table" id="tpoEscTable"></table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYSTEM DETAILS -->
+  <div class="card">
+    <div class="card-header green">A — System Details</div>
+    <div class="card-body">
+      <div class="grid3">
+        <div class="fg"><label>Gross System Price (GSP) $</label><input type="number" id="gsp" placeholder="83013.96" oninput="calcPricing()"></div>
+        <div class="fg dealer-fee-field"><label>Dealer Fee % (decimal)</label><input type="number" id="dfPct" placeholder="0.3695" step="0.0001" oninput="calcPricing()"></div>
+        <div class="fg"><label>Baseline PPW $</label><input type="number" id="basePPW" placeholder="1.70" step="0.01" oninput="calcPricing()"></div>
+        <div class="fg"><label>Mod Wattage (W)</label><input type="number" id="modW" placeholder="410" oninput="calcPricing()"></div>
+        <div class="fg"><label>Mod QTY</label><input type="number" id="modQty" placeholder="37" oninput="calcPricing()"></div>
+        <div class="fg"><label>System Size (W) — Auto</label><div class="out" id="sysSize">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADDERS -->
+  <div class="card">
+    <div class="card-header green">B — Adders</div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="atable">
+        <thead><tr><th>#</th><th>Type</th><th>Quantity</th><th>Amount ($)</th><th>Total ($)</th></tr></thead>
+        <tbody id="adderBody"></tbody>
+      </table>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <button onclick="addAdderRow()" style="padding:6px 14px;background:var(--green-dark);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:700">+ Add Row</button>
+        <button onclick="clearAdders()" style="padding:6px 14px;background:#b71c1c;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:700">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- OUTPUT -->
+    <div class="card">
+      <div class="card-header green">C — Output</div>
+      <div class="card-body">
+        <div class="rrow dealer-fee-row"><span class="rlabel">Dealer Fee ($)</span><span class="rval" id="out-df">—</span></div>
+        <div class="rrow"><span class="rlabel">Adder Total</span><span class="rval" id="out-adderTotal">—</span></div>
+        <div class="rrow"><span class="rlabel">Total (Adders + DF)</span><span class="rval" id="out-total">—</span></div>
+        <div class="rrow"><span class="rlabel">Gross PPW</span><span class="rval" id="out-grossPPW">—</span></div>
+        <div class="rrow"><span class="rlabel">Adder PPW</span><span class="rval" id="out-adderPPW">—</span></div>
+        <div class="rrow" style="border-top:2px solid var(--green-light);margin-top:6px;padding-top:8px">
+          <span class="rlabel" style="color:var(--green-dark);font-size:15px;font-weight:700">Net PPW</span>
+          <span class="rval" style="font-size:17px" id="out-netPPW">—</span>
+        </div>
+        <div class="rrow"><span class="rlabel">To Baseline (PPW)</span><span class="rval" id="out-toBasePPW">—</span></div>
+        <div class="rrow"><span class="rlabel">To Baseline ($)</span><span class="rval" id="out-toBase$">—</span></div>
+        <div class="rrow aura-row hidden" style="border-top:2px solid var(--green-border);margin-top:6px;padding-top:8px">
+          <span class="rlabel" style="color:var(--slate-mid);font-weight:700">Effective PPW (70% net)</span>
+          <span class="rval" style="color:var(--slate-mid)" id="out-effPPW">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADJUSTMENTS -->
+    <div class="card">
+      <div class="card-header slate">D — Adjustments</div>
+      <div class="card-body">
+        <div class="adj">
+          <div class="adj-title">Target Net PPW</div>
+          <div class="fg section-gap"><label>Target Net PPW</label><input type="number" id="targetPPW" placeholder="2.42" step="0.01" oninput="calcAdj()"></div>
+          <div class="grid3">
+            <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">Mosaic GSP</div><div class="out" id="adj-mosaic" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">Sunrun EPC PPW</div><div class="out" id="adj-sunrun" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">Cash Price</div><div class="out" id="adj-cash" style="font-size:12px">—</div></div>
+          </div>
+        </div>
+        <div class="adj">
+          <div class="adj-title">Target Contract Price</div>
+          <div class="fg section-gap"><label>Target Contract Price ($)</label><input type="number" id="targetContract" placeholder="22984.13" oninput="calcAdj()"></div>
+          <div class="grid3">
+            <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">Mosaic PPW</div><div class="out" id="adj-tc-mosaic" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">Sunrun PPW</div><div class="out" id="adj-tc-sunrun" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">Cash PPW</div><div class="out" id="adj-tc-cash" style="font-size:12px">—</div></div>
+          </div>
+        </div>
+        <div class="adj">
+          <div class="adj-title">Waive Adder Amount</div>
+          <div class="fg section-gap"><label>Amount to Waive ($)</label><input type="number" id="waiveAmt" placeholder="0" oninput="calcAdj()"></div>
+          <div><div style="font-size:10px;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px">New Net PPW</div><div class="out" id="adj-waive" style="font-size:12px">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BASIC CALCS ===== -->
+<div id="page-basic" class="page">
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header green">Sunrun — Target PPW to EPC</div>
+      <div class="card-body">
+        <div class="grid3" style="gap:10px;margin-bottom:12px">
+          <div class="fg"><label>Target PPW</label><input type="number" id="sr-tppw" placeholder="3.19" step="0.01" oninput="calcBasic()"></div>
+          <div class="fg"><label>Freedom Adders ($)</label><input type="number" id="sr-adders" placeholder="6256.50" oninput="calcBasic()"></div>
+          <div class="fg"><label>System Size (W)</label><input type="number" id="sr-size" placeholder="7150" oninput="calcBasic()"></div>
+        </div>
+        <div class="result-big" style="background:var(--green-pale);border:1.5px solid var(--green-border)">
+          <div style="font-size:10px;font-weight:700;color:var(--green-dark);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">EPC PPW</div>
+          <div class="rv" style="color:var(--green-dark)" id="sr-result">—</div>
+          <div class="ru">$/W</div>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:8px;font-style:italic">((Target PPW × System Size) + Adders) / System Size</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header slate">Mosaic / Loan — PPW to GSP</div>
+      <div class="card-body">
+        <div class="grid2" style="gap:10px;margin-bottom:12px">
+          <div class="fg"><label>Target PPW</label><input type="number" id="ml-tppw" placeholder="2.54" step="0.01" oninput="calcBasic()"></div>
+          <div class="fg"><label>System Size (W)</label><input type="number" id="ml-size" placeholder="23780" oninput="calcBasic()"></div>
+          <div class="fg"><label>Adders ($)</label><input type="number" id="ml-adders" placeholder="31207.20" oninput="calcBasic()"></div>
+          <div class="fg"><label>Dealer Fee % (decimal)</label><input type="number" id="ml-df" placeholder="0" step="0.0001" oninput="calcBasic()"></div>
+        </div>
+        <div class="result-big" style="background:var(--slate-pale);border:1.5px solid var(--slate-border)">
+          <div style="font-size:10px;font-weight:700;color:var(--slate-dark);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">Gross System Price</div>
+          <div class="rv" style="color:var(--slate-dark)" id="ml-result">—</div>
+          <div class="ru">$</div>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:8px;font-style:italic">((Target PPW × System Size) + Adders) / (1 - Dealer Fee %)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DF CALC ===== -->
+<div id="page-df" class="page">
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-header green">Dealer Fee Calculator</div>
+    <div class="card-body"><p style="font-size:13px;color:var(--text-muted)">Applies to Loan (Mosaic), Aura, and Aura+. Select a loan term to auto-fill the fee %, or enter a manual override below.</p></div>
+  </div>
+  <div class="df-block">
+    <div class="df-block-hdr">DF Calculator</div>
+    <div class="df-block-body">
+      <div class="grid4" style="gap:12px;margin-bottom:16px">
+        <div class="fg"><label>System Price ($)</label><input type="number" id="df-price" placeholder="96393.57" oninput="calcDF()"></div>
+        <div class="fg">
+          <label>Mosaic Loan Term</label>
+          <select id="df-term" onchange="calcDF()">
+            <option value="">-- Select Loan Term --</option>
+            <option value="0.19">10 Year - 1.49% (19.00)</option>
+            <option value="0.16">10 Year - 2.99% (16.00)</option>
+            <option value="0.22">15 Year - 1.49% (22.00)</option>
+            <option value="0.20">15 Year - 1.99% (18.00)</option>
+            <option value="0.18">15 Year - 3.49% (18.00)</option>
+            <option value="0.12">15 Year - 4.99% (12.00)</option>
+            <option value="0.255">20 Year - 0.99% (25.50)</option>
+            <option value="0.22">20 Year - 1.49% (22.00)</option>
+            <option value="0.19">20 Year - 2.99% (19.00)</option>
+            <option value="0.16">20 Year - 3.99% (16.00)</option>
+            <option value="0.145">20 Year - 4.99% (14.50)</option>
+            <option value="0.2325">25 Year - 1.99% (23.25)</option>
+            <option value="0.1825">25 Year - 2.99% (18.25)</option>
+            <option value="0.17">25 Year - 3.99% (17.00)</option>
+            <option value="0.10">25 Year - 5.99% (10.00)</option>
+            <option value="0.075">PLUS 10 Year - 4.99% (7.50)</option>
+            <option value="0.09">PLUS 15 Year - 4.99% (9.00)</option>
+            <option value="0.085">PLUS 20 Year - 5.49% (8.50)</option>
+            <option value="0.225">ZERO 20 Year - 2.99% (22.50)</option>
+            <option value="0.245">ZERO 20 Year - 2.99% (24.50)</option>
+            <option value="0.23">ZERO 25 Year - 2.99% (23.00)</option>
+            <option value="0.25">ZERO 25 Year - 2.99% (25.00)</option>
+          </select>
+        </div>
+        <div class="fg"><label>Manual Fee % Override (decimal)</label><input type="number" id="df-manual" placeholder="e.g. 0.3695" step="0.0001" oninput="calcDF()"></div>
+        <div class="fg"><label>Contract Signature Date</label><input type="date" id="df-date" oninput="calcDF()"></div>
+      </div>
+      <div class="grid3" style="gap:12px">
+        <div style="background:var(--green-pale);border:1.5px solid var(--green-border);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Dealer Fee</div>
+          <div style="font-size:28px;font-weight:700;color:var(--green-dark)" id="df-fee">—</div>
+        </div>
+        <div style="background:var(--slate-pale);border:1.5px solid var(--slate-border);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:var(--slate-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Expiration Date (+180 days)</div>
+          <div style="font-size:20px;font-weight:700;color:var(--slate-dark)" id="df-exp">—</div>
+        </div>
+        <div style="background:var(--gold-pale);border:1.5px solid #ffe082;border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#5d4000;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fee % Applied</div>
+          <div style="font-size:28px;font-weight:700;color:#5d4000" id="df-pct-display">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADDER ESCALATIONS ===== -->
+<div id="page-escalations" class="page">
+  <div class="card">
+    <div class="card-header slate">Project Details</div>
+    <div class="card-body">
+      <div class="grid3">
+        <div class="fg"><label>System Price ($)</label><input type="number" id="esc-price" placeholder="86083.60" oninput="calcEsc()"></div>
+        <div class="fg"><label>System Size (W)</label><input type="number" id="esc-size" placeholder="23780" oninput="calcEsc()"></div>
+        <div class="fg"><label>Baseline PPW</label><input type="number" id="esc-base" placeholder="2.54" step="0.01" oninput="calcEsc()"></div>
+        <div class="fg"><label>Adders Excl. Missed ($)</label><input type="number" id="esc-adders" placeholder="31207.20" oninput="calcEsc()"></div>
+        <div class="fg"><label>Missed Adder Total ($)</label><input type="number" id="esc-missed" placeholder="5000" oninput="calcEsc()"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header slate">Financial Impact — Cost Allocation Scenarios</div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="etable">
+        <thead><tr>
+          <th>Scenario</th><th>Freedom Share ($)</th><th>Dealer Share ($)</th>
+          <th>Net PPW</th><th>vs Baseline</th>
+          <th class="ycell">Sales Commission Notes (Confirm w/ Jackie)</th>
+        </tr></thead>
+        <tbody id="escBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONVERSIONS ===== -->
+<div id="page-conversions" class="page">
+  <div style="max-width:440px;margin:0 auto">
+    <div class="card">
+      <div class="card-header green">Energy Unit Converter</div>
+      <div class="card-body">
+        <div class="fg"><label>Mega Watt Hours (MWh)</label><input type="number" id="conv-mwh" placeholder="15.5" step="0.1" oninput="calcConv()"></div>
+        <div class="grid2" style="margin-top:14px;gap:12px">
+          <div class="conv-out"><div class="cv" id="conv-kwh">—</div><div class="cu">kWh (Kilowatt Hours)</div></div>
+          <div class="conv-out"><div class="cv" id="conv-wh">—</div><div class="cu">Wh (Watt Hours)</div></div>
+        </div>
+        <div style="margin-top:10px;background:#f5f5f5;border-radius:5px;padding:10px;font-size:11px;color:#888">kWh = MWh × 1,000 &nbsp;|&nbsp; Wh = kWh × 1,000</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HELP ===== -->
+<div id="page-help" class="page">
+  <div class="two-col">
+    <div>
+      <div class="help-card" style="border-top:3px solid var(--green-light)">
+        <div style="font-size:13px;font-weight:700;color:var(--green-dark);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--green-border)">Procedure</div>
+        <ol style="padding-left:18px;font-size:13px;line-height:2.1">
+          <li>Locate the initial <strong>Contract Signature Date</strong></li>
+          <li>Determine the <strong>Baseline/Redline PPW</strong> from the Internal Adder Sheet</li>
+          <li>Check Mosaic Portal for Finance Product; find the correct <strong>Dealer Fee %</strong> (Sunrun = 0%)</li>
+          <li>Complete <strong>GSP, Mod Wattage, Mod QTY</strong> from most recently signed Contract/Change Order/EPC</li>
+          <li>Complete <strong>Adders</strong> from most recent Construction Review, PM, or AM assessment (excluding Dealer Fee)</li>
+        </ol>
+      </div>
+      <div class="help-card" style="border-top:3px solid var(--green-light)">
+        <div style="font-size:13px;font-weight:700;color:var(--green-dark);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--green-border)">Product Types</div>
+        <div style="font-size:13px;line-height:2.1">
+          <strong>Loan (Mosaic)</strong> — Standard loan. Dealer fee applies. Net PPW on full GSP.<br>
+          <strong>Cash</strong> — No dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
+          <strong>TPO</strong> — Monthly rate + escalator. Outputs both PPW and monthly rate.<br>
+          <strong>Aura</strong> — Loan with dealer fee. Customer receives 30% upfront discount.<br>
+          <strong>Aura+</strong> — Loan with dealer fee. Customer receives 5% at install + 25% at PTO.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="help-card" style="border-top:3px solid #d32f2f">
+        <div style="font-size:13px;font-weight:700;color:#b71c1c;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #ffcdd2">Do NOT</div>
+        <ul style="list-style:none;padding:0;font-size:13px;line-height:2.2;color:#b71c1c">
+          <li>Adjust Formulas</li><li>Paste Values into Cells</li>
+          <li>Share with outside entities or partners</li><li>Create Copies of this Calculator</li>
+        </ul>
+      </div>
+      <div class="help-card" style="border-top:3px solid var(--slate-light)">
+        <div style="font-size:13px;font-weight:700;color:var(--slate-dark);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--slate-border)">Adjustment Explanations</div>
+        <div style="font-size:13px;line-height:2">
+          <strong>Target Net PPW</strong> — Required Mosaic GSP or Sunrun EPC to hit the target PPW.<br>
+          <strong>Target Contract Price</strong> — Required PPW to achieve the target contract price.<br>
+          <strong>Waive Adder Amount</strong> — New Net PPW after waiving the entered dollar amount.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+let currentProduct='loan',adderRows=[],adderCount=0,refundChoice='apply',tpoMode='input';
+const $=id=>document.getElementById(id);
+const v=id=>parseFloat($(id)?.value)||0;
+const fmt$=(n,d=2)=>isNaN(n)||!isFinite(n)?'—':'$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtN=(n,d=2)=>isNaN(n)||!isFinite(n)?'—':n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtPPW=n=>isNaN(n)||!isFinite(n)?'—':n.toFixed(4)+' $/W';
+const set=(id,val)=>{if($(id))$(id).textContent=val};
+
+function showTab(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  $('page-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function setProduct(p,btn){
+  currentProduct=p;
+  document.querySelectorAll('.prod-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateProductUI();
+  calcPricing();
+}
+
+function updateProductUI(){
+  const p=currentProduct;
+  document.querySelectorAll('.dealer-fee-field,.dealer-fee-row').forEach(el=>el.classList.toggle('hidden',p==='cash'||p==='tpo'));
+  $('aura-discount-banner').classList.toggle('hidden',p!=='aura');
+  $('auraplus-refund').classList.toggle('hidden',p!=='auraplus');
+  document.querySelectorAll('.aura-row').forEach(el=>el.classList.toggle('hidden',p!=='aura'&&p!=='auraplus'));
+  $('tpo-section').classList.toggle('hidden',p!=='tpo');
+}
+
+function setRefundChoice(c){
+  refundChoice=c;
+  $('cb-apply').classList.toggle('active',c==='apply');
+  $('cb-cash').classList.toggle('active',c==='cash');
+  calcPricing();
+}
+
+function initAdders(){for(let i=0;i<5;i++)addAdderRow();}
+function addAdderRow(){
+  adderCount++;
+  const id=adderCount;
+  adderRows.push(id);
+  const tr=document.createElement('tr');
+  tr.id='arow-'+id;
+  tr.innerHTML=`<td style="color:#bbb;font-size:11px">${id}</td>
+    <td><input type="text" placeholder="Type..." id="atype-${id}" oninput="calcPricing()"></td>
+    <td><input type="number" id="aqty-${id}" placeholder="0" oninput="calcPricing()" ${id===1?'readonly style="background:#e8f5e9;font-weight:700"':''}></td>
+    <td><input type="number" id="aamt-${id}" placeholder="0.00" step="0.01" oninput="calcPricing()"></td>
+    <td class="ccell" id="atot-${id}">—</td>`;
+  $('adderBody').appendChild(tr);
+}
+function clearAdders(){$('adderBody').innerHTML='';adderRows=[];adderCount=0;initAdders();calcPricing();}
+
+function calcPricing(){
+  const gsp=v('gsp'),dfPct=currentProduct==='cash'||currentProduct==='tpo'?0:v('dfPct');
+  const basePPW=v('basePPW'),modW=v('modW'),modQty=v('modQty');
+  const sysSize=modW*modQty;
+  set('sysSize',sysSize>0?sysSize.toLocaleString()+' W':'—');
+  const q1=$('aqty-1');if(q1&&sysSize>0)q1.value=sysSize;
+  let adderTotal=0;
+  for(const id of adderRows){
+    const qty=parseFloat($('aqty-'+id)?.value)||0,amt=parseFloat($('aamt-'+id)?.value)||0,tot=qty*amt;
+    const cell=$('atot-'+id);if(cell)cell.textContent=tot>0?fmt$(tot):'—';
+    adderTotal+=tot;
+  }
+  const dfDollar=gsp*dfPct,total=dfDollar+adderTotal;
+  const grossPPW=sysSize>0?gsp/sysSize:0,adderPPW=sysSize>0?adderTotal/sysSize:0;
+  const netPPW=sysSize>0?(gsp-total)/sysSize:0;
+  const toBasePPW=netPPW-basePPW,toBase$val=toBasePPW*sysSize;
+  set('out-df',fmt$(dfDollar));set('out-adderTotal',fmt$(adderTotal));set('out-total',fmt$(total));
+  set('out-grossPPW',fmtPPW(grossPPW));set('out-adderPPW',fmtPPW(adderPPW));
+  const netEl=$('out-netPPW');
+  if(gsp>0&&sysSize>0){
+    if(netPPW>=basePPW){netEl.style.color='#2d6a2d';netEl.textContent=fmtPPW(netPPW);}
+    else{netEl.style.color='#d32f2f';netEl.innerHTML=fmtPPW(netPPW)+' <span style="background:#d32f2f;color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700">LOW PPW</span>';}
+  } else{netEl.textContent='—';netEl.style.color='#333';}
+  const tbp=$('out-toBasePPW');tbp.textContent=gsp>0&&sysSize>0?fmtPPW(toBasePPW):'—';tbp.style.color=toBasePPW>=0?'#2d6a2d':'#d32f2f';
+  const tb$=$('out-toBase$');tb$.textContent=gsp>0&&sysSize>0?fmt$(toBase$val):'—';tb$.style.color=toBase$val>=0?'#2d6a2d':'#d32f2f';
+  if(currentProduct==='aura'&&gsp>0){
+    set('aura-discount-amt',fmt$(gsp*.3));set('aura-net-price',fmt$(gsp*.7));
+    const effPPW=sysSize>0?(gsp*.7-total)/sysSize:0;set('out-effPPW',fmtPPW(effPPW));
+  }
+  if(currentProduct==='auraplus'&&gsp>0){
+    set('ap-at-install',fmt$(gsp*.05,0));set('ap-at-pto',fmt$(gsp*.25,0));
+    set('ap-refund-total',fmt$(gsp*.3)+' Total Refund');
+    const effPPW=sysSize>0?(gsp-gsp*.3-total)/sysSize:0;set('out-effPPW',fmtPPW(effPPW));
+  }
+  window._pc={gsp,dfPct,basePPW,sysSize,adderTotal};calcAdj();
+}
+
+function calcAdj(){
+  const{gsp=0,dfPct=0,sysSize=0,adderTotal=0}=window._pc||{};
+  const tPPW=v('targetPPW'),tC=v('targetContract'),waive=v('waiveAmt');
+  if(tPPW&&sysSize>0){
+    set('adj-mosaic',fmt$(dfPct<1?((tPPW*sysSize)+adderTotal)/(1-dfPct):0));
+    set('adj-sunrun',fmtPPW(((tPPW*sysSize)+adderTotal)/sysSize));
+    set('adj-cash',fmt$((tPPW*sysSize)+adderTotal));
+  } else{set('adj-mosaic','—');set('adj-sunrun','—');set('adj-cash','—');}
+  if(tC&&sysSize>0){
+    set('adj-tc-mosaic',fmtPPW(((tC-(tC*dfPct))-adderTotal)/sysSize));
+    const srPPW=(tC-adderTotal)/sysSize;
+    set('adj-tc-sunrun',fmtPPW(srPPW));set('adj-tc-cash',fmtPPW(srPPW));
+  } else{set('adj-tc-mosaic','—');set('adj-tc-sunrun','—');set('adj-tc-cash','—');}
+  if(gsp&&sysSize>0)set('adj-waive',fmtPPW((gsp-(adderTotal-waive))/sysSize));
+  else set('adj-waive','—');
+}
+
+function setTPOMode(m){
+  tpoMode=m;
+  $('tpo-mode-input').classList.toggle('active',m==='input');
+  $('tpo-mode-calc').classList.toggle('active',m==='calc');
+  $('tpo-calc-inputs').classList.toggle('hidden',m==='input');
+  calcTPO();
+}
+
+function calcTPO(){
+  const rate=v('tpo-rate'),esc=v('tpo-esc')/100,term=v('tpo-term');
+  if(tpoMode==='calc'){
+    const tPPW=v('tpo-target-ppw'),sz=v('tpo-calc-size'),adds=v('tpo-calc-adders');
+    if(sz>0)set('tpo-calc-rate',fmt$((tPPW*sz+adds)/12)+'/mo');
+    if(rate>0&&sz>0)set('tpo-ppw-from-rate',fmtPPW((rate*12)/sz));
+  }
+  if(rate>0&&term>0){
+    $('tpo-esc-table-wrap').classList.remove('hidden');
+    const tbl=$('tpoEscTable');tbl.innerHTML='';
+    const hrow=tbl.createTHead().insertRow();
+    ['Year','Monthly Rate','Annual Total','Cumulative Total'].forEach(h=>{const th=document.createElement('th');th.textContent=h;hrow.appendChild(th);});
+    const tbody=tbl.createTBody();let cum=0;
+    for(let y=1;y<=Math.min(term,30);y++){
+      const mo=rate*Math.pow(1+esc,y-1),ann=mo*12;cum+=ann;
+      const row=tbody.insertRow();
+      row.innerHTML=`<td>Yr ${y}</td><td>${fmt$(mo)}</td><td>${fmt$(ann)}</td><td>${fmt$(cum)}</td>`;
+    }
+  } else $('tpo-esc-table-wrap').classList.add('hidden');
+}
+
+function calcBasic(){
+  const srT=v('sr-tppw'),srA=v('sr-adders'),srS=v('sr-size');
+  set('sr-result',srS>0?((srT*srS+srA)/srS).toFixed(4):'—');
+  const mlT=v('ml-tppw'),mlS=v('ml-size'),mlA=v('ml-adders'),mlDF=v('ml-df');
+  set('ml-result',mlDF<1?fmt$((mlT*mlS+mlA)/(1-mlDF)):'—');
+}
+
+function calcDF(){
+  const price=v('df-price'),termMult=parseFloat($('df-term')?.value)||0,manual=parseFloat($('df-manual')?.value)||0;
+  const mult=manual>0?manual:termMult,dateVal=$('df-date')?.value;
+  set('df-pct-display',mult>0?(mult*100).toFixed(2)+'%':'—');
+  set('df-fee',price>0&&mult>0?fmt$(price*mult):'—');
+  if(dateVal){const d=new Date(dateVal);d.setDate(d.getDate()+180);set('df-exp',d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));}
+  else set('df-exp','—');
+}
+
+const ESC_SCENARIOS=[
+  {lbl:'Current (100% to Freedom)',fn:(p,a,m,b,s)=>({fs:m,ds:0,ppw:(p-a)/s})},
+  {lbl:'0% to Freedom',fn:(p,a,m,b,s)=>({fs:0,ds:m,ppw:(p-a-m)/s})},
+  {lbl:'$2,000 Cap to Freedom',fn:(p,a,m,b,s)=>{const fs=Math.min(2000,m),ds=m-fs;return{fs,ds,ppw:(p-a-ds)/s};}},
+  {lbl:'20% to Freedom',fn:(p,a,m,b,s)=>({fs:m*.2,ds:m*.8,ppw:(p-a-m*.8)/s})},
+  {lbl:'50/50 Split',fn:(p,a,m,b,s)=>({fs:m*.5,ds:m*.5,ppw:(p-a-m*.5)/s})},
+  {lbl:'To Baseline',fn:(p,a,m,b,s)=>{const fs=((b*s)+a+m)-p,ds=m-fs;return{fs,ds,ppw:(p-a-ds)/s};}},
+];
+function calcEsc(){
+  const p=v('esc-price'),s=v('esc-size'),b=v('esc-base'),a=v('esc-adders'),m=v('esc-missed');
+  const tbody=$('escBody');tbody.innerHTML='';
+  ESC_SCENARIOS.forEach(sc=>{
+    const{fs,ds,ppw}=sc.fn(p,a,m,b,s),diff=ppw-b,ok=p>0&&s>0;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="erow-lbl">${sc.lbl}</td>
+      <td>${ok?fmt$(fs):'—'}</td><td>${ok?fmt$(ds):'—'}</td>
+      <td style="color:${ok?(ppw>=b?'#2d6a2d':'#d32f2f'):'#333'};font-weight:700">${ok?fmtPPW(ppw):'—'}</td>
+      <td style="color:${ok?(diff>=0?'#2d6a2d':'#d32f2f'):'#333'};font-weight:700">${ok?(diff>=0?'+':'')+fmtPPW(diff):'—'}</td>
+      <td class="ycell" contenteditable="true" style="min-width:130px;font-style:italic;color:#bbb;font-size:11px">Click to add...</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function calcConv(){
+  const mwh=v('conv-mwh');
+  set('conv-kwh',mwh>0?fmtN(mwh*1000,0):'—');
+  set('conv-wh',mwh>0?fmtN(mwh*1000000,0):'—');
+}
+
+initAdders();updateProductUI();calcEsc();
+</script>
+</body>
+</html>
