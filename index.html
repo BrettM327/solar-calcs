@@ -15,18 +15,11 @@ body{font-family:Calibri,Arial,sans-serif;background:#0f1a0f;color:#333;min-heig
   --inp:#FFF9EC;--card:#fff;--calc:#f5f5f5;
 }
 .hdr{background:linear-gradient(160deg,var(--gd) 0%,var(--sd) 60%,var(--gd) 100%);color:#fff;text-align:center;padding:22px 20px 14px;border-bottom:3px solid var(--gl)}
-.hdr .co{font-size:11px;letter-spacing:5px;color:#81c784;font-weight:700;margin-bottom:4px}
-.hdr h1{font-size:26px;font-weight:700;letter-spacing:2px;margin-bottom:8px}
-.badge{display:inline-block;padding:3px 12px;border-radius:12px;font-size:11px;font-weight:700}
-.bg{background:rgba(76,175,80,.15);color:#81c784;border:1px solid rgba(76,175,80,.3)}
-
-/* NAV */
+.hdr h1{font-size:26px;font-weight:700;letter-spacing:2px}
 .tab-nav{display:flex;justify-content:center;gap:3px;padding:0 16px;background:#0a120a;flex-wrap:wrap}
 .tab-btn{padding:8px 16px;border:none;cursor:pointer;font-family:Calibri,Arial,sans-serif;font-size:13px;font-weight:700;border-radius:6px 6px 0 0;transition:all .2s;color:#6a8a6a;background:#141e14;margin-top:8px}
 .tab-btn.active{background:var(--gd);color:#fff;border-bottom:3px solid var(--gl)}
 .tab-btn:hover:not(.active){background:#1a261a;color:#a5d6a7}
-
-/* STICKY BAR */
 #sticky-bar{position:sticky;top:0;z-index:100;background:linear-gradient(90deg,#0d220d 0%,#0f1f1f 50%,#0d220d 100%);border-bottom:2px solid var(--gl);box-shadow:0 4px 20px rgba(0,0,0,.5);display:none}
 #sticky-bar.bar-visible{display:block}
 .sbar-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 1fr;align-items:stretch}
@@ -41,26 +34,18 @@ body{font-family:Calibri,Arial,sans-serif;background:#0f1a0f;color:#333;min-heig
 .ppw-low-s{display:inline-block;background:#b71c1c;color:#fff;padding:1px 7px;border-radius:8px;font-size:9px;font-weight:700;margin-left:6px;vertical-align:middle}
 .sval-green{color:#81c784!important}
 .sval-red{color:#ef9a9a!important}
-
-/* LAYOUT */
 .wrap{max-width:1200px;margin:0 auto;padding:18px 14px}
 .page{display:none}.page.active{display:block}
-
-/* PRODUCT BAR */
 .pbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;background:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .pbar-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-right:4px}
 .pbtn{padding:6px 16px;border:2px solid var(--bdr);border-radius:20px;background:#f9f9f9;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:Calibri,Arial,sans-serif}
 .pbtn.active{border-color:var(--gl);background:var(--gd);color:#fff}
 .pbtn:hover:not(.active){border-color:#aaa;color:#333}
-
-/* CARDS */
 .card{background:var(--card);border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.15);margin-bottom:16px;overflow:hidden}
 .ch{padding:10px 16px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
 .ch.g{background:var(--gd);color:#fff;border-bottom:2px solid var(--gl)}
 .ch.s{background:var(--sd);color:#e0efef;border-bottom:2px solid var(--sl)}
 .cb{padding:14px}
-
-/* FORMS */
 .fg{display:flex;flex-direction:column;gap:3px}
 .fg label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
 .fg input,.fg select{padding:7px 10px;border:1.5px solid var(--bdr);border-radius:6px;font-family:Calibri,Arial,sans-serif;font-size:14px;background:var(--inp);color:var(--txt);transition:border .2s}
@@ -70,25 +55,15 @@ body{font-family:Calibri,Arial,sans-serif;background:#0f1a0f;color:#333;min-heig
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
 .g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:11px}
 .tc{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-/* OUTPUT BOX */
 .out{background:var(--calc);border:1.5px solid var(--bdr);border-radius:6px;padding:7px 10px;font-size:13px;font-weight:700;min-height:34px;display:flex;align-items:center;color:var(--txt)}
-
-/* ── INLINE METRICS BAR ── */
 .imet{padding:10px 12px;border-right:1px solid #ddeedd;display:flex;flex-direction:column;gap:3px}
 .imet-l{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
 .imet-v{font-size:14px;font-weight:700;color:var(--txt)}
 .imet-v.green{color:#2d6a2d}
 .imet-v.red{color:var(--red)}
-
-/* ADJ */
 .adj{background:#f7f9f7;border:1px solid #ddeedd;border-radius:8px;padding:12px;margin-bottom:10px}
 .adj-t{font-size:10px;font-weight:700;color:var(--sm);margin-bottom:8px;text-transform:uppercase;letter-spacing:.6px}
-
-/* AURA BANNER */
 .aura-banner{background:var(--gp);border:2px solid var(--gb);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-
-/* AURA+ REFUND — centered */
 .refund-wrap{background:var(--gp);border:2px solid var(--gb);border-radius:10px;padding:20px 16px;margin-bottom:14px;text-align:center}
 .refund-title{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px}
 .refund-flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
@@ -102,13 +77,9 @@ body{font-family:Calibri,Arial,sans-serif;background:#0f1a0f;color:#333;min-heig
 .cbns{display:flex;gap:6px;margin-bottom:8px}
 .cbn{flex:1;padding:5px 6px;border:1.5px solid var(--bdr);border-radius:5px;background:#f5f5f5;font-size:11px;font-weight:700;cursor:pointer;font-family:Calibri,Arial,sans-serif;transition:all .2s}
 .cbn.active{background:var(--gd);color:#fff;border-color:var(--gd)}
-
-/* TPO */
 .tpo-toggle{display:flex;gap:0;border:1.5px solid var(--bdr);border-radius:6px;overflow:hidden;margin-bottom:12px;width:fit-content}
 .tto{padding:5px 14px;border:none;cursor:pointer;font-family:Calibri,Arial,sans-serif;font-size:12px;font-weight:700;background:#f5f5f5;color:var(--muted);transition:all .2s}
 .tto.active{background:var(--sd);color:#fff}
-
-/* CHART */
 .chart-wrap{position:relative;width:100%;height:260px;margin:12px 0 6px}
 canvas#utilChart{width:100%!important;height:100%!important}
 .chart-legend{display:flex;gap:16px;justify-content:center;margin-top:6px;flex-wrap:wrap}
@@ -122,68 +93,42 @@ canvas#utilChart{width:100%!important;height:100%!important}
 .ytable th{background:var(--sd);color:#e0efef;padding:7px 8px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
 .ytable td{padding:5px 8px;border:1px solid #eee;text-align:center}
 .ytable tr:nth-child(even) td{background:#fafafa}
-
-/* CONV */
 .conv-toggle{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .ctbtn{padding:7px 14px;border:2px solid var(--bdr);border-radius:20px;background:#f9f9f9;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:Calibri,Arial,sans-serif}
 .ctbtn.active{border-color:var(--gl);background:var(--gd);color:#fff}
 .conv-result{background:var(--gp);border:1.5px solid var(--gb);border-radius:10px;padding:20px;text-align:center;margin-top:10px}
 .conv-result .big{font-size:36px;font-weight:700;color:var(--gd)}
 .conv-result .unit{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
-
-/* DF */
 .df-block{background:#f7f9f7;border:1.5px solid var(--gb);border-radius:8px;overflow:hidden}
 .df-hdr{background:var(--gd);color:#fff;padding:8px 14px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
 .df-body{padding:14px}
-
-/* ESC TABLE */
 .et{width:100%;border-collapse:collapse;font-size:12px}
 .et th{background:var(--sd);color:#e0efef;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
 .et td{padding:5px 8px;border:1px solid #eee;text-align:center;font-size:12px}
 .et .el{text-align:left;font-weight:700;background:#f0f5f0}
 .et .ey{background:var(--goldp)}
-
-/* ADDER TABLE */
 .at{width:100%;border-collapse:collapse;font-size:13px}
 .at th{background:var(--gd);color:#fff;padding:6px 8px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .at td{padding:4px 7px;border-bottom:1px solid #f5f5f5}
 .at tr:nth-child(even) td{background:#fafafa}
 .at input{width:100%;border:1px solid var(--bdr);border-radius:4px;padding:4px 6px;font-family:Calibri,Arial,sans-serif;font-size:12px;background:var(--inp)}
 .cc{background:#fff;font-weight:700;font-size:12px}
-
-/* BASIC */
 .res-big{text-align:center;padding:14px;border-radius:8px;margin-top:10px}
 .res-big .rv2{font-size:30px;font-weight:700}
-
-/* HELP */
 .hcard{background:#fff;border-radius:8px;padding:14px;margin-bottom:12px;box-shadow:0 1px 5px rgba(0,0,0,.1)}
-
-/* UTILS */
 .hidden{display:none!important}
 .gap{margin-bottom:12px}
 input[type=number]{-moz-appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-
-@media(max-width:860px){
-  .sbar-inner{grid-template-columns:1fr 1fr 1fr}
-  .smet.hero{grid-column:span 3}
-}
-@media(max-width:800px){
-  .g2,.g3,.g4,.tc{grid-template-columns:1fr}
-  .op-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:520px){
-  .sbar-inner{grid-template-columns:1fr 1fr}
-  .smet.hero{grid-column:span 2}
-}
+@media(max-width:860px){.sbar-inner{grid-template-columns:1fr 1fr 1fr}.smet.hero{grid-column:span 3}}
+@media(max-width:800px){.g2,.g3,.g4,.tc{grid-template-columns:1fr}}
+@media(max-width:520px){.sbar-inner{grid-template-columns:1fr 1fr}.smet.hero{grid-column:span 2}}
 </style>
 </head>
 <body>
-
 <header class="hdr">
   <h1>SOLAR CALCS</h1>
 </header>
-
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="showTab('pricing',this)">Pricing Calc</button>
   <button class="tab-btn" onclick="showTab('basic',this)">Basic Calcs</button>
@@ -193,45 +138,43 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   <button class="tab-btn" onclick="showTab('help',this)">Help</button>
 </nav>
 
-<!-- STICKY BAR -->
 <div id="sticky-bar">
   <div class="sbar-inner">
     <div class="smet hero">
       <div class="smet-lbl">Net PPW</div>
       <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
-        <span class="smet-val" id="sb-ppw">—</span>
+        <span class="smet-val" id="sb-ppw">&#8212;</span>
         <span id="sb-low" class="ppw-low-s hidden">LOW PPW</span>
       </div>
-      <div class="smet-sub" id="sb-vs">vs Baseline —</div>
+      <div class="smet-sub" id="sb-vs">vs Baseline &#8212;</div>
     </div>
     <div class="smet" id="sb-df-wrap">
       <div class="smet-lbl">Dealer Fee</div>
-      <div class="smet-val" id="sb-df">—</div>
+      <div class="smet-val" id="sb-df">&#8212;</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">Adder Total</div>
-      <div class="smet-val" id="sb-at">—</div>
+      <div class="smet-val" id="sb-at">&#8212;</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">Gross PPW</div>
-      <div class="smet-val" id="sb-gp">—</div>
+      <div class="smet-val" id="sb-gp">&#8212;</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">To Baseline PPW</div>
-      <div class="smet-val" id="sb-tbp">—</div>
+      <div class="smet-val" id="sb-tbp">&#8212;</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">System Size</div>
-      <div class="smet-val" id="sb-ss">—</div>
+      <div class="smet-val" id="sb-ss">&#8212;</div>
     </div>
   </div>
 </div>
 
 <div class="wrap">
 
-<!-- ===== PRICING ===== -->
+<!-- PRICING -->
 <div id="page-pricing" class="page active">
-
   <div class="pbar">
     <span class="pbar-label">Product:</span>
     <button class="pbtn active" onclick="setProd('loan',this)">Loan</button>
@@ -241,19 +184,17 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     <button class="pbtn" onclick="setProd('auraplus',this)">Aura+</button>
   </div>
 
-  <!-- Aura banner -->
   <div id="aura-banner" class="aura-banner hidden">
     <div>
       <div style="font-size:13px;font-weight:700;color:var(--gd)">30% Upfront Discount Applied</div>
       <div style="font-size:11px;color:var(--muted);margin-top:2px">Customer pays 70% of GSP upfront. Dealer fee applies to full GSP.</div>
     </div>
     <div style="display:flex;gap:20px;flex-wrap:wrap">
-      <div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Discount</div><div style="font-size:18px;font-weight:700;color:#2d6a2d" id="aura-disc">—</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Customer Pays</div><div style="font-size:18px;font-weight:700;color:var(--gd)" id="aura-net">—</div></div>
+      <div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Discount</div><div style="font-size:18px;font-weight:700;color:#2d6a2d" id="aura-disc">&#8212;</div></div>
+      <div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Customer Pays</div><div style="font-size:18px;font-weight:700;color:var(--gd)" id="aura-net">&#8212;</div></div>
     </div>
   </div>
 
-  <!-- Aura+ refund — centered -->
   <div id="auraplus-refund" class="refund-wrap hidden">
     <div class="refund-title">
       How the 30% Refund Works
@@ -262,14 +203,14 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     <div class="refund-flow">
       <div class="circ-wrap">
         <div class="circ c1"><span class="cv" id="ap-install">$0</span><span class="cl">5%</span></div>
-        <div class="circ-lbl">At Install — 5% after install</div>
+        <div class="circ-lbl">At Install &#8212; 5% after install</div>
       </div>
-      <div class="arrow">→</div>
+      <div class="arrow">&#8594;</div>
       <div class="circ-wrap">
         <div class="circ c2"><span class="cv" id="ap-pto">$0</span><span class="cl">25%</span></div>
-        <div class="circ-lbl">After PTO — 25% after PTO</div>
+        <div class="circ-lbl">After PTO &#8212; 25% after PTO</div>
       </div>
-      <div class="arrow">→</div>
+      <div class="arrow">&#8594;</div>
       <div class="choice-box">
         <div style="font-size:10px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px">Customer's Choice</div>
         <div class="cbns">
@@ -281,10 +222,9 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </div>
   </div>
 
-  <!-- TPO section -->
   <div id="tpo-section" class="hidden">
     <div class="card">
-      <div class="ch s">TPO — Rate &amp; Escalator</div>
+      <div class="ch s">TPO &#8212; Rate &amp; Escalator</div>
       <div class="cb">
         <div class="tpo-toggle">
           <button class="tto active" id="tm-in" onclick="setTPO('input')">Input Rate</button>
@@ -303,8 +243,8 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
             <div class="fg"><label>Adders ($)</label><input type="number" id="tpo-adds" placeholder="0" oninput="calcTPO()"></div>
           </div>
           <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
-            <div style="background:var(--gp);border:1.5px solid var(--gb);border-radius:6px;padding:9px 14px"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Calc Monthly Rate</div><div style="font-size:18px;font-weight:700;color:var(--gd)" id="tpo-crate">—</div></div>
-            <div style="background:var(--sp);border:1.5px solid var(--sb);border-radius:6px;padding:9px 14px"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">PPW from Input Rate</div><div style="font-size:18px;font-weight:700;color:var(--sm)" id="tpo-ppwr">—</div></div>
+            <div style="background:var(--gp);border:1.5px solid var(--gb);border-radius:6px;padding:9px 14px"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Calc Monthly Rate</div><div style="font-size:18px;font-weight:700;color:var(--gd)" id="tpo-crate">&#8212;</div></div>
+            <div style="background:var(--sp);border:1.5px solid var(--sb);border-radius:6px;padding:9px 14px"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">PPW from Input Rate</div><div style="font-size:18px;font-weight:700;color:var(--sm)" id="tpo-ppwr">&#8212;</div></div>
           </div>
         </div>
         <div id="tpo-esc-wrap" class="hidden" style="margin-top:14px">
@@ -315,11 +255,10 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </div>
   </div>
 
-  <!-- Single unified card: inputs + metrics in one block -->
+  <!-- A: System Details + inline metrics bar -->
   <div class="card">
-    <div class="ch g">A — System Details</div>
+    <div class="ch g">A &#8212; System Details</div>
     <div class="cb">
-      <!-- 5 inputs across one row -->
       <div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr 1fr;gap:11px;margin-bottom:11px">
         <div class="fg"><label>Gross System Price (GSP) $</label><input type="number" id="gsp" placeholder="83013.96" oninput="calc()"></div>
         <div class="fg df-field"><label>Dealer Fee % (decimal)</label><input type="number" id="dfp" placeholder="0.3695" step="0.0001" oninput="calc()"></div>
@@ -327,24 +266,23 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="fg"><label>Mod Wattage (W)</label><input type="number" id="modw" placeholder="410" oninput="calc()"></div>
         <div class="fg"><label>Mod QTY</label><input type="number" id="modq" placeholder="37" oninput="calc()"></div>
       </div>
-      <!-- Metrics bar: 8 outputs in one row, full width -->
       <div style="display:grid;grid-template-columns:repeat(8,1fr);background:#f7f9f7;border:1px solid #e0ede0;border-radius:8px;overflow:hidden">
-        <div class="imet df-field"><div class="imet-l">Dealer Fee</div><div class="imet-v" id="om-df">—</div></div>
-        <div class="imet"><div class="imet-l">Adder Total</div><div class="imet-v" id="om-at">—</div></div>
-        <div class="imet"><div class="imet-l">Gross PPW</div><div class="imet-v" id="om-gp">—</div></div>
-        <div class="imet"><div class="imet-l">Adder PPW</div><div class="imet-v" id="om-ap">—</div></div>
-        <div class="imet"><div class="imet-l">To Baseline PPW</div><div class="imet-v" id="om-tbp">—</div></div>
-        <div class="imet"><div class="imet-l">To Baseline $</div><div class="imet-v" id="om-tb$">—</div></div>
-        <div class="imet"><div class="imet-l">Total Adders+DF</div><div class="imet-v" id="om-tot">—</div></div>
-        <div class="imet" style="border-right:none"><div class="imet-l">System Size</div><div class="imet-v" id="om-ss">—</div></div>
+        <div class="imet df-field"><div class="imet-l">Dealer Fee</div><div class="imet-v" id="om-df">&#8212;</div></div>
+        <div class="imet"><div class="imet-l">Adder Total</div><div class="imet-v" id="om-at">&#8212;</div></div>
+        <div class="imet"><div class="imet-l">Gross PPW</div><div class="imet-v" id="om-gp">&#8212;</div></div>
+        <div class="imet"><div class="imet-l">Adder PPW</div><div class="imet-v" id="om-ap">&#8212;</div></div>
+        <div class="imet"><div class="imet-l">To Baseline PPW</div><div class="imet-v" id="om-tbp">&#8212;</div></div>
+        <div class="imet"><div class="imet-l">To Baseline $</div><div class="imet-v" id="om-tb$">&#8212;</div></div>
+        <div class="imet"><div class="imet-l">Total Adders+DF</div><div class="imet-v" id="om-tot">&#8212;</div></div>
+        <div class="imet" style="border-right:none"><div class="imet-l">System Size</div><div class="imet-v" id="om-ss">&#8212;</div></div>
       </div>
     </div>
   </div>
 
-  <!-- Row 2: Adders + Adjustments -->
+  <!-- B + C side by side -->
   <div class="tc" style="align-items:start">
     <div class="card" style="margin-bottom:0">
-      <div class="ch g">B — Adders</div>
+      <div class="ch g">B &#8212; Adders</div>
       <div class="cb" style="overflow-x:auto">
         <table class="at"><thead><tr><th>#</th><th>Type</th><th>Qty</th><th>Amount ($)</th><th>Total ($)</th></tr></thead><tbody id="adderBody"></tbody></table>
         <div style="margin-top:8px;display:flex;gap:7px">
@@ -353,30 +291,32 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         </div>
       </div>
     </div>
-
     <div class="card" style="margin-bottom:0">
-      <div class="ch s">C — Adjustments</div>
+      <div class="ch s">C &#8212; Adjustments</div>
       <div class="cb">
-        <div class="adj"><div class="adj-t">Target Net PPW</div>
+        <div class="adj">
+          <div class="adj-t">Target Net PPW</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end">
             <div class="fg"><label>Target PPW</label><input type="number" id="tppw" placeholder="2.42" step="0.01" oninput="calcAdj()"></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Loan GSP</div><div class="out" id="adj-loan" style="font-size:12px">—</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">EPC PPW</div><div class="out" id="adj-epc" style="font-size:12px">—</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Cash Price</div><div class="out" id="adj-cash2" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Loan GSP</div><div class="out" id="adj-loan" style="font-size:12px">&#8212;</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">EPC PPW</div><div class="out" id="adj-epc" style="font-size:12px">&#8212;</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Cash Price</div><div class="out" id="adj-cash2" style="font-size:12px">&#8212;</div></div>
           </div>
         </div>
-        <div class="adj"><div class="adj-t">Target Contract Price</div>
+        <div class="adj">
+          <div class="adj-t">Target Contract Price</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end">
             <div class="fg"><label>Target Contract Price ($)</label><input type="number" id="tcon" placeholder="22984.13" oninput="calcAdj()"></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Loan PPW</div><div class="out" id="adj-tc-loan" style="font-size:12px">—</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">EPC PPW</div><div class="out" id="adj-tc-epc" style="font-size:12px">—</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Cash PPW</div><div class="out" id="adj-tc-cash" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Loan PPW</div><div class="out" id="adj-tc-loan" style="font-size:12px">&#8212;</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">EPC PPW</div><div class="out" id="adj-tc-epc" style="font-size:12px">&#8212;</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Cash PPW</div><div class="out" id="adj-tc-cash" style="font-size:12px">&#8212;</div></div>
           </div>
         </div>
-        <div class="adj"><div class="adj-t">Waive Adder Amount</div>
+        <div class="adj">
+          <div class="adj-t">Waive Adder Amount</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end">
             <div class="fg"><label>Amount to Waive ($)</label><input type="number" id="waive" placeholder="0" oninput="calcAdj()"></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">New Net PPW</div><div class="out" id="adj-waive" style="font-size:12px">—</div></div>
+            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">New Net PPW</div><div class="out" id="adj-waive" style="font-size:12px">&#8212;</div></div>
           </div>
         </div>
       </div>
@@ -384,7 +324,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 
   <!-- Utility Comparison -->
-  <div class="card" id="util-section">
+  <div class="card" style="margin-top:14px">
     <div class="ch s" style="display:flex;justify-content:space-between;align-items:center">
       <span>Utility Comparison</span>
       <div class="yr-toggle">
@@ -402,7 +342,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="savings-bar">
         <div>
           <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px" id="util-yr-label">Est. 25-Year Savings</div>
-          <div style="font-size:24px;font-weight:700;color:#2d6a2d" id="util-savings">—</div>
+          <div style="font-size:24px;font-weight:700;color:#2d6a2d" id="util-savings">&#8212;</div>
         </div>
         <div style="font-size:11px;color:var(--muted);font-style:italic">Click legend items to show/hide lines</div>
       </div>
@@ -421,11 +361,11 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- ===== BASIC CALCS ===== -->
+<!-- BASIC -->
 <div id="page-basic" class="page">
   <div class="tc">
     <div class="card">
-      <div class="ch g">Target PPW → EPC</div>
+      <div class="ch g">Target PPW &#8594; EPC</div>
       <div class="cb">
         <div class="g3 gap">
           <div class="fg"><label>Target PPW</label><input type="number" id="sr-t" placeholder="3.19" step="0.01" oninput="calcBasic()"></div>
@@ -434,14 +374,14 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         </div>
         <div class="res-big" style="background:var(--gp);border:1.5px solid var(--gb)">
           <div style="font-size:10px;font-weight:700;color:var(--gd);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">EPC PPW</div>
-          <div class="rv2" style="color:var(--gd)" id="sr-r">—</div>
+          <div class="rv2" style="color:var(--gd)" id="sr-r">&#8212;</div>
           <div style="font-size:11px;color:var(--muted);margin-top:2px">$/W</div>
         </div>
-        <div style="font-size:10px;color:#aaa;margin-top:6px;font-style:italic">((Target PPW × Size) + Adders) / Size</div>
+        <div style="font-size:10px;color:#aaa;margin-top:6px;font-style:italic">((Target PPW x Size) + Adders) / Size</div>
       </div>
     </div>
     <div class="card">
-      <div class="ch s">Target PPW → Loan GSP</div>
+      <div class="ch s">Target PPW &#8594; Loan GSP</div>
       <div class="cb">
         <div class="g2 gap">
           <div class="fg"><label>Target PPW</label><input type="number" id="ml-t" placeholder="2.54" step="0.01" oninput="calcBasic()"></div>
@@ -451,41 +391,29 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         </div>
         <div class="res-big" style="background:var(--sp);border:1.5px solid var(--sb)">
           <div style="font-size:10px;font-weight:700;color:var(--sd);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">Gross System Price</div>
-          <div class="rv2" style="color:var(--sd)" id="ml-r">—</div>
+          <div class="rv2" style="color:var(--sd)" id="ml-r">&#8212;</div>
           <div style="font-size:11px;color:var(--muted);margin-top:2px">$</div>
         </div>
-        <div style="font-size:10px;color:#aaa;margin-top:6px;font-style:italic">((Target PPW × Size) + Adders) / (1 - Dealer Fee %)</div>
+        <div style="font-size:10px;color:#aaa;margin-top:6px;font-style:italic">((Target PPW x Size) + Adders) / (1 - Dealer Fee %)</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== DF CALC ===== -->
+<!-- DF -->
 <div id="page-df" class="page">
   <div class="card" style="margin-bottom:14px">
     <div class="ch g">Dealer Fee Calculator</div>
-    <div class="cb"><p style="font-size:12px;color:var(--muted)">Applies to Loan, Aura, and Aura+. Enter the system price, loan term (years), APR, and dealer fee to calculate.</p></div>
+    <div class="cb"><p style="font-size:12px;color:var(--muted)">Applies to Loan, Aura, and Aura+. Enter the system price, loan term, APR, and dealer fee to calculate.</p></div>
   </div>
   <div class="df-block">
     <div class="df-hdr">DF Calculator</div>
     <div class="df-body">
       <div class="g4 gap">
-        <div class="fg">
-          <label>System Price ($)</label>
-          <input type="number" id="df-p" placeholder="96393.57" oninput="calcDF()">
-        </div>
-        <div class="fg">
-          <label>Loan Term (Years)</label>
-          <input type="number" id="df-term-yr" placeholder="25" oninput="calcDF()">
-        </div>
-        <div class="fg">
-          <label>APR %</label>
-          <input type="number" id="df-apr" placeholder="2.99" step="0.01" oninput="calcDF()">
-        </div>
-        <div class="fg">
-          <label>Dealer Fee % (decimal)</label>
-          <input type="number" id="df-man" placeholder="0.1825" step="0.0001" oninput="calcDF()">
-        </div>
+        <div class="fg"><label>System Price ($)</label><input type="number" id="df-p" placeholder="96393.57" oninput="calcDF()"></div>
+        <div class="fg"><label>Loan Term (Years)</label><input type="number" id="df-term-yr" placeholder="25" oninput="calcDF()"></div>
+        <div class="fg"><label>APR %</label><input type="number" id="df-apr" placeholder="2.99" step="0.01" oninput="calcDF()"></div>
+        <div class="fg"><label>Dealer Fee % (decimal)</label><input type="number" id="df-man" placeholder="0.1825" step="0.0001" oninput="calcDF()"></div>
       </div>
       <div class="fg gap" style="max-width:280px">
         <label>Contract Signature Date</label>
@@ -494,22 +422,22 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="g3" style="gap:12px">
         <div style="background:var(--gp);border:1.5px solid var(--gb);border-radius:8px;padding:14px;text-align:center">
           <div style="font-size:10px;font-weight:700;color:var(--gd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Dealer Fee</div>
-          <div style="font-size:26px;font-weight:700;color:var(--gd)" id="df-fee">—</div>
+          <div style="font-size:26px;font-weight:700;color:var(--gd)" id="df-fee">&#8212;</div>
         </div>
         <div style="background:var(--sp);border:1.5px solid var(--sb);border-radius:8px;padding:14px;text-align:center">
           <div style="font-size:10px;font-weight:700;color:var(--sd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Expiration (+180 days)</div>
-          <div style="font-size:18px;font-weight:700;color:var(--sd)" id="df-exp">—</div>
+          <div style="font-size:18px;font-weight:700;color:var(--sd)" id="df-exp">&#8212;</div>
         </div>
         <div style="background:var(--goldp);border:1.5px solid #ffe082;border-radius:8px;padding:14px;text-align:center">
           <div style="font-size:10px;font-weight:700;color:#5d4000;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fee % Applied</div>
-          <div style="font-size:26px;font-weight:700;color:#5d4000" id="df-pct">—</div>
+          <div style="font-size:26px;font-weight:700;color:#5d4000" id="df-pct">&#8212;</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== ESCALATIONS ===== -->
+<!-- ESCALATIONS -->
 <div id="page-esc" class="page">
   <div class="card">
     <div class="ch s">Project Details</div>
@@ -524,17 +452,17 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     </div>
   </div>
   <div class="card">
-    <div class="ch s">Financial Impact — Cost Allocation Scenarios</div>
+    <div class="ch s">Financial Impact &#8212; Cost Allocation Scenarios</div>
     <div class="cb" style="overflow-x:auto">
       <table class="et">
-        <thead><tr><th>Scenario</th><th>Freedom Share</th><th>Dealer Share</th><th>Net PPW</th><th>vs Baseline</th><th style="background:var(--goldp);color:#5d4000">Commission Notes (Jackie)</th></tr></thead>
+        <thead><tr><th>Scenario</th><th>Freedom Share</th><th>Dealer Share</th><th>Net PPW</th><th>vs Baseline</th><th style="background:var(--goldp);color:#5d4000">Commission Notes</th></tr></thead>
         <tbody id="escBody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ===== CONVERSIONS ===== -->
+<!-- CONVERSIONS -->
 <div id="page-conv" class="page">
   <div style="max-width:560px;margin:0 auto">
     <div class="card">
@@ -545,7 +473,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="fg gap"><label id="conv-lbl">Value to convert</label><input type="number" id="conv-val" placeholder="Enter value..." step="any" oninput="calcConv()"></div>
         <div class="conv-result">
           <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px" id="conv-res-lbl">Result</div>
-          <div class="big" id="conv-res">—</div>
+          <div class="big" id="conv-res">&#8212;</div>
           <div class="unit" id="conv-unit"></div>
         </div>
         <div style="margin-top:10px;background:#f5f5f5;border-radius:5px;padding:8px 12px;font-size:11px;color:#aaa" id="conv-formula"></div>
@@ -554,7 +482,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- ===== HELP ===== -->
+<!-- HELP -->
 <div id="page-help" class="page">
   <div class="tc">
     <div>
@@ -571,11 +499,11 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="hcard" style="border-top:3px solid var(--gl)">
         <div style="font-size:13px;font-weight:700;color:var(--gd);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gb)">Product Types</div>
         <div style="font-size:13px;line-height:2.1">
-          <strong>Loan</strong> — Standard loan. Dealer fee applies. Net PPW on full GSP.<br>
-          <strong>Cash</strong> — No dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
-          <strong>TPO</strong> — Monthly rate + escalator. Outputs both PPW and monthly rate.<br>
-          <strong>Aura</strong> — Loan with dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
-          <strong>Aura+</strong> — Loan with dealer fee. 5% refund at install + 25% at PTO.
+          <strong>Loan</strong> &#8212; Standard loan. Dealer fee applies. Net PPW on full GSP.<br>
+          <strong>Cash</strong> &#8212; No dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
+          <strong>TPO</strong> &#8212; Monthly rate + escalator. Outputs both PPW and monthly rate.<br>
+          <strong>Aura</strong> &#8212; Loan with dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
+          <strong>Aura+</strong> &#8212; Loan with dealer fee. 5% refund at install + 25% at PTO.
         </div>
       </div>
     </div>
@@ -590,77 +518,74 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="hcard" style="border-top:3px solid var(--sl)">
         <div style="font-size:13px;font-weight:700;color:var(--sd);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--sb)">Adjustment Explanations</div>
         <div style="font-size:13px;line-height:2">
-          <strong>Target Net PPW</strong> — Required loan GSP or EPC PPW to hit the target.<br>
-          <strong>Target Contract Price</strong> — Required PPW to achieve the target contract price.<br>
-          <strong>Waive Adder Amount</strong> — New Net PPW after waiving the entered dollar amount.
+          <strong>Target Net PPW</strong> &#8212; Required loan GSP or EPC PPW to hit the target.<br>
+          <strong>Target Contract Price</strong> &#8212; Required PPW to achieve the target contract price.<br>
+          <strong>Waive Adder Amount</strong> &#8212; New Net PPW after waiving the entered dollar amount.
         </div>
       </div>
     </div>
   </div>
 </div>
 
-</div><!-- wrap -->
-
+</div>
 <script>
-// ===== CHART =====
-let chartYears=25,chartInstance=null,lineVisible=[true,true];
+var chartYears=25,chartInstance=null,lineVisible=[true,true];
 function initChart(){
-  const canvas=document.getElementById('utilChart');if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  chartInstance={ctx,canvas,data:{util:[],solar:[]},labels:[],
-    draw(){
-      const{ctx,canvas,data,labels}=this;
-      const W=canvas.offsetWidth,H=canvas.offsetHeight;
-      canvas.width=W;canvas.height=H;
-      const pad={t:20,r:20,b:40,l:56},cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-      const allVals=data.util.concat(data.solar),mx=Math.max(...allVals,1);
-      const scaleY=v=>pad.t+cH-((v/mx)*cH),scaleX=i=>pad.l+(i/(labels.length-1))*cW;
-      ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
-      ctx.strokeStyle='#f0f0f0';ctx.lineWidth=1;
-      for(let g=0;g<=4;g++){
-        const y=pad.t+(g/4)*cH;
-        ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+cW,y);ctx.stroke();
-        ctx.fillStyle='#aaa';ctx.font='10px Calibri';ctx.textAlign='right';
-        ctx.fillText('$'+Math.round(mx*(1-g/4)/1000)+'k',pad.l-4,y+4);
+  var canvas=document.getElementById('utilChart');if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  chartInstance={ctx:ctx,canvas:canvas,data:{util:[],solar:[]},labels:[],
+    draw:function(){
+      var W=this.canvas.offsetWidth,H=this.canvas.offsetHeight;
+      this.canvas.width=W;this.canvas.height=H;
+      var pad={t:20,r:20,b:40,l:56},cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+      var allVals=this.data.util.concat(this.data.solar),mx=Math.max.apply(null,allVals.concat([1]));
+      var self=this;
+      var scaleY=function(v){return pad.t+cH-((v/mx)*cH);};
+      var scaleX=function(i){return pad.l+(i/(self.labels.length-1))*cW;};
+      this.ctx.fillStyle='#fff';this.ctx.fillRect(0,0,W,H);
+      this.ctx.strokeStyle='#f0f0f0';this.ctx.lineWidth=1;
+      for(var g=0;g<=4;g++){
+        var y=pad.t+(g/4)*cH;
+        this.ctx.beginPath();this.ctx.moveTo(pad.l,y);this.ctx.lineTo(pad.l+cW,y);this.ctx.stroke();
+        this.ctx.fillStyle='#aaa';this.ctx.font='10px Calibri';this.ctx.textAlign='right';
+        this.ctx.fillText('$'+Math.round(mx*(1-g/4)/1000)+'k',pad.l-4,y+4);
       }
-      ctx.fillStyle='#aaa';ctx.font='10px Calibri';ctx.textAlign='center';
-      labels.forEach((l,i)=>{if(i%3===0||i===labels.length-1)ctx.fillText(l,scaleX(i),H-pad.b+14);});
-      if(lineVisible[0]&&lineVisible[1]&&data.util.length){
-        ctx.beginPath();
-        data.util.forEach((v,i)=>i===0?ctx.moveTo(scaleX(i),scaleY(v)):ctx.lineTo(scaleX(i),scaleY(v)));
-        data.solar.slice().reverse().forEach((v,i)=>ctx.lineTo(scaleX(data.solar.length-1-i),scaleY(v)));
-        ctx.closePath();
-        const gr=ctx.createLinearGradient(0,0,0,H);
+      this.ctx.fillStyle='#aaa';this.ctx.font='10px Calibri';this.ctx.textAlign='center';
+      for(var i=0;i<this.labels.length;i++){if(i%3===0||i===this.labels.length-1)this.ctx.fillText(this.labels[i],scaleX(i),H-pad.b+14);}
+      if(lineVisible[0]&&lineVisible[1]&&this.data.util.length){
+        this.ctx.beginPath();
+        for(var i=0;i<this.data.util.length;i++){if(i===0)this.ctx.moveTo(scaleX(i),scaleY(this.data.util[i]));else this.ctx.lineTo(scaleX(i),scaleY(this.data.util[i]));}
+        for(var i=this.data.solar.length-1;i>=0;i--){this.ctx.lineTo(scaleX(i),scaleY(this.data.solar[i]));}
+        this.ctx.closePath();
+        var gr=this.ctx.createLinearGradient(0,0,0,H);
         gr.addColorStop(0,'rgba(67,160,71,0.15)');gr.addColorStop(1,'rgba(229,57,53,0.1)');
-        ctx.fillStyle=gr;ctx.fill();
+        this.ctx.fillStyle=gr;this.ctx.fill();
       }
-      ['#e53935','#43a047'].forEach((col,si)=>{
-        const series=[data.util,data.solar][si];
-        if(!lineVisible[si]||!series.length)return;
-        ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.lineJoin='round';
-        series.forEach((v,i)=>i===0?ctx.moveTo(scaleX(i),scaleY(v)):ctx.lineTo(scaleX(i),scaleY(v)));
-        ctx.stroke();
-      });
+      var colors=['#e53935','#43a047'];
+      var series=[this.data.util,this.data.solar];
+      for(var si=0;si<2;si++){
+        if(!lineVisible[si]||!series[si].length)continue;
+        this.ctx.beginPath();this.ctx.strokeStyle=colors[si];this.ctx.lineWidth=2.5;this.ctx.lineJoin='round';
+        for(var i=0;i<series[si].length;i++){if(i===0)this.ctx.moveTo(scaleX(i),scaleY(series[si][i]));else this.ctx.lineTo(scaleX(i),scaleY(series[si][i]));}
+        this.ctx.stroke();
+      }
     }
   };
 }
 function toggleLine(i){lineVisible[i]=!lineVisible[i];if(chartInstance)chartInstance.draw();}
 
-// ===== STATE =====
-let prod='loan',adderRows=[],adderCount=0,refundChoice='apply',tpoMode='input';
-let _pc={};
+var prod='loan',adderRows=[],adderCount=0,refundChoice='apply',tpoMode='input';
+var _pc={};
 
-// ===== HELPERS =====
-const $=id=>document.getElementById(id);
-const v=id=>parseFloat($(id)?.value)||0;
-const f$=(n,d=2)=>isNaN(n)||!isFinite(n)?'—':'$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-const fN=(n,d=2)=>isNaN(n)||!isFinite(n)?'—':n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-const fP=n=>isNaN(n)||!isFinite(n)?'—':n.toFixed(4)+' $/W';
-const set=(id,val)=>{const e=$(id);if(e)e.textContent=val};
+function $(id){return document.getElementById(id);}
+function v(id){return parseFloat($(id)&&$(id).value)||0;}
+function f$(n,d){if(d===undefined)d=2;if(isNaN(n)||!isFinite(n))return'—';return'$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function fN(n,d){if(d===undefined)d=2;if(isNaN(n)||!isFinite(n))return'—';return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function fP(n){if(isNaN(n)||!isFinite(n))return'—';return n.toFixed(4)+' $/W';}
+function set(id,val){var e=$(id);if(e)e.textContent=val;}
 
-// ===== STICKY BAR =====
-function updateStickyBar(args){
-  var np=args.np,bp=args.bp,tbp=args.tbp,df=args.df,at=args.at,gp=args.gp,ss=args.ss,gsp=args.gsp;
+function updateStickyBar(o){
+  var np=o.np,bp=o.bp,tbp=o.tbp,df=o.df,at=o.at,gp=o.gp,ss=o.ss,gsp=o.gsp;
   var onPricing=$('page-pricing').classList.contains('active');
   $('sticky-bar').classList.toggle('bar-visible',onPricing);
   if(!onPricing)return;
@@ -677,32 +602,26 @@ function updateStickyBar(args){
   set('sb-ss',ss>0?ss.toLocaleString()+' W':'—');
 }
 
-
-
-// ===== TABS =====
 function showTab(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   $('page-'+id).classList.add('active');btn.classList.add('active');
   $('sticky-bar').classList.toggle('bar-visible',id==='pricing');
-  if(id==='pricing'&&chartInstance)setTimeout(()=>chartInstance.draw(),50);
+  if(id==='pricing'&&chartInstance)setTimeout(function(){chartInstance.draw();},50);
 }
 
-// ===== PRODUCT =====
 function setProd(p,btn){
   prod=p;
-  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pbtn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');updateUI();calc();
 }
 function updateUI(){
-  const p=prod;
-  document.querySelectorAll('.df-field').forEach(el=>el.classList.toggle('hidden',p==='cash'||p==='tpo'));
+  var p=prod;
+  document.querySelectorAll('.df-field').forEach(function(el){el.classList.toggle('hidden',p==='cash'||p==='tpo');});
   $('aura-banner').classList.toggle('hidden',p!=='aura');
   $('auraplus-refund').classList.toggle('hidden',p!=='auraplus');
   $('tpo-section').classList.toggle('hidden',p!=='tpo');
 }
-
-// ===== REFUND =====
 function setRefund(c){
   refundChoice=c;
   $('cb-apply').classList.toggle('active',c==='apply');
@@ -710,69 +629,53 @@ function setRefund(c){
   calc();
 }
 
-// ===== ADDERS =====
-function initAdders(){for(let i=0;i<5;i++)addRow();}
+function initAdders(){for(var i=0;i<5;i++)addRow();}
 function addRow(){
-  adderCount++;const id=adderCount;adderRows.push(id);
-  const tr=document.createElement('tr');tr.id='ar-'+id;
-  const auto=id===1;
-  tr.innerHTML=`<td style="color:#ccc;font-size:10px">${id}</td>
-    <td><input type="text" placeholder="Type..." id="at-${id}" oninput="calc()"></td>
-    <td><input type="number" id="aq-${id}" placeholder="0" oninput="calc()" ${auto?'readonly style="background:#e8f5e9;font-weight:700"':''}></td>
-    <td><input type="number" id="aa-${id}" placeholder="0.00" step="0.01" oninput="calc()"></td>
-    <td class="cc" id="aT-${id}">—</td>`;
+  adderCount++;var id=adderCount;adderRows.push(id);
+  var tr=document.createElement('tr');tr.id='ar-'+id;
+  var auto=(id===1);
+  var td0=document.createElement('td');td0.style.cssText='color:#ccc;font-size:10px';td0.textContent=id;
+  var td1=document.createElement('td');var inp1=document.createElement('input');inp1.type='text';inp1.placeholder='Type...';inp1.id='at-'+id;inp1.oninput=calc;td1.appendChild(inp1);
+  var td2=document.createElement('td');var inp2=document.createElement('input');inp2.type='number';inp2.placeholder='0';inp2.id='aq-'+id;inp2.oninput=calc;if(auto){inp2.readOnly=true;inp2.style.cssText='background:#e8f5e9;font-weight:700';}td2.appendChild(inp2);
+  var td3=document.createElement('td');var inp3=document.createElement('input');inp3.type='number';inp3.placeholder='0.00';inp3.step='0.01';inp3.id='aa-'+id;inp3.oninput=calc;td3.appendChild(inp3);
+  var td4=document.createElement('td');td4.className='cc';td4.id='aT-'+id;td4.textContent='—';
+  tr.appendChild(td0);tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);tr.appendChild(td4);
   $('adderBody').appendChild(tr);
 }
 function clearRows(){$('adderBody').innerHTML='';adderRows=[];adderCount=0;initAdders();calc();}
 
-// ===== MAIN CALC =====
 function calc(){
-  const gsp=v('gsp'),dfp=(prod==='cash'||prod==='tpo')?0:v('dfp');
-  const bp=v('bppw'),mw=v('modw'),mq=v('modq');
-  const ss=mw*mq;
+  var gsp=v('gsp'),dfp=(prod==='cash'||prod==='tpo')?0:v('dfp');
+  var bp=v('bppw'),mw=v('modw'),mq=v('modq');
+  var ss=mw*mq;
   set('om-ss',ss>0?ss.toLocaleString()+' W':'—');
-  const q1=$('aq-1');if(q1&&ss>0)q1.value=ss;
-  let at=0;
-  adderRows.forEach(id=>{
-    const qty=parseFloat($('aq-'+id)?.value)||0,amt=parseFloat($('aa-'+id)?.value)||0,tot=qty*amt;
-    const c=$('aT-'+id);if(c)c.textContent=tot>0?f$(tot):'—';
+  var q1=$('aq-1');if(q1&&ss>0)q1.value=ss;
+  var at=0;
+  adderRows.forEach(function(id){
+    var qty=parseFloat($('aq-'+id)&&$('aq-'+id).value)||0;
+    var amt=parseFloat($('aa-'+id)&&$('aa-'+id).value)||0;
+    var tot=qty*amt;
+    var c=$('aT-'+id);if(c)c.textContent=tot>0?f$(tot):'—';
     at+=tot;
   });
-  const df=gsp*dfp,tot=df+at;
-  const gp=ss>0?gsp/ss:0,ap=ss>0?at/ss:0;
-  // Net PPW: same formula for all products — (GSP - Adders) / SystemSize
-  // For Loan/Aura/Aura+, DF is not subtracted from net PPW; it's a cost separate from EPC
-  // Net PPW = (GSP - Adders) / SS  for Cash, Aura, Aura+
-  // Net PPW = (GSP - DF - Adders) / SS  for Loan (standard)
-  // Per AM workflow: Net PPW = (GSP - total costs) / SS where total = DF + Adders
-  const np=ss>0?(gsp-tot)/ss:0;
-  const tbp=np-bp,tb$=tbp*ss;
-
-  // Detailed panel
+  var df=gsp*dfp,tot=df+at;
+  var gp=ss>0?gsp/ss:0,ap=ss>0?at/ss:0;
+  var np=ss>0?(gsp-tot)/ss:0;
+  var tbp=np-bp,tb$=tbp*ss;
   set('om-df',f$(df));set('om-at',f$(at));set('om-tot',f$(tot));
   set('om-gp',fP(gp));set('om-ap',fP(ap));
-  const tbpEl=$('om-tbp');if(tbpEl){tbpEl.textContent=gsp>0&&ss>0?fP(tbp):'—';tbpEl.className='imet-v '+(tbp>=0?'green':'red');}
-  const tb$El=$('om-tb
-
-  // Aura banners (display info only, no separate eff PPW)
-  if(prod==='aura'&&gsp>0){
-    set('aura-disc',f$(gsp*.3));set('aura-net',f$(gsp*.7));
-  }
-  if(prod==='auraplus'&&gsp>0){
-    set('ap-install',f$(gsp*.05,0));set('ap-pto',f$(gsp*.25,0));
-    set('ap-total',f$(gsp*.3)+' Total Refund');
-  }
-
-  _pc={gsp,dfp,bp,ss,at};
-  updateStickyBar({np,bp,tbp,df,at,gp,ss,gsp});
-  calcAdj();
-  calcUtil();
+  var tbpEl=$('om-tbp');if(tbpEl){tbpEl.textContent=gsp>0&&ss>0?fP(tbp):'—';tbpEl.className='imet-v '+(tbp>=0?'green':'red');}
+  var tb$El=$('om-tb$');if(tb$El){tb$El.textContent=gsp>0&&ss>0?f$(tb$):'—';tb$El.className='imet-v '+(tb$>=0?'green':'red');}
+  if(prod==='aura'&&gsp>0){set('aura-disc',f$(gsp*.3));set('aura-net',f$(gsp*.7));}
+  if(prod==='auraplus'&&gsp>0){set('ap-install',f$(gsp*.05,0));set('ap-pto',f$(gsp*.25,0));set('ap-total',f$(gsp*.3)+' Total Refund');}
+  _pc={gsp:gsp,dfp:dfp,bp:bp,ss:ss,at:at};
+  updateStickyBar({np:np,bp:bp,tbp:tbp,df:df,at:at,gp:gp,ss:ss,gsp:gsp});
+  calcAdj();calcUtil();
 }
 
-// ===== ADJUSTMENTS =====
 function calcAdj(){
-  const{gsp=0,dfp=0,ss=0,at=0}=_pc;
-  const tp=v('tppw'),tc=v('tcon'),wa=v('waive');
+  var gsp=_pc.gsp||0,dfp=_pc.dfp||0,ss=_pc.ss||0,at=_pc.at||0;
+  var tp=v('tppw'),tc=v('tcon'),wa=v('waive');
   if(tp&&ss>0){
     set('adj-loan',f$(dfp<1?((tp*ss)+at)/(1-dfp):0));
     set('adj-epc',fP(((tp*ss)+at)/ss));
@@ -780,32 +683,35 @@ function calcAdj(){
   } else{set('adj-loan','—');set('adj-epc','—');set('adj-cash2','—');}
   if(tc&&ss>0){
     set('adj-tc-loan',fP(((tc-(tc*dfp))-at)/ss));
-    const sp=(tc-at)/ss;set('adj-tc-epc',fP(sp));set('adj-tc-cash',fP(sp));
+    var sp=(tc-at)/ss;set('adj-tc-epc',fP(sp));set('adj-tc-cash',fP(sp));
   } else{set('adj-tc-loan','—');set('adj-tc-epc','—');set('adj-tc-cash','—');}
   if(gsp&&ss>0)set('adj-waive',fP((gsp-(at-wa))/ss));else set('adj-waive','—');
 }
 
-// ===== UTILITY =====
 function setYears(y,btn){
   chartYears=y;
-  document.querySelectorAll('.ytbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ytbtn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');set('util-yr-label','Est. '+y+'-Year Savings');calcUtil();
 }
 function calcUtil(){
-  const bill=v('util-bill'),esc=v('util-esc')/100||0.035,solar=v('util-solar');
-  let pay=v('util-pay');
+  var bill=v('util-bill'),esc=v('util-esc')/100||0.035,solar=v('util-solar');
+  var pay=v('util-pay');
   if(!pay&&_pc.gsp>0)pay=Math.round(_pc.gsp*0.006*100)/100;
-  const y=chartYears,labels=[],utilD=[],solarD=[];
-  let totalUtil=0,totalSolar=0;
-  const tbody=$('utilBody');if(tbody)tbody.innerHTML='';
-  for(let yr=1;yr<=y;yr++){
-    const annUtil=bill*Math.pow(1+esc,yr-1)*12,annSolar=(pay+solar)*12;
+  var y=chartYears,labels=[],utilD=[],solarD=[];
+  var totalUtil=0,totalSolar=0;
+  var tbody=$('utilBody');if(tbody)tbody.innerHTML='';
+  for(var yr=1;yr<=y;yr++){
+    var annUtil=bill*Math.pow(1+esc,yr-1)*12,annSolar=(pay+solar)*12;
     totalUtil+=annUtil;totalSolar+=annSolar;
     labels.push('Yr '+yr);utilD.push(totalUtil);solarD.push(totalSolar);
     if(tbody){
-      const diff=totalUtil-totalSolar;
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>Yr ${yr}</td><td>${f$(totalUtil,0)}</td><td>${f$(totalSolar,0)}</td><td style="color:${diff>=0?'#2d6a2d':'#d32f2f'};font-weight:700">${diff>=0?'+':''}${f$(diff,0)}</td>`;
+      var diff=totalUtil-totalSolar;
+      var tr=document.createElement('tr');
+      var c1=document.createElement('td');c1.textContent='Yr '+yr;
+      var c2=document.createElement('td');c2.textContent=f$(totalUtil,0);
+      var c3=document.createElement('td');c3.textContent=f$(totalSolar,0);
+      var c4=document.createElement('td');c4.textContent=(diff>=0?'+':'')+f$(diff,0);c4.style.color=diff>=0?'#2d6a2d':'#d32f2f';c4.style.fontWeight='700';
+      tr.appendChild(c1);tr.appendChild(c2);tr.appendChild(c3);tr.appendChild(c4);
       tbody.appendChild(tr);
     }
   }
@@ -813,7 +719,6 @@ function calcUtil(){
   if(chartInstance){chartInstance.data.util=utilD;chartInstance.data.solar=solarD;chartInstance.labels=labels;chartInstance.draw();}
 }
 
-// ===== TPO =====
 function setTPO(m){
   tpoMode=m;
   $('tm-in').classList.toggle('active',m==='input');
@@ -822,83 +727,91 @@ function setTPO(m){
   calcTPO();
 }
 function calcTPO(){
-  const rate=v('tpo-rate'),esc=v('tpo-esc')/100,term=v('tpo-term');
+  var rate=v('tpo-rate'),esc=v('tpo-esc')/100,term=v('tpo-term');
   if(tpoMode==='calc'){
-    const tp=v('tpo-tppw'),sz=v('tpo-sz'),adds=v('tpo-adds');
+    var tp=v('tpo-tppw'),sz=v('tpo-sz'),adds=v('tpo-adds');
     if(sz>0)set('tpo-crate',f$((tp*sz+adds)/12)+'/mo');
     if(rate>0&&sz>0)set('tpo-ppwr',fP((rate*12)/sz));
   }
   if(rate>0&&term>0){
     $('tpo-esc-wrap').classList.remove('hidden');
-    const tbl=$('tpoEscTbl');tbl.innerHTML='';
-    const hrow=tbl.createTHead().insertRow();
-    ['Year','Monthly Rate','Annual Total','Cumulative'].forEach(h=>{const th=document.createElement('th');th.textContent=h;hrow.appendChild(th);});
-    const tb=tbl.createTBody();let cum=0;
-    for(let yr=1;yr<=Math.min(term,30);yr++){
-      const mo=rate*Math.pow(1+esc,yr-1),ann=mo*12;cum+=ann;
-      const r=tb.insertRow();
-      r.innerHTML=`<td>Yr ${yr}</td><td>${f$(mo)}</td><td>${f$(ann)}</td><td>${f$(cum)}</td>`;
+    var tbl=$('tpoEscTbl');tbl.innerHTML='';
+    var thead=tbl.createTHead(),hrow=thead.insertRow();
+    var heads=['Year','Monthly Rate','Annual Total','Cumulative'];
+    heads.forEach(function(h){var th=document.createElement('th');th.textContent=h;hrow.appendChild(th);});
+    var tb=tbl.createTBody(),cum=0;
+    for(var yr=1;yr<=Math.min(term,30);yr++){
+      var mo=rate*Math.pow(1+esc,yr-1),ann=mo*12;cum+=ann;
+      var r=tb.insertRow();
+      var rc1=r.insertCell();rc1.textContent='Yr '+yr;
+      var rc2=r.insertCell();rc2.textContent=f$(mo);
+      var rc3=r.insertCell();rc3.textContent=f$(ann);
+      var rc4=r.insertCell();rc4.textContent=f$(cum);
     }
-  } else $('tpo-esc-wrap').classList.add('hidden');
+  } else {$('tpo-esc-wrap').classList.add('hidden');}
 }
 
-// ===== BASIC =====
 function calcBasic(){
-  const sT=v('sr-t'),sA=v('sr-a'),sS=v('sr-s');
+  var sT=v('sr-t'),sA=v('sr-a'),sS=v('sr-s');
   set('sr-r',sS>0?((sT*sS+sA)/sS).toFixed(4):'—');
-  const mT=v('ml-t'),mS=v('ml-s'),mA=v('ml-a'),mD=v('ml-d');
+  var mT=v('ml-t'),mS=v('ml-s'),mA=v('ml-a'),mD=v('ml-d');
   set('ml-r',mD<1?f$((mT*mS+mA)/(1-mD)):'—');
 }
 
-// ===== DF =====
 function calcDF(){
-  const price=v('df-p'),man=v('df-man'),dateV=$('df-date')?.value;
+  var price=v('df-p'),man=v('df-man'),dateV=$('df-date')&&$('df-date').value;
   set('df-pct',man>0?(man*100).toFixed(2)+'%':'—');
   set('df-fee',price>0&&man>0?f$(price*man):'—');
-  if(dateV){const d=new Date(dateV);d.setDate(d.getDate()+180);set('df-exp',d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));}
+  if(dateV){var d=new Date(dateV);d.setDate(d.getDate()+180);set('df-exp',d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));}
   else set('df-exp','—');
 }
 
-// ===== ESCALATIONS =====
-const ESC=[
-  {l:'Current (100% to Freedom)',f:(p,a,m,b,s)=>({fs:m,ds:0,ppw:(p-a)/s})},
-  {l:'0% to Freedom',f:(p,a,m,b,s)=>({fs:0,ds:m,ppw:(p-a-m)/s})},
-  {l:'$2,000 Cap to Freedom',f:(p,a,m,b,s)=>{const fs=Math.min(2000,m),ds=m-fs;return{fs,ds,ppw:(p-a-ds)/s};}},
-  {l:'20% to Freedom',f:(p,a,m,b,s)=>({fs:m*.2,ds:m*.8,ppw:(p-a-m*.8)/s})},
-  {l:'50/50 Split',f:(p,a,m,b,s)=>({fs:m*.5,ds:m*.5,ppw:(p-a-m*.5)/s})},
-  {l:'To Baseline',f:(p,a,m,b,s)=>{const fs=((b*s)+a+m)-p,ds=m-fs;return{fs,ds,ppw:(p-a-ds)/s};}},
+var ESC=[
+  {l:'Current (100% to Freedom)',f:function(p,a,m,b,s){return{fs:m,ds:0,ppw:(p-a)/s};}},
+  {l:'0% to Freedom',f:function(p,a,m,b,s){return{fs:0,ds:m,ppw:(p-a-m)/s};}},
+  {l:'$2,000 Cap to Freedom',f:function(p,a,m,b,s){var fs=Math.min(2000,m),ds=m-fs;return{fs:fs,ds:ds,ppw:(p-a-ds)/s};}},
+  {l:'20% to Freedom',f:function(p,a,m,b,s){return{fs:m*.2,ds:m*.8,ppw:(p-a-m*.8)/s};}},
+  {l:'50/50 Split',f:function(p,a,m,b,s){return{fs:m*.5,ds:m*.5,ppw:(p-a-m*.5)/s};}},
+  {l:'To Baseline',f:function(p,a,m,b,s){var fs=((b*s)+a+m)-p,ds=m-fs;return{fs:fs,ds:ds,ppw:(p-a-ds)/s};}}
 ];
 function calcEsc(){
-  const p=v('ep'),s=v('es'),b=v('eb'),a=v('ea'),m=v('em');
-  const tb=$('escBody');tb.innerHTML='';
-  ESC.forEach(sc=>{
-    const{fs,ds,ppw}=sc.f(p,a,m,b,s),diff=ppw-b,ok=p>0&&s>0;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="el">${sc.l}</td><td>${ok?f$(fs):'—'}</td><td>${ok?f$(ds):'—'}</td>
-      <td style="color:${ok?(ppw>=b?'#2d6a2d':'#d32f2f'):'#333'};font-weight:700">${ok?fP(ppw):'—'}</td>
-      <td style="color:${ok?(diff>=0?'#2d6a2d':'#d32f2f'):'#333'};font-weight:700">${ok?(diff>=0?'+':'')+fP(diff):'—'}</td>
-      <td class="ey" contenteditable="true" style="min-width:120px;font-style:italic;color:#ccc;font-size:11px">Click to add...</td>`;
+  var p=v('ep'),s=v('es'),b=v('eb'),a=v('ea'),m=v('em');
+  var tb=$('escBody');tb.innerHTML='';
+  ESC.forEach(function(sc){
+    var res=sc.f(p,a,m,b,s),fs=res.fs,ds=res.ds,ppw=res.ppw;
+    var diff=ppw-b,ok=p>0&&s>0;
+    var tr=document.createElement('tr');
+    var e0=document.createElement('td');e0.className='el';e0.textContent=sc.l;
+    var e1=document.createElement('td');e1.textContent=ok?f$(fs):'—';
+    var e2=document.createElement('td');e2.textContent=ok?f$(ds):'—';
+    var e3=document.createElement('td');e3.textContent=ok?fP(ppw):'—';e3.style.color=ok?(ppw>=b?'#2d6a2d':'#d32f2f'):'#333';e3.style.fontWeight='700';
+    var e4=document.createElement('td');e4.textContent=ok?(diff>=0?'+':'')+fP(diff):'—';e4.style.color=ok?(diff>=0?'#2d6a2d':'#d32f2f'):'#333';e4.style.fontWeight='700';
+    var e5=document.createElement('td');e5.className='ey';e5.contentEditable='true';e5.style.cssText='min-width:120px;font-style:italic;color:#ccc;font-size:11px';e5.textContent='Click to add...';
+    tr.appendChild(e0);tr.appendChild(e1);tr.appendChild(e2);tr.appendChild(e3);tr.appendChild(e4);tr.appendChild(e5);
     tb.appendChild(tr);
   });
 }
 
-// ===== CONVERSIONS =====
-const CONVS=[
-  {label:'kW → W',from:'kW',to:'W',mult:1000},{label:'W → kW',from:'W',to:'kW',mult:0.001},
-  {label:'MW → W',from:'MW',to:'W',mult:1000000},{label:'W → MW',from:'W',to:'MW',mult:0.000001},
-  {label:'MWh → kWh',from:'MWh',to:'kWh',mult:1000},{label:'kWh → MWh',from:'kWh',to:'MWh',mult:0.001},
-  {label:'kWh → Wh',from:'kWh',to:'Wh',mult:1000},{label:'Wh → kWh',from:'Wh',to:'kWh',mult:0.001},
+var CONVS=[
+  {label:'kW to W',from:'kW',to:'W',mult:1000},{label:'W to kW',from:'W',to:'kW',mult:0.001},
+  {label:'MW to W',from:'MW',to:'W',mult:1000000},{label:'W to MW',from:'W',to:'MW',mult:0.000001},
+  {label:'MWh to kWh',from:'MWh',to:'kWh',mult:1000},{label:'kWh to MWh',from:'kWh',to:'MWh',mult:0.001},
+  {label:'kWh to Wh',from:'kWh',to:'Wh',mult:1000},{label:'Wh to kWh',from:'Wh',to:'kWh',mult:0.001}
 ];
-let activeConv=0;
+var activeConv=0;
 function buildConvBtns(){
-  const wrap=$('convBtns');
-  CONVS.forEach((c,i)=>{
-    const btn=document.createElement('button');
+  var wrap=$('convBtns');
+  CONVS.forEach(function(c,i){
+    var btn=document.createElement('button');
     btn.className='ctbtn'+(i===0?' active':'');btn.textContent=c.label;
-    btn.onclick=()=>{
-      activeConv=i;document.querySelectorAll('.ctbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-      $('conv-val').value='';set('conv-res','—');$('conv-lbl').textContent=c.from+' value';
-      $('conv-unit').textContent='';$('conv-formula').textContent='Formula: 1 '+c.from+' = '+c.mult.toLocaleString()+' '+c.to;
+    btn.onclick=function(){
+      activeConv=i;
+      document.querySelectorAll('.ctbtn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      $('conv-val').value='';set('conv-res','—');
+      $('conv-lbl').textContent=c.from+' value';
+      $('conv-unit').textContent='';
+      $('conv-formula').textContent='Formula: 1 '+c.from+' = '+c.mult.toLocaleString()+' '+c.to;
       set('conv-res-lbl',c.to);
     };
     wrap.appendChild(btn);
@@ -908,181 +821,16 @@ function buildConvBtns(){
   set('conv-res-lbl',CONVS[0].to);
 }
 function calcConv(){
-  const val=v('conv-val'),c=CONVS[activeConv];
-  if(val&&c){const res=val*c.mult;set('conv-res',fN(res,res<0.001?6:res<1?4:res<1000?2:0));$('conv-unit').textContent=c.to;}
-  else set('conv-res','—');
+  var val=v('conv-val'),c=CONVS[activeConv];
+  if(val&&c){
+    var res=val*c.mult;
+    set('conv-res',fN(res,res<0.001?6:res<1?4:res<1000?2:0));
+    $('conv-unit').textContent=c.to;
+  } else set('conv-res','—');
 }
 
-// ===== INIT =====
 initAdders();updateUI();calcEsc();buildConvBtns();initChart();
-window.addEventListener('resize',()=>{if(chartInstance)chartInstance.draw();});
-</script>
-</body>
-</html>
-);if(tb$El){tb$El.textContent=gsp>0&&ss>0?f$(tb$):'—';tb$El.className='imet-v '+(tb$>=0?'green':'red');}
-
-  // Aura banners (display info only, no separate eff PPW)
-  if(prod==='aura'&&gsp>0){
-    set('aura-disc',f$(gsp*.3));set('aura-net',f$(gsp*.7));
-  }
-  if(prod==='auraplus'&&gsp>0){
-    set('ap-install',f$(gsp*.05,0));set('ap-pto',f$(gsp*.25,0));
-    set('ap-total',f$(gsp*.3)+' Total Refund');
-  }
-
-  _pc={gsp,dfp,bp,ss,at};
-  updateStickyBar({np,bp,tbp,df,at,gp,ss,gsp});
-  calcAdj();
-  calcUtil();
-}
-
-// ===== ADJUSTMENTS =====
-function calcAdj(){
-  const{gsp=0,dfp=0,ss=0,at=0}=_pc;
-  const tp=v('tppw'),tc=v('tcon'),wa=v('waive');
-  if(tp&&ss>0){
-    set('adj-loan',f$(dfp<1?((tp*ss)+at)/(1-dfp):0));
-    set('adj-epc',fP(((tp*ss)+at)/ss));
-    set('adj-cash2',f$((tp*ss)+at));
-  } else{set('adj-loan','—');set('adj-epc','—');set('adj-cash2','—');}
-  if(tc&&ss>0){
-    set('adj-tc-loan',fP(((tc-(tc*dfp))-at)/ss));
-    const sp=(tc-at)/ss;set('adj-tc-epc',fP(sp));set('adj-tc-cash',fP(sp));
-  } else{set('adj-tc-loan','—');set('adj-tc-epc','—');set('adj-tc-cash','—');}
-  if(gsp&&ss>0)set('adj-waive',fP((gsp-(at-wa))/ss));else set('adj-waive','—');
-}
-
-// ===== UTILITY =====
-function setYears(y,btn){
-  chartYears=y;
-  document.querySelectorAll('.ytbtn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');set('util-yr-label','Est. '+y+'-Year Savings');calcUtil();
-}
-function calcUtil(){
-  const bill=v('util-bill'),esc=v('util-esc')/100||0.035,solar=v('util-solar');
-  let pay=v('util-pay');
-  if(!pay&&_pc.gsp>0)pay=Math.round(_pc.gsp*0.006*100)/100;
-  const y=chartYears,labels=[],utilD=[],solarD=[];
-  let totalUtil=0,totalSolar=0;
-  const tbody=$('utilBody');if(tbody)tbody.innerHTML='';
-  for(let yr=1;yr<=y;yr++){
-    const annUtil=bill*Math.pow(1+esc,yr-1)*12,annSolar=(pay+solar)*12;
-    totalUtil+=annUtil;totalSolar+=annSolar;
-    labels.push('Yr '+yr);utilD.push(totalUtil);solarD.push(totalSolar);
-    if(tbody){
-      const diff=totalUtil-totalSolar;
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>Yr ${yr}</td><td>${f$(totalUtil,0)}</td><td>${f$(totalSolar,0)}</td><td style="color:${diff>=0?'#2d6a2d':'#d32f2f'};font-weight:700">${diff>=0?'+':''}${f$(diff,0)}</td>`;
-      tbody.appendChild(tr);
-    }
-  }
-  set('util-savings',f$(totalUtil-totalSolar,0));
-  if(chartInstance){chartInstance.data.util=utilD;chartInstance.data.solar=solarD;chartInstance.labels=labels;chartInstance.draw();}
-}
-
-// ===== TPO =====
-function setTPO(m){
-  tpoMode=m;
-  $('tm-in').classList.toggle('active',m==='input');
-  $('tm-calc').classList.toggle('active',m==='calc');
-  $('tpo-calc-in').classList.toggle('hidden',m==='input');
-  calcTPO();
-}
-function calcTPO(){
-  const rate=v('tpo-rate'),esc=v('tpo-esc')/100,term=v('tpo-term');
-  if(tpoMode==='calc'){
-    const tp=v('tpo-tppw'),sz=v('tpo-sz'),adds=v('tpo-adds');
-    if(sz>0)set('tpo-crate',f$((tp*sz+adds)/12)+'/mo');
-    if(rate>0&&sz>0)set('tpo-ppwr',fP((rate*12)/sz));
-  }
-  if(rate>0&&term>0){
-    $('tpo-esc-wrap').classList.remove('hidden');
-    const tbl=$('tpoEscTbl');tbl.innerHTML='';
-    const hrow=tbl.createTHead().insertRow();
-    ['Year','Monthly Rate','Annual Total','Cumulative'].forEach(h=>{const th=document.createElement('th');th.textContent=h;hrow.appendChild(th);});
-    const tb=tbl.createTBody();let cum=0;
-    for(let yr=1;yr<=Math.min(term,30);yr++){
-      const mo=rate*Math.pow(1+esc,yr-1),ann=mo*12;cum+=ann;
-      const r=tb.insertRow();
-      r.innerHTML=`<td>Yr ${yr}</td><td>${f$(mo)}</td><td>${f$(ann)}</td><td>${f$(cum)}</td>`;
-    }
-  } else $('tpo-esc-wrap').classList.add('hidden');
-}
-
-// ===== BASIC =====
-function calcBasic(){
-  const sT=v('sr-t'),sA=v('sr-a'),sS=v('sr-s');
-  set('sr-r',sS>0?((sT*sS+sA)/sS).toFixed(4):'—');
-  const mT=v('ml-t'),mS=v('ml-s'),mA=v('ml-a'),mD=v('ml-d');
-  set('ml-r',mD<1?f$((mT*mS+mA)/(1-mD)):'—');
-}
-
-// ===== DF =====
-function calcDF(){
-  const price=v('df-p'),man=v('df-man'),dateV=$('df-date')?.value;
-  set('df-pct',man>0?(man*100).toFixed(2)+'%':'—');
-  set('df-fee',price>0&&man>0?f$(price*man):'—');
-  if(dateV){const d=new Date(dateV);d.setDate(d.getDate()+180);set('df-exp',d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));}
-  else set('df-exp','—');
-}
-
-// ===== ESCALATIONS =====
-const ESC=[
-  {l:'Current (100% to Freedom)',f:(p,a,m,b,s)=>({fs:m,ds:0,ppw:(p-a)/s})},
-  {l:'0% to Freedom',f:(p,a,m,b,s)=>({fs:0,ds:m,ppw:(p-a-m)/s})},
-  {l:'$2,000 Cap to Freedom',f:(p,a,m,b,s)=>{const fs=Math.min(2000,m),ds=m-fs;return{fs,ds,ppw:(p-a-ds)/s};}},
-  {l:'20% to Freedom',f:(p,a,m,b,s)=>({fs:m*.2,ds:m*.8,ppw:(p-a-m*.8)/s})},
-  {l:'50/50 Split',f:(p,a,m,b,s)=>({fs:m*.5,ds:m*.5,ppw:(p-a-m*.5)/s})},
-  {l:'To Baseline',f:(p,a,m,b,s)=>{const fs=((b*s)+a+m)-p,ds=m-fs;return{fs,ds,ppw:(p-a-ds)/s};}},
-];
-function calcEsc(){
-  const p=v('ep'),s=v('es'),b=v('eb'),a=v('ea'),m=v('em');
-  const tb=$('escBody');tb.innerHTML='';
-  ESC.forEach(sc=>{
-    const{fs,ds,ppw}=sc.f(p,a,m,b,s),diff=ppw-b,ok=p>0&&s>0;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="el">${sc.l}</td><td>${ok?f$(fs):'—'}</td><td>${ok?f$(ds):'—'}</td>
-      <td style="color:${ok?(ppw>=b?'#2d6a2d':'#d32f2f'):'#333'};font-weight:700">${ok?fP(ppw):'—'}</td>
-      <td style="color:${ok?(diff>=0?'#2d6a2d':'#d32f2f'):'#333'};font-weight:700">${ok?(diff>=0?'+':'')+fP(diff):'—'}</td>
-      <td class="ey" contenteditable="true" style="min-width:120px;font-style:italic;color:#ccc;font-size:11px">Click to add...</td>`;
-    tb.appendChild(tr);
-  });
-}
-
-// ===== CONVERSIONS =====
-const CONVS=[
-  {label:'kW → W',from:'kW',to:'W',mult:1000},{label:'W → kW',from:'W',to:'kW',mult:0.001},
-  {label:'MW → W',from:'MW',to:'W',mult:1000000},{label:'W → MW',from:'W',to:'MW',mult:0.000001},
-  {label:'MWh → kWh',from:'MWh',to:'kWh',mult:1000},{label:'kWh → MWh',from:'kWh',to:'MWh',mult:0.001},
-  {label:'kWh → Wh',from:'kWh',to:'Wh',mult:1000},{label:'Wh → kWh',from:'Wh',to:'kWh',mult:0.001},
-];
-let activeConv=0;
-function buildConvBtns(){
-  const wrap=$('convBtns');
-  CONVS.forEach((c,i)=>{
-    const btn=document.createElement('button');
-    btn.className='ctbtn'+(i===0?' active':'');btn.textContent=c.label;
-    btn.onclick=()=>{
-      activeConv=i;document.querySelectorAll('.ctbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-      $('conv-val').value='';set('conv-res','—');$('conv-lbl').textContent=c.from+' value';
-      $('conv-unit').textContent='';$('conv-formula').textContent='Formula: 1 '+c.from+' = '+c.mult.toLocaleString()+' '+c.to;
-      set('conv-res-lbl',c.to);
-    };
-    wrap.appendChild(btn);
-  });
-  $('conv-lbl').textContent=CONVS[0].from+' value';
-  $('conv-formula').textContent='Formula: 1 '+CONVS[0].from+' = '+CONVS[0].mult.toLocaleString()+' '+CONVS[0].to;
-  set('conv-res-lbl',CONVS[0].to);
-}
-function calcConv(){
-  const val=v('conv-val'),c=CONVS[activeConv];
-  if(val&&c){const res=val*c.mult;set('conv-res',fN(res,res<0.001?6:res<1?4:res<1000?2:0));$('conv-unit').textContent=c.to;}
-  else set('conv-res','—');
-}
-
-// ===== INIT =====
-initAdders();updateUI();calcEsc();buildConvBtns();initChart();
-window.addEventListener('resize',()=>{if(chartInstance)chartInstance.draw();});
+window.addEventListener('resize',function(){if(chartInstance)chartInstance.draw();});
 </script>
 </body>
 </html>
