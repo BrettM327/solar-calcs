@@ -4,136 +4,340 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solar Calcs</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Calibri,Arial,sans-serif;background:#0f1a0f;color:#333;min-height:100vh}
 :root{
-  --gd:#1a3d1a;--gm:#2d6a2d;--gl:#4CAF50;--gp:#e8f5e9;--gb:#a5d6a7;
-  --sd:#1a2a2a;--sm:#2a4040;--sl:#3d5c5c;--sp:#e8f0f0;--sb:#b0c8c8;
-  --gold:#e6a817;--goldp:#fff8e1;--red:#d32f2f;
-  --txt:#333;--muted:#666;--bdr:#e0e0e0;
-  --inp:#FFF9EC;--card:#fff;--calc:#f5f5f5;
+  --bg:#f0f2f5;--s0:#ffffff;--s1:#f8f9fb;--s2:#eef0f5;--s3:#e4e7ef;
+  --b0:#e2e5ee;--b1:#cbd0df;--b2:#a8afc4;
+  --t1:#0f172a;--t2:#334155;--t3:#64748b;--t4:#94a3b8;
+  --blue:#2563eb;--blueBg:#eff6ff;--blueBdr:#bfdbfe;--blueMd:#3b82f6;
+  --green:#059669;--greenBg:#ecfdf5;--greenBdr:#6ee7b7;--greenDk:#047857;
+  --amber:#d97706;--amberBg:#fffbeb;--amberBdr:#fde68a;
+  --red:#dc2626;--redBg:#fef2f2;--redBdr:#fca5a5;
+  --violet:#7c3aed;--violetBg:#f5f3ff;--violetBdr:#c4b5fd;
+  --teal:#0d9488;--tealBg:#f0fdfa;--tealBdr:#99f6e4;
+  --orange:#ea580c;--orangeBg:#fff7ed;--orangeBdr:#fdba74;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --r:6px;--r2:10px;
+  --sh:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+  --sh2:0 4px 16px rgba(15,23,42,.1),0 2px 6px rgba(15,23,42,.06);
 }
-.hdr{background:linear-gradient(160deg,var(--gd) 0%,var(--sd) 60%,var(--gd) 100%);color:#fff;text-align:center;padding:22px 20px 14px;border-bottom:3px solid var(--gl)}
-.hdr h1{font-size:26px;font-weight:700;letter-spacing:2px}
-.tab-nav{display:flex;justify-content:center;gap:3px;padding:0 16px;background:#0a120a;flex-wrap:wrap}
-.tab-btn{padding:8px 16px;border:none;cursor:pointer;font-family:Calibri,Arial,sans-serif;font-size:13px;font-weight:700;border-radius:6px 6px 0 0;transition:all .2s;color:#6a8a6a;background:#141e14;margin-top:8px}
-.tab-btn.active{background:var(--gd);color:#fff;border-bottom:3px solid var(--gl)}
-.tab-btn:hover:not(.active){background:#1a261a;color:#a5d6a7}
-#sticky-bar{position:sticky;top:0;z-index:100;background:linear-gradient(90deg,#0d220d 0%,#0f1f1f 50%,#0d220d 100%);border-bottom:2px solid var(--gl);box-shadow:0 4px 20px rgba(0,0,0,.5);display:none}
+body{font-family:var(--sans);background:#dde1ea;color:var(--t1);min-height:100vh;font-size:13px;line-height:1.5}
+/* ── HEADER ──────────────────────────────────── */
+.hdr{background:linear-gradient(135deg,#0f1f35 0%,#1a2f4a 60%,#0f2a1e 100%);border-bottom:3px solid #f59e0b;padding:0 28px;display:flex;align-items:center;justify-content:center;height:72px;position:relative}
+.hdr-brand{display:flex;align-items:center;gap:14px}
+.sun-icon{width:44px;height:44px;flex-shrink:0}
+.logo-text{font-family:var(--mono);font-size:22px;font-weight:600;color:#fff;letter-spacing:2.5px;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+/* ── PPL RATE INLINE (PPL tab + HIC tab only) ── */
+.ppl-rate-bar{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--tealBg),#fff);border:1px solid var(--tealBdr);border-radius:var(--r2);padding:10px 16px;margin-bottom:20px;flex-wrap:wrap}
+.ppl-rate-bar .lbl{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.7px;white-space:nowrap}
+.ppl-rate-bar .rate-num{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--teal);min-width:48px}
+.ppl-chk-wrap{display:flex;align-items:center;gap:5px;cursor:pointer;padding:5px 10px;border-radius:var(--r);border:1px solid var(--b1);background:var(--s0);transition:all .12s;user-select:none}
+.ppl-chk-wrap:hover{border-color:var(--teal);background:var(--tealBg)}
+.ppl-chk-wrap.on{border-color:var(--teal);background:var(--tealBg)}
+.ppl-chk-wrap input{accent-color:var(--teal);width:13px;height:13px;cursor:pointer}
+.ppl-chk-wrap span{font-size:11px;font-weight:600;color:var(--t2)}
+.ppl-chk-wrap.on span{color:var(--teal)}
+.ppl-rate-rule{font-size:10px;color:var(--t3);font-style:italic;margin-left:auto}
+/* ── NAV ─────────────────────────────────────── */
+.tab-nav{background:#1e293b;border-bottom:none;display:flex;padding:0 28px;overflow-x:auto;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{padding:0 18px;height:44px;border:none;cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:600;color:rgba(255,255,255,.45);background:transparent;border-bottom:3px solid transparent;margin-bottom:0;white-space:nowrap;transition:all .14s;letter-spacing:.2px}
+.tab-btn.active{color:#f59e0b;border-bottom-color:#f59e0b;background:rgba(245,158,11,.08)}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.8);background:rgba(255,255,255,.05)}
+/* ── STICKY BAR ──────────────────────────────── */
+#sticky-bar{position:sticky;top:0;z-index:100;background:var(--t1);border-bottom:2px solid #1e293b;display:none;box-shadow:var(--sh2)}
 #sticky-bar.bar-visible{display:block}
-.sbar-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 1fr;align-items:stretch}
-.smet{padding:10px 14px;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;justify-content:center}
+.sbar-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:220px repeat(5,1fr)}
+.smet{padding:9px 16px;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;justify-content:center;gap:2px}
 .smet:last-child{border-right:none}
-.smet-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
-.smet-val{font-size:17px;font-weight:700;color:#e0e0e0;line-height:1}
-.smet.hero{background:rgba(45,106,45,.18);border-right:2px solid var(--gl)}
-.smet.hero .smet-lbl{color:rgba(165,214,167,.7);font-size:10px}
-.smet.hero .smet-val{font-size:22px;color:#a5d6a7}
-.smet.hero .smet-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
-.ppw-low-s{display:inline-block;background:#b71c1c;color:#fff;padding:1px 7px;border-radius:8px;font-size:9px;font-weight:700;margin-left:6px;vertical-align:middle}
-.sval-green{color:#81c784!important}
-.sval-red{color:#ef9a9a!important}
-.wrap{max-width:1200px;margin:0 auto;padding:18px 14px}
+.smet-lbl{font-size:9px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px}
+.smet-val{font-size:15px;font-weight:600;color:#fff;font-family:var(--mono);line-height:1.2}
+.smet.hero{background:rgba(37,99,235,.25);border-right:1px solid rgba(37,99,235,.3)}
+.smet.hero .smet-lbl{color:rgba(147,197,253,.8)}
+.smet.hero .smet-val{font-size:18px;color:#93c5fd}
+.smet.hero .smet-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px;font-family:var(--mono)}
+.ppw-low{display:inline-block;background:#dc2626;color:#fff;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-left:6px;vertical-align:middle}
+.sval-up{color:#6ee7b7!important}
+.sval-dn{color:#fca5a5!important}
+/* ── LAYOUT ──────────────────────────────────── */
+.wrap{max-width:1280px;margin:0 auto;padding:22px 28px}
 .page{display:none}.page.active{display:block}
-.pbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;background:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.pbar-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-right:4px}
-.pbtn{padding:6px 16px;border:2px solid var(--bdr);border-radius:20px;background:#f9f9f9;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:Calibri,Arial,sans-serif}
-.pbtn.active{border-color:var(--gl);background:var(--gd);color:#fff}
-.pbtn:hover:not(.active){border-color:#aaa;color:#333}
-.card{background:var(--card);border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.15);margin-bottom:16px;overflow:hidden}
-.ch{padding:10px 16px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
-.ch.g{background:var(--gd);color:#fff;border-bottom:2px solid var(--gl)}
-.ch.s{background:var(--sd);color:#e0efef;border-bottom:2px solid var(--sl)}
-.cb{padding:14px}
-.fg{display:flex;flex-direction:column;gap:3px}
-.fg label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.fg input,.fg select{padding:7px 10px;border:1.5px solid var(--bdr);border-radius:6px;font-family:Calibri,Arial,sans-serif;font-size:14px;background:var(--inp);color:var(--txt);transition:border .2s}
-.fg input:focus,.fg select:focus{outline:none;border-color:var(--gm);box-shadow:0 0 0 3px rgba(45,106,45,.1)}
-.fg input[readonly]{background:#f0f0f0;color:#555;cursor:default}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
-.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:11px}
-.tc{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.out{background:var(--calc);border:1.5px solid var(--bdr);border-radius:6px;padding:7px 10px;font-size:13px;font-weight:700;min-height:34px;display:flex;align-items:center;color:var(--txt)}
-.imet{padding:10px 12px;border-right:1px solid #ddeedd;display:flex;flex-direction:column;gap:3px}
-.imet-l{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
-.imet-v{font-size:14px;font-weight:700;color:var(--txt)}
-.imet-v.green{color:#2d6a2d}
-.imet-v.red{color:var(--red)}
-.adj{background:#f7f9f7;border:1px solid #ddeedd;border-radius:8px;padding:12px;margin-bottom:10px}
-.adj-t{font-size:10px;font-weight:700;color:var(--sm);margin-bottom:8px;text-transform:uppercase;letter-spacing:.6px}
-.aura-banner{background:var(--gp);border:2px solid var(--gb);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.refund-wrap{background:var(--gp);border:2px solid var(--gb);border-radius:10px;padding:20px 16px;margin-bottom:14px;text-align:center}
-.refund-title{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px}
-.refund-flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.circ{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0}
-.circ.c1{background:var(--sm)}.circ.c2{background:var(--gm)}
-.circ .cv{font-size:13px}.circ .cl{font-size:9px;opacity:.85;margin-top:2px}
-.circ-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
-.circ-lbl{font-size:10px;color:#555;font-weight:600;max-width:86px}
-.arrow{color:#aaa;font-size:20px;line-height:1;flex-shrink:0}
-.choice-box{background:#fff;border:1.5px solid var(--gb);border-radius:8px;padding:10px 16px;display:inline-block;min-width:180px}
-.cbns{display:flex;gap:6px;margin-bottom:8px}
-.cbn{flex:1;padding:5px 6px;border:1.5px solid var(--bdr);border-radius:5px;background:#f5f5f5;font-size:11px;font-weight:700;cursor:pointer;font-family:Calibri,Arial,sans-serif;transition:all .2s}
-.cbn.active{background:var(--gd);color:#fff;border-color:var(--gd)}
-.tpo-toggle{display:flex;gap:0;border:1.5px solid var(--bdr);border-radius:6px;overflow:hidden;margin-bottom:12px;width:fit-content}
-.tto{padding:5px 14px;border:none;cursor:pointer;font-family:Calibri,Arial,sans-serif;font-size:12px;font-weight:700;background:#f5f5f5;color:var(--muted);transition:all .2s}
-.tto.active{background:var(--sd);color:#fff}
-.chart-wrap{position:relative;width:100%;height:260px;margin:12px 0 6px}
-canvas#utilChart{width:100%!important;height:100%!important}
-.chart-legend{display:flex;gap:16px;justify-content:center;margin-top:6px;flex-wrap:wrap}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
-.leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-.savings-bar{background:linear-gradient(135deg,var(--gp),#fff);border:1.5px solid var(--gb);border-radius:8px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-.yr-toggle{display:flex;gap:4px}
-.ytbtn{padding:5px 14px;border:2px solid var(--bdr);border-radius:14px;font-size:12px;font-weight:700;cursor:pointer;background:#f5f5f5;color:var(--muted);font-family:Calibri,Arial,sans-serif;transition:all .2s}
-.ytbtn.active{background:var(--gm);color:#fff;border-color:var(--gm)}
-.ytable{width:100%;border-collapse:collapse;font-size:12px}
-.ytable th{background:var(--sd);color:#e0efef;padding:7px 8px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-.ytable td{padding:5px 8px;border:1px solid #eee;text-align:center}
-.ytable tr:nth-child(even) td{background:#fafafa}
-.conv-toggle{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.ctbtn{padding:7px 14px;border:2px solid var(--bdr);border-radius:20px;background:#f9f9f9;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:Calibri,Arial,sans-serif}
-.ctbtn.active{border-color:var(--gl);background:var(--gd);color:#fff}
-.conv-result{background:var(--gp);border:1.5px solid var(--gb);border-radius:10px;padding:20px;text-align:center;margin-top:10px}
-.conv-result .big{font-size:36px;font-weight:700;color:var(--gd)}
-.conv-result .unit{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
-.df-block{background:#f7f9f7;border:1.5px solid var(--gb);border-radius:8px;overflow:hidden}
-.df-hdr{background:var(--gd);color:#fff;padding:8px 14px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-.df-body{padding:14px}
-.et{width:100%;border-collapse:collapse;font-size:12px}
-.et th{background:var(--sd);color:#e0efef;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-.et td{padding:5px 8px;border:1px solid #eee;text-align:center;font-size:12px}
-.et .el{text-align:left;font-weight:700;background:#f0f5f0}
-.et .ey{background:var(--goldp)}
-.at{width:100%;border-collapse:collapse;font-size:13px}
-.at th{background:var(--gd);color:#fff;padding:6px 8px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.at td{padding:4px 7px;border-bottom:1px solid #f5f5f5}
-.at tr:nth-child(even) td{background:#fafafa}
-.at input{width:100%;border:1px solid var(--bdr);border-radius:4px;padding:4px 6px;font-family:Calibri,Arial,sans-serif;font-size:12px;background:var(--inp)}
-.cc{background:#fff;font-weight:700;font-size:12px}
-.res-big{text-align:center;padding:14px;border-radius:8px;margin-top:10px}
-.res-big .rv2{font-size:30px;font-weight:700}
-.hcard{background:#fff;border-radius:8px;padding:14px;margin-bottom:12px;box-shadow:0 1px 5px rgba(0,0,0,.1)}
 .hidden{display:none!important}
-.gap{margin-bottom:12px}
+/* ── TOOLBAR ─────────────────────────────────── */
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.toolbar-right{display:flex;gap:6px;align-items:center}
+.tbtn{padding:0 13px;height:32px;border:1px solid var(--b1);border-radius:var(--r);background:var(--s0);color:var(--t3);font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .12s;font-family:var(--sans);white-space:nowrap;box-shadow:var(--sh)}
+.tbtn:hover{border-color:var(--blue);color:var(--blue);background:var(--blueBg)}
+.tbtn.del:hover{border-color:var(--red);color:var(--red);background:var(--redBg)}
+.tbtn svg{width:12px;height:12px;flex-shrink:0}
+/* ── PRODUCT BAR ─────────────────────────────── */
+.prod-bar{display:flex;align-items:center;background:var(--s0);border:1px solid var(--b0);border-radius:var(--r2);overflow:hidden;width:fit-content;box-shadow:var(--sh)}
+.prod-lbl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;padding:0 14px;border-right:1px solid var(--b0);white-space:nowrap;height:36px;display:flex;align-items:center;background:var(--s1)}
+.pbtn{padding:0 16px;height:36px;border:none;border-right:1px solid var(--b0);cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--t3);background:transparent;transition:all .12s;white-space:nowrap}
+.pbtn:last-child{border-right:none}
+.pbtn.active{background:var(--blue);color:#fff}
+.pbtn:hover:not(.active){color:var(--t1);background:var(--s2)}
+/* ── CARDS ───────────────────────────────────── */
+.card{background:var(--s0);border:1px solid var(--b0);border-radius:var(--r2);margin-bottom:16px;overflow:hidden;box-shadow:0 2px 6px rgba(15,23,42,.1),0 1px 2px rgba(15,23,42,.06)}
+.ch{padding:11px 18px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ch.blue{background:var(--blueBg);border-bottom-color:var(--blueBdr);color:var(--blue)}
+.ch.green{background:var(--greenBg);border-bottom-color:var(--greenBdr);color:var(--greenDk)}
+.ch.amber{background:var(--amberBg);border-bottom-color:var(--amberBdr);color:var(--amber)}
+.ch.violet{background:var(--violetBg);border-bottom-color:var(--violetBdr);color:var(--violet)}
+.ch.teal{background:var(--tealBg);border-bottom-color:var(--tealBdr);color:var(--teal)}
+.ch.slate{background:#f1f5f9;border-bottom-color:#cbd5e1;color:#475569}
+.ch.red{background:var(--redBg);border-bottom-color:var(--redBdr);color:var(--red)}
+.ch.orange{background:var(--orangeBg);border-bottom-color:var(--orangeBdr);color:var(--orange)}
+.ch.navy{background:#0f172a;border-bottom-color:#334155;color:#94a3b8}
+.cb{padding:18px}
+/* ── FORMS ───────────────────────────────────── */
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px}
+.fg input,.fg select{padding:8px 11px;border:1px solid var(--b1);border-radius:var(--r);font-family:var(--mono);font-size:13px;background:var(--s0);color:var(--t1);transition:all .12s}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.fg input[readonly]{background:var(--s1);color:var(--t3);cursor:default;border-color:var(--b0)}
+.fg input::placeholder{color:var(--t4)}
 input[type=number]{-moz-appearance:textfield}
-input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-@media(max-width:860px){.sbar-inner{grid-template-columns:1fr 1fr 1fr}.smet.hero{grid-column:span 3}}
-@media(max-width:800px){.g2,.g3,.g4,.tc{grid-template-columns:1fr}}
-@media(max-width:520px){.sbar-inner{grid-template-columns:1fr 1fr}.smet.hero{grid-column:span 2}}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+/* ── GRIDS ───────────────────────────────────── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+.g5{display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr 1fr;gap:14px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.gap{margin-bottom:14px}
+/* ── METRIC STRIP ────────────────────────────── */
+.mstrip{display:grid;grid-template-columns:repeat(8,1fr);background:#e8ecf5;border:1px solid #c8cedf;border-radius:var(--r);overflow:hidden;margin-top:14px}
+.mi{padding:10px 13px;border-right:1px solid #c8cedf;display:flex;flex-direction:column;gap:3px}
+.mi:last-child{border-right:none}
+.mi-l{font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
+.mi-v{font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono)}
+.mi-v.up{color:var(--green)}
+.mi-v.dn{color:var(--red)}
+/* ── OUTPUT FIELD ────────────────────────────── */
+.out-f{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);padding:8px 11px;font-size:13px;font-weight:600;font-family:var(--mono);min-height:36px;display:flex;align-items:center;color:var(--t2)}
+/* ── BIG RESULT ──────────────────────────────── */
+.big-res{background:var(--blueBg);border:1px solid var(--blueBdr);border-radius:var(--r2);padding:18px;text-align:center;margin-top:12px}
+.big-res .lbl{font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+.big-res .num{font-size:30px;font-weight:600;font-family:var(--mono);color:var(--blue)}
+.big-res .num.green{color:var(--green)}
+.big-res .unit{font-size:10px;color:var(--t3);margin-top:3px}
+/* ── FORMULA NOTE ────────────────────────────── */
+.fnote{font-size:10px;color:var(--t4);font-family:var(--mono);margin-top:9px;padding:7px 11px;background:var(--s1);border-left:3px solid var(--b1);border-radius:0 var(--r) var(--r) 0}
+/* ── ADJUSTMENTS ─────────────────────────────── */
+.adj-b{border:1px solid var(--b0);border-radius:var(--r);overflow:hidden;margin-bottom:10px;background:var(--s0)}
+.adj-h{padding:7px 13px;font-size:9px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.7px;background:var(--s1);border-bottom:1px solid var(--b0)}
+.adj-body{padding:13px}
+/* ── BANNERS ─────────────────────────────────── */
+.ppl-banner{background:var(--tealBg);border:1px solid var(--tealBdr);border-radius:var(--r2);padding:14px 20px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.refund-wrap{background:var(--s0);border:1px solid var(--b0);border-radius:var(--r2);padding:22px;margin-bottom:18px;text-align:center;box-shadow:var(--sh)}
+.refund-title{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.7px;margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:8px}
+.refund-flow{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.circ{width:72px;height:72px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;border:2px solid var(--b1)}
+.circ.c1{background:var(--s2);color:var(--t2)}
+.circ.c2{background:var(--greenBg);color:var(--green);border-color:var(--greenBdr)}
+.circ .cv{font-size:12px;font-family:var(--mono)}.circ .cl{font-size:8px;opacity:.6;margin-top:2px}
+.circ-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+.circ-lbl{font-size:10px;color:var(--t3);font-weight:500;max-width:84px;text-align:center;line-height:1.3}
+.arrow-s{color:var(--b2);font-size:18px;flex-shrink:0}
+.choice-box{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);padding:11px 14px;min-width:180px}
+.cbn-row{display:flex;gap:5px;margin-bottom:8px}
+.cbn{flex:1;padding:5px 8px;border:1px solid var(--b1);border-radius:var(--r);background:var(--s0);color:var(--t3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .12s}
+.cbn.active{background:var(--tealBg);color:var(--teal);border-color:var(--tealBdr)}
+/* ── TPO ─────────────────────────────────────── */
+.tpo-toggle{display:flex;border:1px solid var(--b1);border-radius:var(--r);overflow:hidden;width:fit-content;margin-bottom:12px;background:var(--s0)}
+.tto{padding:6px 15px;border:none;cursor:pointer;font-family:var(--sans);font-size:11px;font-weight:600;background:transparent;color:var(--t3);transition:all .12s}
+.tto.active{background:var(--t1);color:#fff}
+/* ── UTILITY CHART ───────────────────────────── */
+.chart-bg{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);height:240px;margin:12px 0;overflow:hidden;position:relative}
+canvas#utilChart{width:100%!important;height:100%!important}
+.savings-row{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:var(--greenBg);border:1px solid var(--greenBdr);border-radius:var(--r);margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.yr-btns{display:flex;gap:4px}
+.ytbtn{padding:4px 12px;border:1px solid var(--b1);border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;background:var(--s0);color:var(--t3);font-family:var(--sans);transition:all .12s}
+.ytbtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.chart-legend{display:flex;gap:18px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--t3);cursor:pointer}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+/* ── TABLES ──────────────────────────────────── */
+.ytable{width:100%;border-collapse:collapse;font-size:12px}
+.ytable th{background:#1e293b;color:#94a3b8;padding:7px 11px;text-align:center;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:none}
+.ytable td{padding:6px 11px;border-bottom:1px solid var(--b0);text-align:center;color:var(--t2);font-family:var(--mono);font-size:12px}
+.ytable tr:last-child td{border-bottom:none}
+.ytable tr:hover td{background:var(--s1)}
+.at-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.at-tbl th{background:#1e293b;color:#94a3b8;padding:7px 10px;text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:none}
+.at-tbl td{padding:4px 8px;border-bottom:1px solid var(--b0)}
+.at-tbl input{width:100%;border:1px solid var(--b1);border-radius:4px;padding:4px 7px;font-family:var(--mono);font-size:12px;background:var(--s0);color:var(--t1)}
+.cc{background:#f1f5f9;font-weight:600;font-size:12px;color:var(--t2);font-family:var(--mono);text-align:right!important}
+.et{width:100%;border-collapse:collapse;font-size:12px}
+.et th{background:#1e293b;color:#94a3b8;padding:7px 11px;text-align:center;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:none}
+.et td{padding:6px 11px;border-bottom:1px solid var(--b0);text-align:center;color:var(--t2)}
+.et .el{text-align:left;font-weight:600;background:#f8fafc;color:var(--t2)}
+.et .enotes{background:var(--amberBg);color:var(--amber);font-style:italic;font-size:11px;min-width:120px;cursor:text}
+/* ── PPL CALCS ───────────────────────────────── */
+.ppl-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.ppl-card{background:var(--s0);border:1px solid var(--b1);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,.1),0 1px 3px rgba(15,23,42,.06)}
+.ppl-ch{background:#f8faff;border-bottom:2px solid var(--b0);padding:10px 15px;display:flex;align-items:center;justify-content:space-between}
+.ppl-ch-title{font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.7px;font-family:var(--mono)}
+.badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:.3px}
+.badge.ppl{background:var(--tealBg);color:var(--teal);border:1px solid var(--tealBdr)}
+.badge.plus{background:var(--violetBg);color:var(--violet);border:1px solid var(--violetBdr)}
+.badge.rev{background:var(--amberBg);color:var(--amber);border:1px solid var(--amberBdr)}
+.ppl-body{padding:15px}
+.ppl-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ppl-row.g3{grid-template-columns:1fr 1fr 1fr}
+.ppl-mid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.ppl-mid.g2{grid-template-columns:1fr 1fr}
+.ppl-stat{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);padding:8px 11px}
+.ppl-stat label{display:block;font-size:8px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.ppl-stat .val{font-size:14px;font-weight:600;color:var(--t1);font-family:var(--mono)}
+.ppl-stat .val.grn{color:var(--green)}
+.ppl-stat .val.tl{color:var(--teal)}
+.ppl-stat .val.vl{color:var(--violet)}
+.ppl-divider{height:1px;background:var(--b0);margin:12px 0}
+.ppl-req{background:var(--blueBg);border:1px solid var(--blueBdr);border-radius:var(--r);padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.ppl-req label{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px}
+.ppl-req .val{font-size:18px;font-weight:600;color:var(--blue);font-family:var(--mono)}
+.split-box{background:var(--s0);border:1px solid var(--b0);border-radius:var(--r);overflow:hidden}
+.split-hdr{padding:6px 11px;font-size:8px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--b0);background:var(--s1)}
+.split-row{display:flex;justify-content:space-between;align-items:center;padding:7px 11px;border-bottom:1px solid var(--b0)}
+.split-row:last-child{border-bottom:none}
+.split-row .lbl{color:var(--t3);font-size:11px}
+.split-row .amt{font-weight:600;font-family:var(--mono);color:var(--t1)}
+.split-row .amt.tl{color:var(--teal)}
+.split-row .amt.grn{color:var(--green)}
+.split-row .amt.vl{color:var(--violet)}
+.split-row .amt.or{color:var(--orange)}
+.ppl-note{font-size:9px;color:var(--t4);font-style:italic;text-align:center;margin-top:7px;font-family:var(--mono)}
+.sec-lbl{font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;display:flex;align-items:center;gap:10px;font-family:var(--mono)}
+.sec-lbl::after{content:'';flex:1;height:1px;background:#c8cedf}
+/* ── HIC SUB-TABS ────────────────────────────── */
+.sub-tab-bar{display:flex;gap:0;background:#1e293b;border:1px solid #334155;border-radius:var(--r2);overflow:hidden;width:fit-content;margin-bottom:0;box-shadow:var(--sh)}
+.stab{padding:0 22px;height:38px;border:none;border-right:1px solid #334155;cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:600;color:rgba(255,255,255,.45);background:transparent;transition:all .12s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.stab:last-child{border-right:none}
+.stab.active{background:#f59e0b;color:#0f172a}
+.stab:hover:not(.active){background:rgba(255,255,255,.07);color:rgba(255,255,255,.8)}
+.stab-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px}
+.stab.active .stab-badge{background:rgba(15,23,42,.2);color:#0f172a}
+.stab:not(.active) .stab-badge.ppl-c{background:rgba(13,148,136,.2);color:#5eead4;border:1px solid rgba(13,148,136,.3)}
+.stab:not(.active) .stab-badge.plus-c{background:rgba(124,58,237,.2);color:#c4b5fd;border:1px solid rgba(124,58,237,.3)}
+.sub-page{display:none}.sub-page.active{display:block}
+/* ── HIC OPTION GRID ─────────────────────────── */
+.hic-layout{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+.hic-inputs{background:var(--s0);border:1px solid var(--b1);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,.1)}
+.hic-inp-hdr{padding:10px 16px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--b0)}
+.hic-inp-body{padding:15px;display:flex;flex-direction:column;gap:10px}
+.hic-derived{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);padding:10px 13px;margin-top:4px}
+.hic-derived-lbl{font-size:8px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.hic-derived-val{font-size:14px;font-weight:600;color:var(--t1);font-family:var(--mono)}
+.hic-breakdown{background:var(--s1);border:1px solid var(--b0);border-radius:var(--r2);overflow:hidden;margin-top:12px}
+.hic-bd-hdr{padding:9px 13px;font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;border-bottom:1px solid #334155;background:#1e293b;color:#94a3b8}
+.hic-bd-row{display:flex;justify-content:space-between;padding:7px 13px;border-bottom:1px solid var(--b0);font-size:12px}
+.hic-bd-row:last-child{border-bottom:none}
+.hic-bd-lbl{color:var(--t3)}
+.hic-bd-val{font-family:var(--mono);font-weight:600;color:var(--t1)}
+.hic-options{display:grid;gap:12px}
+.hic-options.four-col{grid-template-columns:repeat(4,1fr)}
+.hic-options.two-col{grid-template-columns:repeat(2,1fr)}
+.hic-opt{background:var(--s0);border:1px solid var(--b1);border-radius:var(--r2);overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,.1),0 1px 3px rgba(15,23,42,.06)}
+.hic-opt-hdr{padding:12px 15px;border-bottom:1px solid var(--b0)}
+.hic-opt-num{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.hic-opt-name{font-size:13px;font-weight:700;color:var(--t1);line-height:1.3}
+.hic-opt-sub{font-size:10px;color:var(--t3);margin-top:2px;font-style:italic}
+.hic-opt-body{padding:13px}
+.hic-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--b0);font-size:12px}
+.hic-row:last-child{border-bottom:none}
+.hic-row .rl{color:var(--t3)}
+.hic-row .rv{font-family:var(--mono);font-weight:600;color:var(--t1);text-align:right}
+.hic-metrics{margin-top:10px;background:var(--greenBg);border:1px solid var(--greenBdr);border-radius:var(--r);overflow:hidden}
+.hic-met-hdr{padding:5px 11px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#fff;background:var(--greenDk);border-bottom:1px solid var(--greenBdr)}
+.hic-met-row{display:flex;justify-content:space-between;align-items:center;padding:6px 11px;border-bottom:1px solid var(--greenBdr);font-size:12px}
+.hic-met-row:last-child{border-bottom:none}
+.hic-met-row .ml{color:var(--t3)}
+.hic-met-row .mv{font-family:var(--mono);font-weight:700;color:var(--t1)}
+.mv.up{color:var(--green)}
+.mv.dn{color:var(--red)}
+.mv.zero{color:var(--t3)}
+/* ── CONVERSIONS ─────────────────────────────── */
+.conv-btns{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.ctbtn{padding:5px 12px;border:1px solid var(--b1);border-radius:var(--r);background:var(--s0);color:var(--t3);font-size:11px;font-weight:600;cursor:pointer;transition:all .12s;font-family:var(--sans)}
+.ctbtn.active{border-color:var(--blue);background:var(--blueBg);color:var(--blue)}
+.conv-result{background:var(--blueBg);border:1px solid var(--blueBdr);border-radius:var(--r2);padding:26px;text-align:center;margin-top:12px}
+.conv-result .big{font-size:40px;font-weight:600;color:var(--blue);font-family:var(--mono);line-height:1}
+.conv-result .unit{font-size:11px;color:var(--t3);margin-top:5px;font-family:var(--mono)}
+/* ── HELP ────────────────────────────────────── */
+.hcard{background:var(--s0);border:1px solid var(--b1);border-radius:var(--r2);padding:0;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 6px rgba(15,23,42,.1)}
+.hcard-hdr{padding:11px 18px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--b0)}
+.hcard-hdr.blue{background:#1d4ed8;color:#bfdbfe}
+.hcard-hdr.green{background:var(--greenDk);color:#a7f3d0}
+.hcard-hdr.teal{background:#0f766e;color:#99f6e4}
+.hcard-hdr.amber{background:#b45309;color:#fde68a}
+.hcard-hdr.red{background:#991b1b;color:#fecaca}
+.hcard-hdr.violet{background:#5b21b6;color:#ddd6fe}
+.hcard-body{padding:15px}
+.step-li{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px;line-height:1.6;color:var(--t2)}
+.step-li:last-child{border-bottom:none}
+.step-n{background:var(--blue);color:#fff;border-radius:4px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px;font-family:var(--mono)}
+.info-row{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--b0);font-size:12px;align-items:start}
+.info-row:last-child{border-bottom:none}
+.info-tag{font-size:9px;font-weight:700;font-family:var(--mono);background:var(--s1);color:var(--t2);padding:2px 8px;border-radius:3px;border:1px solid var(--b1);display:inline-block;white-space:nowrap}
+.info-desc{color:var(--t2);line-height:1.5}
+.dont-li{display:flex;gap:8px;align-items:flex-start;padding:6px 0;font-size:12px;color:var(--red);border-bottom:1px solid var(--b0)}
+.dont-li:last-child{border-bottom:none}
+.dont-li::before{content:'✕';font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
+.key-note{margin-top:10px;padding:9px 13px;background:var(--s1);border:1px solid var(--b0);border-radius:var(--r);font-size:11px;color:var(--t3);font-family:var(--mono);line-height:1.7}
+/* ── PRINT ───────────────────────────────────── */
+@media print{
+  body{background:#fff!important}
+  .tab-nav,.hdr,.toolbar,#sticky-bar,.sub-tab-bar{display:none!important}
+  .page{display:none!important}.page.print-target{display:block!important}
+  .sub-page{display:none!important}.sub-page.print-target-sub{display:block!important}
+  .card,.hic-inputs,.hic-opt,.ppl-card{box-shadow:none!important}
+}
+/* ── RESPONSIVE ──────────────────────────────── */
+@media(max-width:1100px){.hic-layout{grid-template-columns:1fr}.hic-options.four-col{grid-template-columns:1fr 1fr}.hic-options.two-col{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.sbar-inner{grid-template-columns:1fr 1fr 1fr}.smet.hero{grid-column:span 3}.ppl-section,.two-col{grid-template-columns:1fr}.hic-options.four-col{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}.mstrip{grid-template-columns:repeat(4,1fr)}.ppl-row.g3{grid-template-columns:1fr 1fr}.hic-options.four-col,.hic-options.two-col{grid-template-columns:1fr}}
+@media(max-width:520px){.sbar-inner{grid-template-columns:1fr 1fr}.smet.hero{grid-column:span 2}.mstrip{grid-template-columns:1fr 1fr}.prod-bar{flex-wrap:wrap;width:100%}.ppl-rate-bar{flex-wrap:wrap}}
 </style>
 </head>
 <body>
 <header class="hdr">
-  <h1>SOLAR CALCS</h1>
+  <div class="hdr-brand">
+    <svg class="sun-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rays -->
+      <line x1="22" y1="2" x2="22" y2="8" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="22" y1="36" x2="22" y2="42" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="2" y1="22" x2="8" y2="22" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="36" y1="22" x2="42" y2="22" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="6.64" y1="6.64" x2="10.89" y2="10.89" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="33.11" y1="33.11" x2="37.36" y2="37.36" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="37.36" y1="6.64" x2="33.11" y2="10.89" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="10.89" y1="33.11" x2="6.64" y2="37.36" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Core circle with warm gradient -->
+      <circle cx="22" cy="22" r="10" fill="url(#sunGrad)"/>
+      <circle cx="22" cy="22" r="7" fill="#fef3c7" opacity=".35"/>
+      <defs>
+        <radialGradient id="sunGrad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#fef3c7"/>
+          <stop offset="40%" stop-color="#fbbf24"/>
+          <stop offset="100%" stop-color="#d97706"/>
+        </radialGradient>
+      </defs>
+    </svg>
+    <span class="logo-text">SOLAR CALCS</span>
+  </div>
 </header>
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="showTab('pricing',this)">Pricing Calc</button>
   <button class="tab-btn" onclick="showTab('basic',this)">Basic Calcs</button>
+  <button class="tab-btn" onclick="showTab('ppl',this)">PPL Calcs</button>
   <button class="tab-btn" onclick="showTab('df',this)">DF Calc</button>
   <button class="tab-btn" onclick="showTab('esc',this)">Adder Escalations</button>
+  <button class="tab-btn" onclick="showTab('hic',this)">Roofing HIC</button>
   <button class="tab-btn" onclick="showTab('conv',this)">Conversions</button>
   <button class="tab-btn" onclick="showTab('help',this)">Help</button>
 </nav>
@@ -141,84 +345,87 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   <div class="sbar-inner">
     <div class="smet hero">
       <div class="smet-lbl">Net PPW</div>
-      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
-        <span class="smet-val" id="sb-ppw">&#8212;</span>
-        <span id="sb-low" class="ppw-low-s hidden">LOW PPW</span>
+      <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+        <span class="smet-val" id="sb-ppw">—</span>
+        <span id="sb-low" class="ppw-low hidden">LOW</span>
       </div>
-      <div class="smet-sub" id="sb-vs">vs Baseline &#8212;</div>
+      <div class="smet-sub" id="sb-vs">vs Baseline —</div>
     </div>
     <div class="smet" id="sb-df-wrap">
       <div class="smet-lbl">Dealer Fee</div>
-      <div class="smet-val" id="sb-df">&#8212;</div>
+      <div class="smet-val" id="sb-df">—</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">Adder Total</div>
-      <div class="smet-val" id="sb-at">&#8212;</div>
+      <div class="smet-val" id="sb-at">—</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">Gross PPW</div>
-      <div class="smet-val" id="sb-gp">&#8212;</div>
+      <div class="smet-val" id="sb-gp">—</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">To Baseline PPW</div>
-      <div class="smet-val" id="sb-tbp">&#8212;</div>
+      <div class="smet-val" id="sb-tbp">—</div>
     </div>
     <div class="smet">
       <div class="smet-lbl">System Size</div>
-      <div class="smet-val" id="sb-ss">&#8212;</div>
+      <div class="smet-val" id="sb-ss">—</div>
     </div>
   </div>
 </div>
 <div class="wrap">
-<!-- PRICING -->
+<!-- ═══ PRICING ══════════════════════════════════════════════════════ -->
 <div id="page-pricing" class="page active">
-  <div class="pbar">
-    <span class="pbar-label">Product:</span>
-    <button class="pbtn active" onclick="setProd('loan',this)">Loan</button>
-    <button class="pbtn" onclick="setProd('cash',this)">Cash</button>
-    <button class="pbtn" onclick="setProd('tpo',this)">TPO</button>
-    <button class="pbtn" onclick="setProd('aura',this)">Aura</button>
-    <button class="pbtn" onclick="setProd('auraplus',this)">Aura+</button>
+  <div class="toolbar">
+    <div class="prod-bar">
+      <span class="prod-lbl">Product</span>
+      <button class="pbtn active" onclick="setProd('loan',this)">Loan</button>
+      <button class="pbtn" onclick="setProd('cash',this)">Cash</button>
+      <button class="pbtn" onclick="setProd('tpo',this)">TPO</button>
+      <button class="pbtn" onclick="setProd('ppl',this)">Pre-Paid Lease</button>
+      <button class="pbtn" onclick="setProd('pplplus',this)">Pre-Paid Lease+</button>
+    </div>
+    <div class="toolbar-right">
+      <button class="tbtn del" onclick="clearPage('pricing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+      <button class="tbtn" onclick="exportPDF('pricing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17a4 4 0 004 4h10a4 4 0 004-4V7l-4-4H7a4 4 0 00-4 4v10z"/></svg>Export PDF</button>
+    </div>
   </div>
-  <div id="aura-banner" class="aura-banner hidden">
+  <div id="ppl-banner" class="ppl-banner hidden">
     <div>
-      <div style="font-size:13px;font-weight:700;color:var(--gd)">30% Upfront Discount Applied</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">Customer pays 70% of GSP upfront. Dealer fee applies to full GSP.</div>
+      <div style="font-size:12px;font-weight:700;color:var(--teal)">Pre-Paid Lease — <span id="ppl-rate-banner">25</span>/<span id="ppl-cust-banner">75</span> Split</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:2px">Customer pays <span id="ppl-cust-pct-txt">75%</span> of GSP. Dealer fee applies to full GSP.</div>
     </div>
-    <div style="display:flex;gap:20px;flex-wrap:wrap">
-      <div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Discount</div><div style="font-size:18px;font-weight:700;color:#2d6a2d" id="aura-disc">&#8212;</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Customer Pays</div><div style="font-size:18px;font-weight:700;color:var(--gd)" id="aura-net">&#8212;</div></div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">PPL Discount</div><div style="font-size:18px;font-weight:600;color:var(--teal);font-family:var(--mono)" id="ppl-disc">—</div></div>
+      <div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">Customer Pays</div><div style="font-size:18px;font-weight:600;color:var(--green);font-family:var(--mono)" id="ppl-net">—</div></div>
     </div>
   </div>
-  <div id="auraplus-refund" class="refund-wrap hidden">
-    <div class="refund-title">
-      How the 30% Refund Works
-      <span style="font-size:10px;font-weight:700;background:var(--gd);color:#fff;padding:2px 8px;border-radius:10px">AURA+</span>
-    </div>
+  <div id="pplplus-refund" class="refund-wrap hidden">
+    <div class="refund-title">Pre-Paid Lease+ — Refund Structure <span style="font-size:9px;font-weight:700;background:var(--violetBg);color:var(--violet);padding:1px 7px;border-radius:3px;border:1px solid var(--violetBdr)">PPL+</span></div>
     <div class="refund-flow">
       <div class="circ-wrap">
         <div class="circ c1"><span class="cv" id="ap-install">$0</span><span class="cl">5%</span></div>
-        <div class="circ-lbl">At Install &#8212; 5% after install</div>
+        <div class="circ-lbl">At Install</div>
       </div>
-      <div class="arrow">&#8594;</div>
+      <div class="arrow-s">→</div>
       <div class="circ-wrap">
         <div class="circ c2"><span class="cv" id="ap-pto">$0</span><span class="cl">25%</span></div>
-        <div class="circ-lbl">After PTO &#8212; 25% after PTO</div>
+        <div class="circ-lbl">After PTO</div>
       </div>
-      <div class="arrow">&#8594;</div>
+      <div class="arrow-s">→</div>
       <div class="choice-box">
-        <div style="font-size:10px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px">Customer's Choice</div>
-        <div class="cbns">
+        <div style="font-size:9px;font-weight:700;color:var(--t3);text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">Customer's Choice</div>
+        <div class="cbn-row">
           <button class="cbn active" id="cb-apply" onclick="setRefund('apply')">Apply to Loan</button>
           <button class="cbn" id="cb-cash" onclick="setRefund('cash')">Cash in Pocket</button>
         </div>
-        <div style="font-size:12px;font-weight:700;color:#2d6a2d;text-align:center" id="ap-total">$0 Total Refund</div>
+        <div style="font-size:12px;font-weight:600;color:var(--teal);text-align:center;font-family:var(--mono)" id="ap-total">$0 Total Refund</div>
       </div>
     </div>
   </div>
   <div id="tpo-section" class="hidden">
     <div class="card">
-      <div class="ch s">TPO &#8212; Rate &amp; Escalator</div>
+      <div class="ch teal">TPO — Rate &amp; Escalator</div>
       <div class="cb">
         <div class="tpo-toggle">
           <button class="tto active" id="tm-in" onclick="setTPO('input')">Input Rate</button>
@@ -229,114 +436,107 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
           <div class="fg"><label>Escalator % / Year</label><input type="number" id="tpo-esc" placeholder="2.9" step="0.1" oninput="calcTPO()"></div>
           <div class="fg"><label>Contract Term (Years)</label><input type="number" id="tpo-term" placeholder="25" oninput="calcTPO()"></div>
         </div>
-        <!-- EPC → GSP block -->
-        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #eee">
-          <div style="font-size:10px;font-weight:700;color:var(--sm);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">EPC &#8594; Gross System Price</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;align-items:end">
-            <div class="fg">
-              <label>EPC ($/W)</label>
-              <input type="number" id="tpo-epc" placeholder="2.54" step="0.01" oninput="calcTPO()">
-            </div>
-            <div class="fg">
-              <label>System Size (W)</label>
-              <input type="number" id="tpo-epc-sz" placeholder="15000" oninput="calcTPO()">
-            </div>
-            <div class="fg">
-              <label>Gross System Price</label>
-              <div style="background:var(--gp);border:1.5px solid var(--gb);border-radius:6px;padding:7px 10px;font-size:18px;font-weight:700;color:var(--gd);min-height:34px;display:flex;align-items:center" id="tpo-gsp">&#8212;</div>
-            </div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--b0)">
+          <div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px">EPC → Gross System Price</div>
+          <div class="g3" style="align-items:end">
+            <div class="fg"><label>EPC ($/W)</label><input type="number" id="tpo-epc" placeholder="2.54" step="0.01" oninput="calcTPO()"></div>
+            <div class="fg"><label>System Size (W)</label><input type="number" id="tpo-epc-sz" placeholder="15000" oninput="calcTPO()"></div>
+            <div class="fg"><label>Gross System Price</label><div class="out-f" id="tpo-gsp" style="font-size:16px;color:var(--green)">—</div></div>
           </div>
         </div>
-        <div id="tpo-calc-in" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px solid #eee">
-          <div style="font-size:10px;font-weight:700;color:var(--sm);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px">Calculate from Target PPW</div>
+        <div id="tpo-calc-in" class="hidden" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--b0)">
+          <div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px">Calculate from Target PPW</div>
           <div class="g3">
             <div class="fg"><label>Target PPW</label><input type="number" id="tpo-tppw" placeholder="2.54" step="0.01" oninput="calcTPO()"></div>
             <div class="fg"><label>System Size (W)</label><input type="number" id="tpo-sz" placeholder="15000" oninput="calcTPO()"></div>
             <div class="fg"><label>Adders ($)</label><input type="number" id="tpo-adds" placeholder="0" oninput="calcTPO()"></div>
           </div>
-          <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
-            <div style="background:var(--gp);border:1.5px solid var(--gb);border-radius:6px;padding:9px 14px"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Calc Monthly Rate</div><div style="font-size:18px;font-weight:700;color:var(--gd)" id="tpo-crate">&#8212;</div></div>
-            <div style="background:var(--sp);border:1.5px solid var(--sb);border-radius:6px;padding:9px 14px"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">PPW from Input Rate</div><div style="font-size:18px;font-weight:700;color:var(--sm)" id="tpo-ppwr">&#8212;</div></div>
+          <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+            <div style="background:var(--greenBg);border:1px solid var(--greenBdr);border-radius:var(--r);padding:10px 15px"><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">Calc Monthly Rate</div><div style="font-size:16px;font-weight:600;color:var(--green);font-family:var(--mono);margin-top:3px" id="tpo-crate">—</div></div>
+            <div style="background:var(--tealBg);border:1px solid var(--tealBdr);border-radius:var(--r);padding:10px 15px"><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">PPW from Input Rate</div><div style="font-size:16px;font-weight:600;color:var(--teal);font-family:var(--mono);margin-top:3px" id="tpo-ppwr">—</div></div>
           </div>
         </div>
-        <div id="tpo-esc-wrap" class="hidden" style="margin-top:14px">
-          <div style="font-size:10px;font-weight:700;color:var(--sm);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">Escalator Impact Over Term</div>
+        <div id="tpo-esc-wrap" class="hidden" style="margin-top:16px">
+          <div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.6px">Escalator Impact Over Term</div>
           <div style="overflow-x:auto"><table class="ytable" id="tpoEscTbl"></table></div>
         </div>
       </div>
     </div>
   </div>
-  <!-- A: System Details + inline metrics bar -->
   <div class="card">
-    <div class="ch g">A &#8212; System Details</div>
+    <div class="ch blue">A — System Details</div>
     <div class="cb">
-      <div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr 1fr;gap:11px;margin-bottom:11px">
+      <div class="g5">
         <div class="fg"><label>Gross System Price (GSP) $</label><input type="number" id="gsp" placeholder="83013.96" oninput="calc()"></div>
         <div class="fg df-field"><label>Dealer Fee % (decimal)</label><input type="number" id="dfp" placeholder="0.3695" step="0.0001" oninput="calc()"></div>
         <div class="fg"><label>Baseline PPW $</label><input type="number" id="bppw" placeholder="1.70" step="0.01" oninput="calc()"></div>
         <div class="fg"><label>Mod Wattage (W)</label><input type="number" id="modw" placeholder="410" oninput="calc()"></div>
         <div class="fg"><label>Mod QTY</label><input type="number" id="modq" placeholder="37" oninput="calc()"></div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(8,1fr);background:#f7f9f7;border:1px solid #e0ede0;border-radius:8px;overflow:hidden">
-        <div class="imet df-field"><div class="imet-l">Dealer Fee</div><div class="imet-v" id="om-df">&#8212;</div></div>
-        <div class="imet"><div class="imet-l">Adder Total</div><div class="imet-v" id="om-at">&#8212;</div></div>
-        <div class="imet"><div class="imet-l">Gross PPW</div><div class="imet-v" id="om-gp">&#8212;</div></div>
-        <div class="imet"><div class="imet-l">Adder PPW</div><div class="imet-v" id="om-ap">&#8212;</div></div>
-        <div class="imet"><div class="imet-l">To Baseline PPW</div><div class="imet-v" id="om-tbp">&#8212;</div></div>
-        <div class="imet"><div class="imet-l">To Baseline $</div><div class="imet-v" id="om-tb$">&#8212;</div></div>
-        <div class="imet"><div class="imet-l">Total Adders+DF</div><div class="imet-v" id="om-tot">&#8212;</div></div>
-        <div class="imet" style="border-right:none"><div class="imet-l">System Size</div><div class="imet-v" id="om-ss">&#8212;</div></div>
+      <div class="mstrip">
+        <div class="mi df-field"><div class="mi-l">Dealer Fee</div><div class="mi-v" id="om-df">—</div></div>
+        <div class="mi"><div class="mi-l">Adder Total</div><div class="mi-v" id="om-at">—</div></div>
+        <div class="mi"><div class="mi-l">Gross PPW</div><div class="mi-v" id="om-gp">—</div></div>
+        <div class="mi"><div class="mi-l">Adder PPW</div><div class="mi-v" id="om-ap">—</div></div>
+        <div class="mi"><div class="mi-l">To Baseline PPW</div><div class="mi-v" id="om-tbp">—</div></div>
+        <div class="mi"><div class="mi-l">To Baseline $</div><div class="mi-v" id="om-tb$">—</div></div>
+        <div class="mi"><div class="mi-l">Total Adders+DF</div><div class="mi-v" id="om-tot">—</div></div>
+        <div class="mi"><div class="mi-l">System Size</div><div class="mi-v" id="om-ss">—</div></div>
       </div>
     </div>
   </div>
-  <!-- B + C side by side -->
-  <div class="tc" style="align-items:start">
+  <div class="two-col" style="align-items:start">
     <div class="card" style="margin-bottom:0">
-      <div class="ch g">B &#8212; Adders</div>
+      <div class="ch blue">B — Adders</div>
       <div class="cb" style="overflow-x:auto">
-        <table class="at"><thead><tr><th>#</th><th>Type</th><th>Qty</th><th>Amount ($)</th><th>Total ($)</th></tr></thead><tbody id="adderBody"></tbody></table>
-        <div style="margin-top:8px;display:flex;gap:7px">
-          <button onclick="addRow()" style="padding:5px 12px;background:var(--gd);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">+ Add Row</button>
-          <button onclick="clearRows()" style="padding:5px 12px;background:#b71c1c;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700">Clear</button>
+        <table class="at-tbl"><thead><tr><th>#</th><th>Type</th><th>Qty</th><th>Amount ($)</th><th>Total ($)</th></tr></thead><tbody id="adderBody"></tbody></table>
+        <div style="margin-top:10px;display:flex;gap:6px">
+          <button onclick="addRow()" style="padding:5px 13px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:11px;font-weight:700;font-family:var(--sans)">+ Add Row</button>
+          <button onclick="clearRows()" style="padding:5px 13px;background:var(--redBg);color:var(--red);border:1px solid var(--redBdr);border-radius:var(--r);cursor:pointer;font-size:11px;font-weight:700;font-family:var(--sans)">Clear Rows</button>
         </div>
       </div>
     </div>
     <div class="card" style="margin-bottom:0">
-      <div class="ch s">C &#8212; Adjustments</div>
+      <div class="ch slate">C — Adjustments</div>
       <div class="cb">
-        <div class="adj">
-          <div class="adj-t">Target Net PPW</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end">
-            <div class="fg"><label>Target PPW</label><input type="number" id="tppw" placeholder="2.42" step="0.01" oninput="calcAdj()"></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Loan GSP</div><div class="out" id="adj-loan" style="font-size:12px">&#8212;</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">EPC PPW</div><div class="out" id="adj-epc" style="font-size:12px">&#8212;</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Cash Price</div><div class="out" id="adj-cash2" style="font-size:12px">&#8212;</div></div>
+        <div class="adj-b">
+          <div class="adj-h">Target Net PPW</div>
+          <div class="adj-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end">
+              <div class="fg"><label>Target PPW</label><input type="number" id="tppw" placeholder="2.42" step="0.01" oninput="calcAdj()"></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Loan GSP</div><div class="out-f" id="adj-loan">—</div></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">EPC PPW</div><div class="out-f" id="adj-epc">—</div></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Cash Price</div><div class="out-f" id="adj-cash2">—</div></div>
+            </div>
           </div>
         </div>
-        <div class="adj">
-          <div class="adj-t">Target Contract Price</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end">
-            <div class="fg"><label>Target Contract Price ($)</label><input type="number" id="tcon" placeholder="22984.13" oninput="calcAdj()"></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Loan PPW</div><div class="out" id="adj-tc-loan" style="font-size:12px">&#8212;</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">EPC PPW</div><div class="out" id="adj-tc-epc" style="font-size:12px">&#8212;</div></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">Cash PPW</div><div class="out" id="adj-tc-cash" style="font-size:12px">&#8212;</div></div>
+        <div class="adj-b">
+          <div class="adj-h">Target Contract Price</div>
+          <div class="adj-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:end">
+              <div class="fg"><label>Target Contract Price ($)</label><input type="number" id="tcon" placeholder="22984.13" oninput="calcAdj()"></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Loan PPW</div><div class="out-f" id="adj-tc-loan">—</div></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">EPC PPW</div><div class="out-f" id="adj-tc-epc">—</div></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Cash PPW</div><div class="out-f" id="adj-tc-cash">—</div></div>
+            </div>
           </div>
         </div>
-        <div class="adj">
-          <div class="adj-t">Waive Adder Amount</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end">
-            <div class="fg"><label>Amount to Waive ($)</label><input type="number" id="waive" placeholder="0" oninput="calcAdj()"></div>
-            <div><div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:2px;text-transform:uppercase">New Net PPW</div><div class="out" id="adj-waive" style="font-size:12px">&#8212;</div></div>
+        <div class="adj-b">
+          <div class="adj-h">Waive Adder Amount</div>
+          <div class="adj-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end">
+              <div class="fg"><label>Amount to Waive ($)</label><input type="number" id="waive" placeholder="0" oninput="calcAdj()"></div>
+              <div><div style="font-size:9px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">New Net PPW</div><div class="out-f" id="adj-waive">—</div></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- Utility Comparison -->
-  <div class="card" style="margin-top:14px">
-    <div class="ch s" style="display:flex;justify-content:space-between;align-items:center">
+  <div class="card" style="margin-top:16px">
+    <div class="ch slate" style="display:flex;justify-content:space-between">
       <span>Utility Comparison</span>
-      <div class="yr-toggle">
+      <div class="yr-btns">
         <button class="ytbtn active" id="yr25btn" onclick="setYears(25,this)">25 Yrs</button>
         <button class="ytbtn" id="yr30btn" onclick="setYears(30,this)">30 Yrs</button>
       </div>
@@ -348,48 +548,45 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="fg"><label>Remaining Bill w/ Solar ($/mo)</label><input type="number" id="util-solar" placeholder="15" oninput="calcUtil()"></div>
         <div class="fg"><label>Monthly Solar Payment ($/mo)</label><input type="number" id="util-pay" placeholder="Auto" oninput="calcUtil()"></div>
       </div>
-      <div class="savings-bar">
+      <div class="savings-row">
         <div>
-          <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px" id="util-yr-label">Est. 25-Year Savings</div>
-          <div style="font-size:24px;font-weight:700;color:#2d6a2d" id="util-savings">&#8212;</div>
+          <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px" id="util-yr-label">Est. 25-Year Savings</div>
+          <div style="font-size:24px;font-weight:600;color:var(--green);font-family:var(--mono);margin-top:2px" id="util-savings">—</div>
         </div>
-        <div style="font-size:11px;color:var(--muted);font-style:italic">Click legend items to show/hide lines</div>
+        <div style="font-size:10px;color:var(--t4);font-style:italic">Click legend items to toggle</div>
       </div>
-      <div class="chart-wrap"><canvas id="utilChart"></canvas></div>
+      <div class="chart-bg"><canvas id="utilChart"></canvas></div>
       <div class="chart-legend">
-        <div class="leg-item" onclick="toggleLine(0)"><div class="leg-dot" style="background:#e53935"></div>Utility (No Solar)</div>
-        <div class="leg-item" onclick="toggleLine(1)"><div class="leg-dot" style="background:#43a047"></div>Solar (Net of Incentives)</div>
+        <div class="leg-item" onclick="toggleLine(0)"><div class="leg-dot" style="background:var(--red)"></div>Utility (No Solar)</div>
+        <div class="leg-item" onclick="toggleLine(1)"><div class="leg-dot" style="background:var(--green)"></div>Solar (Net of Incentives)</div>
       </div>
-      <div style="margin-top:14px;overflow-x:auto">
-        <table class="ytable">
-          <thead><tr><th>Year</th><th>Utility (No Solar)</th><th>Solar Cost</th><th>Est. Savings</th></tr></thead>
-          <tbody id="utilBody"></tbody>
-        </table>
+      <div style="margin-top:16px;overflow-x:auto">
+        <table class="ytable"><thead><tr><th>Year</th><th>Utility (No Solar)</th><th>Solar Cost</th><th>Est. Savings</th></tr></thead><tbody id="utilBody"></tbody></table>
       </div>
     </div>
   </div>
 </div>
-<!-- BASIC -->
+<!-- ═══ BASIC ══════════════════════════════════════════════════════════ -->
 <div id="page-basic" class="page">
-  <div class="tc">
+  <div class="toolbar"><div></div><div class="toolbar-right">
+    <button class="tbtn del" onclick="clearPage('basic')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+    <button class="tbtn" onclick="exportPDF('basic')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17a4 4 0 004 4h10a4 4 0 004-4V7l-4-4H7a4 4 0 00-4 4v10z"/></svg>Export PDF</button>
+  </div></div>
+  <div class="two-col">
     <div class="card">
-      <div class="ch g">Target PPW &#8594; EPC</div>
+      <div class="ch blue">Target PPW → EPC</div>
       <div class="cb">
         <div class="g3 gap">
           <div class="fg"><label>Target PPW</label><input type="number" id="sr-t" placeholder="3.19" step="0.01" oninput="calcBasic()"></div>
           <div class="fg"><label>Adders ($)</label><input type="number" id="sr-a" placeholder="6256.50" oninput="calcBasic()"></div>
           <div class="fg"><label>System Size (W)</label><input type="number" id="sr-s" placeholder="7150" oninput="calcBasic()"></div>
         </div>
-        <div class="res-big" style="background:var(--gp);border:1.5px solid var(--gb)">
-          <div style="font-size:10px;font-weight:700;color:var(--gd);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">EPC PPW</div>
-          <div class="rv2" style="color:var(--gd)" id="sr-r">&#8212;</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">$/W</div>
-        </div>
-        <div style="font-size:10px;color:#aaa;margin-top:6px;font-style:italic">((Target PPW x Size) + Adders) / Size</div>
+        <div class="big-res"><div class="lbl">EPC PPW</div><div class="num" id="sr-r">—</div><div class="unit">$/W</div></div>
+        <div class="fnote">((Target PPW × Size) + Adders) / Size</div>
       </div>
     </div>
     <div class="card">
-      <div class="ch s">Target PPW &#8594; Loan GSP</div>
+      <div class="ch green">Target PPW → Loan GSP</div>
       <div class="cb">
         <div class="g2 gap">
           <div class="fg"><label>Target PPW</label><input type="number" id="ml-t" placeholder="2.54" step="0.01" oninput="calcBasic()"></div>
@@ -397,224 +594,596 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
           <div class="fg"><label>Adders ($)</label><input type="number" id="ml-a" placeholder="31207.20" oninput="calcBasic()"></div>
           <div class="fg"><label>Dealer Fee % (decimal)</label><input type="number" id="ml-d" placeholder="0" step="0.0001" oninput="calcBasic()"></div>
         </div>
-        <div class="res-big" style="background:var(--sp);border:1.5px solid var(--sb)">
-          <div style="font-size:10px;font-weight:700;color:var(--sd);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">Gross System Price</div>
-          <div class="rv2" style="color:var(--sd)" id="ml-r">&#8212;</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">$</div>
-        </div>
-        <div style="font-size:10px;color:#aaa;margin-top:6px;font-style:italic">((Target PPW x Size) + Adders) / (1 - Dealer Fee %)</div>
+        <div class="big-res" style="border-color:var(--greenBdr)"><div class="lbl">Gross System Price</div><div class="num green" id="ml-r">—</div><div class="unit">$</div></div>
+        <div class="fnote">((Target PPW × Size) + Adders) / (1 − Dealer Fee %)</div>
       </div>
     </div>
   </div>
 </div>
-<!-- DF -->
-<div id="page-df" class="page">
-  <div class="card" style="margin-bottom:14px">
-    <div class="ch g">Dealer Fee Calculator</div>
-    <div class="cb"><p style="font-size:12px;color:var(--muted)">Applies to Loan, Aura, and Aura+. Enter the system price, loan term, APR, and dealer fee to calculate.</p></div>
+<!-- ═══ PPL CALCS ════════════════════════════════════════════════════ -->
+<div id="page-ppl" class="page">
+  <div class="toolbar"><div></div><div class="toolbar-right">
+    <button class="tbtn del" onclick="clearPage('ppl')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+    <button class="tbtn" onclick="exportPDF('ppl')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17a4 4 0 004 4h10a4 4 0 004-4V7l-4-4H7a4 4 0 00-4 4v10z"/></svg>Export PDF</button>
+  </div></div>
+  <!-- PPL Rate selector - contextual to this tab -->
+  <div class="ppl-rate-bar">
+    <span class="lbl">PPL Rate</span>
+    <span class="rate-num" id="ppl-rate-display">25%</span>
+    <div style="display:flex;gap:8px">
+      <label class="ppl-chk-wrap" id="dc-wrap">
+        <input type="checkbox" id="chk-dc" onchange="updatePPLRate()">
+        <span>Domestic Content</span>
+      </label>
+      <label class="ppl-chk-wrap" id="ec-wrap">
+        <input type="checkbox" id="chk-ec" onchange="updatePPLRate()">
+        <span>Energy Community</span>
+      </label>
+    </div>
+    <span class="ppl-rate-rule">30% if Domestic Content or Energy Community applies — otherwise 25%</span>
   </div>
-  <div class="df-block">
-    <div class="df-hdr">DF Calculator</div>
-    <div class="df-body">
+  <div class="sec-lbl">Target PPW — Cash (Pre-Paid Lease)</div>
+  <div class="ppl-section" style="margin-bottom:22px">
+    <div class="ppl-card">
+      <div class="ppl-ch"><span class="ppl-ch-title">Calc 1 — Target PPW (Cash)</span><span class="badge ppl">Pre-Paid Lease</span></div>
+      <div class="ppl-body">
+        <div class="ppl-row"><div class="fg"><label>Target PPW ($/W)</label><input type="number" id="c1-tppw" placeholder="3.63" step="0.01" oninput="calcPPL()"></div><div class="fg"><label>System Size (W)</label><input type="number" id="c1-sz" placeholder="4920" oninput="calcPPL()"></div></div>
+        <div class="ppl-row"><div class="fg"><label>Current GSP ($)</label><input type="number" id="c1-gsp" placeholder="19998.85" oninput="calcPPL()"></div><div class="fg"><label>Current Adders incl. Escrow ($)</label><input type="number" id="c1-adders" placeholder="10595.00" oninput="calcPPL()"></div></div>
+        <div class="ppl-divider"></div>
+        <div class="ppl-mid">
+          <div class="ppl-stat"><label>Current Cash Escrow</label><div class="val" id="c1-escrow">—</div></div>
+          <div class="ppl-stat"><label>New GSP (Pre-Adder)</label><div class="val" id="c1-newgsp">—</div></div>
+          <div class="ppl-stat"><label>Escrow Adder Required</label><div class="val" id="c1-escrow2">—</div></div>
+        </div>
+        <div class="ppl-req"><label>GSP Required</label><span class="val" id="c1-gsp-req">—</span></div>
+        <div class="split-box"><div class="split-hdr" id="c1-split-hdr">Split — 25 / 75</div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease Co.</span><span class="amt tl" id="c1-ppl">—</span></div>
+          <div class="split-row"><span class="lbl">Cash</span><span class="amt grn" id="c1-cash">—</span></div>
+        </div>
+        <div class="ppl-note">Combined may differ from GSP by ±$0.01 — adjust Cash if so</div>
+      </div>
+    </div>
+    <div class="ppl-card">
+      <div class="ppl-ch"><span class="ppl-ch-title">Calc 2 — Target PPW (Cash)</span><span class="badge ppl">Pre-Paid Lease</span></div>
+      <div class="ppl-body">
+        <div class="ppl-row"><div class="fg"><label>Target PPW ($/W)</label><input type="number" id="c2-tppw" placeholder="3.63" step="0.01" oninput="calcPPL()"></div><div class="fg"><label>System Size (W)</label><input type="number" id="c2-sz" placeholder="4920" oninput="calcPPL()"></div></div>
+        <div class="ppl-row"><div class="fg"><label>Current GSP ($)</label><input type="number" id="c2-gsp" placeholder="19998.85" oninput="calcPPL()"></div><div class="fg"><label>Current Adders incl. Escrow ($)</label><input type="number" id="c2-adders" placeholder="10595.00" oninput="calcPPL()"></div></div>
+        <div class="ppl-divider"></div>
+        <div class="ppl-mid">
+          <div class="ppl-stat"><label>Current Cash Escrow</label><div class="val" id="c2-escrow">—</div></div>
+          <div class="ppl-stat"><label>New GSP (Pre-Adder)</label><div class="val" id="c2-newgsp">—</div></div>
+          <div class="ppl-stat"><label>Escrow Adder Required</label><div class="val" id="c2-escrow2">—</div></div>
+        </div>
+        <div class="ppl-req"><label>GSP Required</label><span class="val" id="c2-gsp-req">—</span></div>
+        <div class="split-box"><div class="split-hdr" id="c2-split-hdr">Split — 25 / 75</div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease Co.</span><span class="amt tl" id="c2-ppl">—</span></div>
+          <div class="split-row"><span class="lbl">Cash</span><span class="amt grn" id="c2-cash">—</span></div>
+        </div>
+        <div class="ppl-note">Combined may differ from GSP by ±$0.01 — adjust Cash if so</div>
+      </div>
+    </div>
+  </div>
+  <div class="sec-lbl">Target PPW — Loan (Credit Human)</div>
+  <div class="ppl-section" style="margin-bottom:22px">
+    <div class="ppl-card">
+      <div class="ppl-ch"><span class="ppl-ch-title">Calc 3 — Target PPW (Credit Human)</span><span class="badge ppl">Pre-Paid Lease</span></div>
+      <div class="ppl-body">
+        <div class="ppl-row g3">
+          <div class="fg"><label>Target PPW ($/W)</label><input type="number" id="c3-tppw" placeholder="2.45" step="0.01" oninput="calcPPL()"></div>
+          <div class="fg"><label>System Size (W)</label><input type="number" id="c3-sz" placeholder="25010" oninput="calcPPL()"></div>
+          <div class="fg"><label>Current Adders ($)</label><input type="number" id="c3-adders" placeholder="55416.20" oninput="calcPPL()"></div>
+        </div>
+        <div class="ppl-divider"></div>
+        <div class="ppl-req"><label>GSP Required</label><span class="val" id="c3-gsp-req">—</span></div>
+        <div class="split-box"><div class="split-hdr" id="c3-split-hdr">Split — 25 / 75</div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease Co.</span><span class="amt tl" id="c3-ppl">—</span></div>
+          <div class="split-row"><span class="lbl">Credit Human / Loan</span><span class="amt grn" id="c3-loan">—</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ppl-card">
+      <div class="ppl-ch"><span class="ppl-ch-title">Calc 4 — Target PPW (Credit Human)</span><span class="badge plus">Pre-Paid Lease+</span></div>
+      <div class="ppl-body">
+        <div class="ppl-row"><div class="fg"><label>Target PPW ($/W)</label><input type="number" id="c4-tppw" placeholder="2.40" step="0.01" oninput="calcPPL()"></div><div class="fg"><label>System Size (W)</label><input type="number" id="c4-sz" placeholder="13760" oninput="calcPPL()"></div></div>
+        <div class="ppl-row"><div class="fg"><label>Current GSP ($)</label><input type="number" id="c4-gsp" placeholder="51396.80" oninput="calcPPL()"></div><div class="fg"><label>Current Adders incl. A+ Refund ($)</label><input type="number" id="c4-adders" placeholder="22865.80" oninput="calcPPL()"></div></div>
+        <div class="ppl-divider"></div>
+        <div class="ppl-mid g2">
+          <div class="ppl-stat"><label>Current A+ Refund</label><div class="val" id="c4-refund">—</div></div>
+          <div class="ppl-stat"><label>Adder (CH)</label><div class="val" id="c4-adderch">—</div></div>
+          <div class="ppl-stat"><label>New GSP (CH)</label><div class="val" id="c4-newgsp">—</div></div>
+          <div class="ppl-stat"><label>GSP 1% Factor</label><div class="val" id="c4-gsp1pct">—</div></div>
+        </div>
+        <div class="ppl-req"><label>GSP Required</label><span class="val" id="c4-gsp-req">—</span></div>
+        <div class="split-box"><div class="split-hdr" id="c4-split-hdr">Split — ≈23.08% / ≈76.92% (3/13 &amp; 10/13)</div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease+ Co.</span><span class="amt tl" id="c4-ppl">—</span></div>
+          <div class="split-row"><span class="lbl">Credit Human / Loan</span><span class="amt grn" id="c4-loan">—</span></div>
+          <div class="split-row"><span class="lbl">A+ Refund Adder</span><span class="amt vl" id="c4-refund2">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sec-lbl">GSP Breakdown &amp; Reverse Calculators</div>
+  <div class="ppl-section">
+    <div class="ppl-card">
+      <div class="ppl-ch"><span class="ppl-ch-title">Calc 5 — GSP to Product Pricing</span><span class="badge rev">Reverse</span></div>
+      <div class="ppl-body">
+        <div class="fg gap"><label>Gross System Price ($)</label><input type="number" id="c5-gsp" placeholder="98044.71" oninput="calcPPL()"></div>
+        <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px">Pre-Paid Lease</div>
+        <div class="split-box" style="margin-bottom:12px"><div class="split-hdr" id="c5-split-hdr">Standard Split</div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease Co.</span><span class="amt tl" id="c5-ppl-std">—</span></div>
+          <div class="split-row"><span class="lbl">Cash or Credit Human</span><span class="amt grn" id="c5-cash-std">—</span></div>
+        </div>
+        <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px">Pre-Paid Lease+</div>
+        <div class="split-box"><div class="split-hdr">Plus Split (fixed 3/13 &amp; 10/13)</div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease+ Co. (23.08%)</span><span class="amt tl" id="c5-ppl-plus">—</span></div>
+          <div class="split-row"><span class="lbl">Credit Human — Amount Due (76.92%)</span><span class="amt grn" id="c5-ch-plus">—</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ppl-card">
+      <div class="ppl-ch"><span class="ppl-ch-title">Calc 6 — Loan Amount → GSP</span><span class="badge rev">Reverse</span></div>
+      <div class="ppl-body">
+        <div class="fg gap"><label>Cash or Credit Human Amount ($)</label><input type="number" id="c6-loan" placeholder="68983.11" oninput="calcPPL()"></div>
+        <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px">Pre-Paid Lease — Back to GSP</div>
+        <div class="split-box" style="margin-bottom:12px"><div class="split-hdr" id="c6-split-hdr">Standard Reverse</div>
+          <div class="split-row"><span class="lbl">GSP</span><span class="amt grn" id="c6-gsp-std">—</span></div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease Co.</span><span class="amt tl" id="c6-ppl-std">—</span></div>
+          <div class="split-row"><span class="lbl">Cash Amount Due</span><span class="amt" id="c6-cash-std">—</span></div>
+        </div>
+        <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px">Pre-Paid Lease+ — Back to GSP</div>
+        <div class="split-box"><div class="split-hdr">Plus Reverse (fixed 3/13 &amp; 10/13)</div>
+          <div class="split-row"><span class="lbl">GSP</span><span class="amt grn" id="c6-gsp-plus">—</span></div>
+          <div class="split-row"><span class="lbl">Pre-Paid Lease+ Co. (23.08%)</span><span class="amt tl" id="c6-ppl-plus">—</span></div>
+          <div class="split-row"><span class="lbl">Net Amount Due</span><span class="amt vl" id="c6-net-plus">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══ DF ═══════════════════════════════════════════════════════════ -->
+<div id="page-df" class="page">
+  <div class="toolbar"><div></div><div class="toolbar-right">
+    <button class="tbtn del" onclick="clearPage('df')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+    <button class="tbtn" onclick="exportPDF('df')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17a4 4 0 004 4h10a4 4 0 004-4V7l-4-4H7a4 4 0 00-4 4v10z"/></svg>Export PDF</button>
+  </div></div>
+  <div class="card">
+    <div class="ch amber">Dealer Fee Calculator</div>
+    <div class="cb">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:16px">Applies to Loan, Pre-Paid Lease, and Pre-Paid Lease+.</div>
       <div class="g4 gap">
         <div class="fg"><label>System Price ($)</label><input type="number" id="df-p" placeholder="96393.57" oninput="calcDF()"></div>
         <div class="fg"><label>Loan Term (Years)</label><input type="number" id="df-term-yr" placeholder="25" oninput="calcDF()"></div>
         <div class="fg"><label>APR %</label><input type="number" id="df-apr" placeholder="2.99" step="0.01" oninput="calcDF()"></div>
         <div class="fg"><label>Dealer Fee % (decimal)</label><input type="number" id="df-man" placeholder="0.1825" step="0.0001" oninput="calcDF()"></div>
       </div>
-      <div class="fg gap" style="max-width:280px">
-        <label>Contract Signature Date</label>
-        <input type="date" id="df-date" oninput="calcDF()">
-      </div>
-      <div class="g3" style="gap:12px">
-        <div style="background:var(--gp);border:1.5px solid var(--gb);border-radius:8px;padding:14px;text-align:center">
-          <div style="font-size:10px;font-weight:700;color:var(--gd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Dealer Fee</div>
-          <div style="font-size:26px;font-weight:700;color:var(--gd)" id="df-fee">&#8212;</div>
+      <div class="fg gap" style="max-width:260px"><label>Contract Signature Date</label><input type="date" id="df-date" oninput="calcDF()"></div>
+      <div class="g3" style="gap:14px">
+        <div style="background:var(--greenBg);border:1px solid var(--greenBdr);border-radius:var(--r2);padding:18px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Dealer Fee</div>
+          <div style="font-size:28px;font-weight:600;color:var(--green);font-family:var(--mono)" id="df-fee">—</div>
         </div>
-        <div style="background:var(--sp);border:1.5px solid var(--sb);border-radius:8px;padding:14px;text-align:center">
-          <div style="font-size:10px;font-weight:700;color:var(--sd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Expiration (+180 days)</div>
-          <div style="font-size:18px;font-weight:700;color:var(--sd)" id="df-exp">&#8212;</div>
+        <div style="background:var(--blueBg);border:1px solid var(--blueBdr);border-radius:var(--r2);padding:18px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Expiration (+180 days)</div>
+          <div style="font-size:18px;font-weight:600;color:var(--blue);font-family:var(--mono)" id="df-exp">—</div>
         </div>
-        <div style="background:var(--goldp);border:1.5px solid #ffe082;border-radius:8px;padding:14px;text-align:center">
-          <div style="font-size:10px;font-weight:700;color:#5d4000;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Fee % Applied</div>
-          <div style="font-size:26px;font-weight:700;color:#5d4000" id="df-pct">&#8212;</div>
+        <div style="background:var(--amberBg);border:1px solid var(--amberBdr);border-radius:var(--r2);padding:18px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Fee % Applied</div>
+          <div style="font-size:28px;font-weight:600;color:var(--amber);font-family:var(--mono)" id="df-pct">—</div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- ESCALATIONS -->
+<!-- ═══ ESCALATIONS ════════════════════════════════════════════════════ -->
 <div id="page-esc" class="page">
-  <div class="card">
-    <div class="ch s">Project Details</div>
-    <div class="cb">
-      <div class="g3">
-        <div class="fg"><label>System Price ($)</label><input type="number" id="ep" placeholder="86083.60" oninput="calcEsc()"></div>
-        <div class="fg"><label>System Size (W)</label><input type="number" id="es" placeholder="23780" oninput="calcEsc()"></div>
-        <div class="fg"><label>Baseline PPW</label><input type="number" id="eb" placeholder="2.54" step="0.01" oninput="calcEsc()"></div>
-        <div class="fg"><label>Adders Excl. Missed ($)</label><input type="number" id="ea" placeholder="31207.20" oninput="calcEsc()"></div>
-        <div class="fg"><label>Missed Adder Total ($)</label><input type="number" id="em" placeholder="5000" oninput="calcEsc()"></div>
-      </div>
-    </div>
+  <div class="toolbar"><div></div><div class="toolbar-right">
+    <button class="tbtn del" onclick="clearPage('esc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+    <button class="tbtn" onclick="exportPDF('esc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17a4 4 0 004 4h10a4 4 0 004-4V7l-4-4H7a4 4 0 00-4 4v10z"/></svg>Export PDF</button>
+  </div></div>
+  <div class="card"><div class="ch slate">Project Details</div>
+    <div class="cb"><div class="g3">
+      <div class="fg"><label>System Price ($)</label><input type="number" id="ep" placeholder="86083.60" oninput="calcEsc()"></div>
+      <div class="fg"><label>System Size (W)</label><input type="number" id="es" placeholder="23780" oninput="calcEsc()"></div>
+      <div class="fg"><label>Baseline PPW</label><input type="number" id="eb" placeholder="2.54" step="0.01" oninput="calcEsc()"></div>
+      <div class="fg"><label>Adders Excl. Missed ($)</label><input type="number" id="ea" placeholder="31207.20" oninput="calcEsc()"></div>
+      <div class="fg"><label>Missed Adder Total ($)</label><input type="number" id="em" placeholder="5000" oninput="calcEsc()"></div>
+    </div></div>
   </div>
-  <div class="card">
-    <div class="ch s">Financial Impact &#8212; Cost Allocation Scenarios</div>
+  <div class="card"><div class="ch slate">Financial Impact — Cost Allocation Scenarios</div>
     <div class="cb" style="overflow-x:auto">
       <table class="et">
-        <thead><tr><th>Scenario</th><th>Freedom Share</th><th>Dealer Share</th><th>Net PPW</th><th>vs Baseline</th><th style="background:var(--goldp);color:#5d4000">Commission Notes</th></tr></thead>
+        <thead><tr><th>Scenario</th><th>Freedom Share</th><th>Dealer Share</th><th>Net PPW</th><th>vs Baseline</th><th style="background:var(--amberBg);color:var(--amber)">Commission Notes</th></tr></thead>
         <tbody id="escBody"></tbody>
       </table>
     </div>
   </div>
 </div>
-<!-- CONVERSIONS -->
-<div id="page-conv" class="page">
-  <div style="max-width:560px;margin:0 auto">
-    <div class="card">
-      <div class="ch g">Energy Unit Converter</div>
-      <div class="cb">
-        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Select Conversion</div>
-        <div class="conv-toggle" id="convBtns"></div>
-        <div id="conv-acdcfields" class="hidden" style="background:var(--sp);border:1.5px solid var(--sb);border-radius:8px;padding:10px 14px;margin-bottom:12px">
-          <div style="font-size:10px;font-weight:700;color:var(--sm);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Inverter Settings</div>
-          <div class="fg" style="max-width:220px">
-            <label>Inverter Efficiency (e.g. 0.96)</label>
-            <input type="number" id="conv-eff" placeholder="0.96" step="0.001" min="0.5" max="1" value="0.96" oninput="calcConv()">
+<!-- ═══ ROOFING HIC ════════════════════════════════════════════════════ -->
+<div id="page-hic" class="page">
+  <div class="toolbar">
+    <div class="sub-tab-bar">
+      <button class="stab active" id="stab-ppl" onclick="showSubTab('hic-ppl',this)">
+        Pre-Paid Lease — 4 Options <span class="stab-badge ppl-c">PPL</span>
+      </button>
+      <button class="stab" id="stab-plus" onclick="showSubTab('hic-plus',this)">
+        Pre-Paid Lease+ — 2 Options <span class="stab-badge plus-c">PPL+</span>
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="tbtn del" onclick="clearPage('hic')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+      <button class="tbtn" onclick="exportPDF('hic')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17a4 4 0 004 4h10a4 4 0 004-4V7l-4-4H7a4 4 0 00-4 4v10z"/></svg>Export PDF</button>
+    </div>
+  </div>
+  <!-- PPL Rate selector - contextual to this tab -->
+  <div class="ppl-rate-bar">
+    <span class="lbl">PPL Rate</span>
+    <span class="rate-num" id="ppl-rate-display-hic">25%</span>
+    <div style="display:flex;gap:8px">
+      <label class="ppl-chk-wrap" id="dc-wrap-hic">
+        <input type="checkbox" id="chk-dc-hic" onchange="updatePPLRateHIC()">
+        <span>Domestic Content</span>
+      </label>
+      <label class="ppl-chk-wrap" id="ec-wrap-hic">
+        <input type="checkbox" id="chk-ec-hic" onchange="updatePPLRateHIC()">
+        <span>Energy Community</span>
+      </label>
+    </div>
+    <span class="ppl-rate-rule">30% if Domestic Content or Energy Community applies — otherwise 25%</span>
+  </div>
+  <!-- SUB-TAB: Pre-Paid Lease (4 options) -->
+  <div id="sub-hic-ppl" class="sub-page active">
+    <div class="hic-layout">
+      <!-- Inputs + Breakdown -->
+      <div>
+        <div class="hic-inputs">
+          <div class="hic-inp-hdr ch teal" style="border-radius:0">Inputs</div>
+          <div class="hic-inp-body">
+            <div class="fg"><label>Original GSP ($)</label><input type="number" id="h1-gsp" placeholder="31778.58" oninput="calcHIC1()"></div>
+            <div class="fg"><label>Adders ($)</label><input type="number" id="h1-adders" placeholder="13085.78" oninput="calcHIC1()"></div>
+            <div class="fg"><label>Full Roof Cost ($)</label><input type="number" id="h1-roof" placeholder="11396.03" oninput="calcHIC1()"></div>
+            <div class="fg"><label>System Size (W)</label><input type="number" id="h1-sz" placeholder="4100" oninput="calcHIC1()"></div>
+            <div class="fg"><label>Roof PV Coverage (%)</label><input type="number" id="h1-pvcov" placeholder="0.0" step="0.1" oninput="calcHIC1()"></div>
           </div>
         </div>
-        <div class="fg gap"><label id="conv-lbl">Value to convert</label><input type="number" id="conv-val" placeholder="Enter value..." step="any" oninput="calcConv()"></div>
+        <div class="hic-breakdown">
+          <div class="hic-bd-hdr">Original Breakdown (No HIC)</div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">GSP</span><span class="hic-bd-val" id="h1-orig-gsp">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">PPL (<span class="h1-rate-lbl">25</span>%)</span><span class="hic-bd-val" id="h1-orig-ppl">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">Loan (GSP − PPL)</span><span class="hic-bd-val" id="h1-orig-loan">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">HIC</span><span class="hic-bd-val">$0.00</span></div>
+          <div class="hic-bd-row" style="border-top:2px solid var(--b0)"><span class="hic-bd-lbl">Original Net PPW</span><span class="hic-bd-val" style="color:var(--blue)" id="h1-orig-ppw">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">Total Customer Cost</span><span class="hic-bd-val" id="h1-orig-total">—</span></div>
+        </div>
+      </div>
+      <!-- Options grid -->
+      <div>
+        <div class="hic-options four-col">
+          <!-- Option 1 -->
+          <div class="hic-opt">
+            <div class="hic-opt-hdr" style="background:var(--blueBg);border-bottom:1px solid var(--blueBdr)">
+              <div class="hic-opt-num" style="color:var(--blue)">Option 1</div>
+              <div class="hic-opt-name">Split HIC &amp; PPL</div>
+              <div class="hic-opt-sub">Keep Same PPW</div>
+            </div>
+            <div class="hic-opt-body">
+              <div class="hic-row"><span class="rl">HIC Amount</span><span class="rv" id="h1o1-hic">—</span></div>
+              <div class="hic-row"><span class="rl">New GSP</span><span class="rv" id="h1o1-gsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Base</span><span class="rv" id="h1o1-pplbase">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Amount</span><span class="rv" id="h1o1-ppl">—</span></div>
+              <div class="hic-row"><span class="rl">Loan</span><span class="rv" id="h1o1-loan">—</span></div>
+              <div class="hic-metrics">
+                <div class="hic-met-hdr">Results</div>
+                <div class="hic-met-row"><span class="ml">Net PPW</span><span class="mv" id="h1o1-ppw">—</span></div>
+                <div class="hic-met-row"><span class="ml">PPW Change</span><span class="mv zero" id="h1o1-ppwch">—</span></div>
+                <div class="hic-met-row"><span class="ml">Loan Δ</span><span class="mv" id="h1o1-loandelta">—</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Option 2 -->
+          <div class="hic-opt">
+            <div class="hic-opt-hdr" style="background:var(--greenBg);border-bottom:1px solid var(--greenBdr)">
+              <div class="hic-opt-num" style="color:var(--greenDk)">Option 2</div>
+              <div class="hic-opt-name">Split HIC &amp; PPL</div>
+              <div class="hic-opt-sub">$0 Loan Increase</div>
+            </div>
+            <div class="hic-opt-body">
+              <div class="hic-row"><span class="rl">HIC Amount</span><span class="rv" id="h1o2-hic">—</span></div>
+              <div class="hic-row"><span class="rl">New GSP</span><span class="rv" id="h1o2-gsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Base</span><span class="rv" id="h1o2-pplbase">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Amount</span><span class="rv" id="h1o2-ppl">—</span></div>
+              <div class="hic-row"><span class="rl">Loan</span><span class="rv" id="h1o2-loan">—</span></div>
+              <div class="hic-metrics">
+                <div class="hic-met-hdr">Results</div>
+                <div class="hic-met-row"><span class="ml">Net PPW</span><span class="mv" id="h1o2-ppw">—</span></div>
+                <div class="hic-met-row"><span class="ml">PPW Change</span><span class="mv dn" id="h1o2-ppwch">—</span></div>
+                <div class="hic-met-row"><span class="ml">Loan Δ</span><span class="mv zero" id="h1o2-loandelta">—</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Option 3 -->
+          <div class="hic-opt">
+            <div class="hic-opt-hdr" style="background:var(--violetBg);border-bottom:1px solid var(--violetBdr)">
+              <div class="hic-opt-num" style="color:var(--violet)">Option 3</div>
+              <div class="hic-opt-name">Swap w/ Fixed Loan</div>
+              <div class="hic-opt-sub">Alt GSP back-solve</div>
+            </div>
+            <div class="hic-opt-body">
+              <div class="hic-row"><span class="rl">HIC Amount</span><span class="rv" id="h1o3-hic">—</span></div>
+              <div class="hic-row"><span class="rl">New GSP</span><span class="rv" id="h1o3-gsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Base</span><span class="rv" id="h1o3-pplbase">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Amount</span><span class="rv" id="h1o3-ppl">—</span></div>
+              <div class="hic-row"><span class="rl">Loan</span><span class="rv" id="h1o3-loan">—</span></div>
+              <div class="hic-metrics">
+                <div class="hic-met-hdr">Results</div>
+                <div class="hic-met-row"><span class="ml">Net PPW</span><span class="mv" id="h1o3-ppw">—</span></div>
+                <div class="hic-met-row"><span class="ml">PPW Change</span><span class="mv dn" id="h1o3-ppwch">—</span></div>
+                <div class="hic-met-row"><span class="ml">Loan Δ</span><span class="mv zero" id="h1o3-loandelta">—</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Option 4 -->
+          <div class="hic-opt">
+            <div class="hic-opt-hdr" style="background:var(--orangeBg);border-bottom:1px solid var(--orangeBdr)">
+              <div class="hic-opt-num" style="color:var(--orange)">Option 4</div>
+              <div class="hic-opt-name">Full HIC</div>
+              <div class="hic-opt-sub">+ Increase Loan</div>
+            </div>
+            <div class="hic-opt-body">
+              <div class="hic-row"><span class="rl">HIC Amount</span><span class="rv" id="h1o4-hic">—</span></div>
+              <div class="hic-row"><span class="rl">New GSP</span><span class="rv" id="h1o4-gsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Base</span><span class="rv" id="h1o4-pplbase">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Amount</span><span class="rv" id="h1o4-ppl">—</span></div>
+              <div class="hic-row"><span class="rl">Loan</span><span class="rv" id="h1o4-loan">—</span></div>
+              <div class="hic-metrics">
+                <div class="hic-met-hdr">Results</div>
+                <div class="hic-met-row"><span class="ml">Net PPW</span><span class="mv" id="h1o4-ppw">—</span></div>
+                <div class="hic-met-row"><span class="ml">PPW Change</span><span class="mv up" id="h1o4-ppwch">—</span></div>
+                <div class="hic-met-row"><span class="ml">Loan Δ</span><span class="mv up" id="h1o4-loandelta">—</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SUB-TAB: Pre-Paid Lease+ (2 options) -->
+  <div id="sub-hic-plus" class="sub-page">
+    <div class="hic-layout">
+      <div>
+        <div class="hic-inputs">
+          <div class="hic-inp-hdr ch violet" style="border-radius:0">Inputs</div>
+          <div class="hic-inp-body">
+            <div class="fg"><label>Original Loan ($)</label><input type="number" id="h2-loan" placeholder="22575.42" oninput="calcHIC2()"></div>
+            <div class="fg"><label>Adders ($)</label><input type="number" id="h2-adders" placeholder="22288.94" oninput="calcHIC2()"></div>
+            <div class="fg"><label>Full Roof Cost ($)</label><input type="number" id="h2-roof" placeholder="11396.03" oninput="calcHIC2()"></div>
+            <div class="fg"><label>System Size (W)</label><input type="number" id="h2-sz" placeholder="17220" oninput="calcHIC2()"></div>
+            <div class="fg"><label>Roof PV Coverage (%)</label><input type="number" id="h2-pvcov" placeholder="38.6" step="0.1" oninput="calcHIC2()"></div>
+          </div>
+        </div>
+        <div class="hic-breakdown">
+          <div class="hic-bd-hdr">Original Breakdown (No HIC)</div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">GSP (Loan + PPL)</span><span class="hic-bd-val" id="h2-orig-gsp">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">PPL Discount (<span class="h2-rate-lbl">25</span>%)</span><span class="hic-bd-val" id="h2-orig-ppl">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">Loan</span><span class="hic-bd-val" id="h2-orig-loan">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">Re-am Principal</span><span class="hic-bd-val" id="h2-orig-ream">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">HIC</span><span class="hic-bd-val">$0.00</span></div>
+          <div class="hic-bd-row" style="border-top:2px solid var(--b0)"><span class="hic-bd-lbl">Original Net PPW</span><span class="hic-bd-val" style="color:var(--violet)" id="h2-orig-ppw">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">Total Customer Cost</span><span class="hic-bd-val" id="h2-orig-total">—</span></div>
+          <div class="hic-bd-row"><span class="hic-bd-lbl">Customer Refund (30%)</span><span class="hic-bd-val" style="color:var(--green)" id="h2-orig-refund">—</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="hic-options two-col">
+          <!-- Option 1 -->
+          <div class="hic-opt">
+            <div class="hic-opt-hdr" style="background:var(--violetBg);border-bottom:1px solid var(--violetBdr)">
+              <div class="hic-opt-num" style="color:var(--violet)">Option 1</div>
+              <div class="hic-opt-name">Keep Same Loan / PPW</div>
+              <div class="hic-opt-sub">Loan &amp; PPW stay unchanged</div>
+            </div>
+            <div class="hic-opt-body">
+              <div class="hic-row"><span class="rl">HIC Amount</span><span class="rv" id="h2o1-hic">—</span></div>
+              <div class="hic-row"><span class="rl">Total New GSP</span><span class="rv" id="h2o1-gsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL GSP</span><span class="rv" id="h2o1-pplgsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Amount</span><span class="rv" id="h2o1-ppl">—</span></div>
+              <div class="hic-row"><span class="rl">Loan</span><span class="rv" id="h2o1-loan">—</span></div>
+              <div class="hic-row"><span class="rl">Customer Refund</span><span class="rv" style="color:var(--green)" id="h2o1-refund">—</span></div>
+              <div class="hic-row"><span class="rl">Re-am Principal</span><span class="rv" id="h2o1-ream">—</span></div>
+              <div class="hic-metrics">
+                <div class="hic-met-hdr">Results</div>
+                <div class="hic-met-row"><span class="ml">Net PPW</span><span class="mv" id="h2o1-ppw">—</span></div>
+                <div class="hic-met-row"><span class="ml">PPW Change</span><span class="mv zero" id="h2o1-ppwch">—</span></div>
+                <div class="hic-met-row"><span class="ml">Loan Δ</span><span class="mv zero" id="h2o1-loandelta">—</span></div>
+                <div class="hic-met-row"><span class="ml">Customer Refund Δ</span><span class="mv dn" id="h2o1-refdelta">—</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- Option 2 -->
+          <div class="hic-opt">
+            <div class="hic-opt-hdr" style="background:var(--tealBg);border-bottom:1px solid var(--tealBdr)">
+              <div class="hic-opt-num" style="color:var(--teal)">Option 2</div>
+              <div class="hic-opt-name">Keep Same Refund</div>
+              <div class="hic-opt-sub">Loan increases to preserve refund</div>
+            </div>
+            <div class="hic-opt-body">
+              <div class="hic-row"><span class="rl">HIC Amount</span><span class="rv" id="h2o2-hic">—</span></div>
+              <div class="hic-row"><span class="rl">Total New GSP</span><span class="rv" id="h2o2-gsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL GSP</span><span class="rv" id="h2o2-pplgsp">—</span></div>
+              <div class="hic-row"><span class="rl">PPL Amount</span><span class="rv" id="h2o2-ppl">—</span></div>
+              <div class="hic-row"><span class="rl">Loan</span><span class="rv" id="h2o2-loan">—</span></div>
+              <div class="hic-row"><span class="rl">Customer Refund</span><span class="rv" style="color:var(--green)" id="h2o2-refund">—</span></div>
+              <div class="hic-row"><span class="rl">Re-am Principal</span><span class="rv" id="h2o2-ream">—</span></div>
+              <div class="hic-metrics">
+                <div class="hic-met-hdr">Results</div>
+                <div class="hic-met-row"><span class="ml">Net PPW</span><span class="mv" id="h2o2-ppw">—</span></div>
+                <div class="hic-met-row"><span class="ml">PPW Change</span><span class="mv up" id="h2o2-ppwch">—</span></div>
+                <div class="hic-met-row"><span class="ml">Loan Δ</span><span class="mv up" id="h2o2-loandelta">—</span></div>
+                <div class="hic-met-row"><span class="ml">Customer Refund Δ</span><span class="mv zero" id="h2o2-refdelta">—</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══ CONVERSIONS ════════════════════════════════════════════════════ -->
+<div id="page-conv" class="page">
+  <div class="toolbar"><div></div><div class="toolbar-right">
+    <button class="tbtn del" onclick="clearPage('conv')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>Clear</button>
+  </div></div>
+  <div style="max-width:540px;margin:0 auto">
+    <div class="card"><div class="ch blue">Energy Unit Converter</div>
+      <div class="cb">
+        <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px">Select Conversion</div>
+        <div class="conv-btns" id="convBtns"></div>
+        <div id="conv-acdcfields" class="hidden" style="background:var(--tealBg);border:1px solid var(--tealBdr);border-radius:var(--r);padding:11px 14px;margin-bottom:13px">
+          <div class="fg" style="max-width:220px"><label>Inverter Efficiency (e.g. 0.96)</label><input type="number" id="conv-eff" placeholder="0.96" step="0.001" min="0.5" max="1" value="0.96" oninput="calcConv()"></div>
+        </div>
+        <div class="fg gap"><label id="conv-lbl">Value to convert</label><input type="number" id="conv-val" placeholder="Enter value…" step="any" oninput="calcConv()"></div>
         <div class="conv-result">
-          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px" id="conv-res-lbl">Result</div>
-          <div class="big" id="conv-res">&#8212;</div>
+          <div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px" id="conv-res-lbl">Result</div>
+          <div class="big" id="conv-res">—</div>
           <div class="unit" id="conv-unit"></div>
         </div>
-        <div style="margin-top:10px;background:#f5f5f5;border-radius:5px;padding:8px 12px;font-size:11px;color:#aaa" id="conv-formula"></div>
+        <div class="fnote" id="conv-formula"></div>
       </div>
     </div>
   </div>
 </div>
-<!-- HELP -->
+<!-- ═══ HELP ═══════════════════════════════════════════════════════════ -->
 <div id="page-help" class="page">
-  <div class="tc">
+  <div class="two-col">
     <div>
-      <div class="hcard" style="border-top:3px solid var(--gl)">
-        <div style="font-size:13px;font-weight:700;color:var(--gd);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gb)">Procedure</div>
-        <ol style="padding-left:18px;font-size:13px;line-height:2.1">
-          <li>Locate the initial <strong>Contract Signature Date</strong></li>
-          <li>Determine the <strong>Baseline/Redline PPW</strong> from the Internal Adder Sheet</li>
-          <li>Check the finance portal for the product and correct <strong>Dealer Fee %</strong></li>
-          <li>Complete <strong>GSP, Mod Wattage, Mod QTY</strong> from most recently signed Contract/Change Order/EPC</li>
-          <li>Complete <strong>Adders</strong> from most recent Construction Review, PM, or AM assessment (excluding Dealer Fee)</li>
-        </ol>
+      <div class="hcard"><div class="hcard-hdr blue">Step-by-Step Procedure</div>
+        <div class="hcard-body">
+          <ol style="list-style:none;padding:0">
+            <li class="step-li"><span class="step-n">1</span><span>Locate the initial <strong>Contract Signature Date</strong> — this determines the Dealer Fee expiration (+180 days from signing).</span></li>
+            <li class="step-li"><span class="step-n">2</span><span>Set the <strong>PPL Rate</strong> in the header — check Domestic Content or Energy Community if applicable (30%), otherwise it stays at 25%.</span></li>
+            <li class="step-li"><span class="step-n">3</span><span>Confirm the <strong>Baseline / Redline PPW</strong> for the applicable state and product from your pricing reference.</span></li>
+            <li class="step-li"><span class="step-n">4</span><span>Check the finance portal for the correct <strong>Dealer Fee %</strong> for the product and loan term. Enter as a decimal (e.g. 18.25% = 0.1825).</span></li>
+            <li class="step-li"><span class="step-n">5</span><span>Enter <strong>GSP, Mod Wattage, and Mod QTY</strong> from the most recently signed Contract, Change Order, or EPC document.</span></li>
+            <li class="step-li"><span class="step-n">6</span><span>Enter all <strong>Adders</strong> from the most recent Construction Review, PM, or AM assessment. The Dealer Fee is calculated separately — do not include it in the adder list.</span></li>
+            <li class="step-li"><span class="step-n">7</span><span>For <strong>PPL deals</strong>, use the PPL Calcs tab to determine the correct GSP and split. For deals with a <strong>roof bundled in</strong>, use the Roofing HIC tab to compare structuring options.</span></li>
+          </ol>
+        </div>
       </div>
-      <div class="hcard" style="border-top:3px solid var(--gl)">
-        <div style="font-size:13px;font-weight:700;color:var(--gd);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gb)">Product Types</div>
-        <div style="font-size:13px;line-height:2.1">
-          <strong>Loan</strong> &#8212; Standard loan. Dealer fee applies. Net PPW on full GSP.<br>
-          <strong>Cash</strong> &#8212; No dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
-          <strong>TPO</strong> &#8212; Monthly rate + escalator. Outputs both PPW and monthly rate.<br>
-          <strong>Aura</strong> &#8212; Loan with dealer fee. Net PPW = (GSP - Adders) / System Size.<br>
-          <strong>Aura+</strong> &#8212; Loan with dealer fee. 5% refund at install + 25% at PTO.
+      <div class="hcard"><div class="hcard-hdr teal">PPL Rate Rules</div>
+        <div class="hcard-body">
+          <div class="info-row"><span><span class="info-tag">25% (Default)</span></span><span class="info-desc">Standard rate. No special qualifications apply. Customer pays 75% of GSP.</span></div>
+          <div class="info-row"><span><span class="info-tag">30%</span></span><span class="info-desc">Applies when the project qualifies for <strong>Domestic Content</strong> OR is located in an <strong>Energy Community</strong>. Check either box in the header. Customer pays 70% of GSP.</span></div>
+          <div class="key-note">The PPL rate set in the header automatically updates all applicable calcs across every tab — PPL Calcs, Pricing tab banners, and Roofing HIC options.</div>
         </div>
       </div>
     </div>
     <div>
-      <div class="hcard" style="border-top:3px solid var(--red)">
-        <div style="font-size:13px;font-weight:700;color:#b71c1c;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #ffcdd2">Do NOT</div>
-        <ul style="list-style:none;padding:0;font-size:13px;line-height:2.2;color:#b71c1c">
-          <li>Adjust Formulas</li><li>Paste Values into Cells</li>
-          <li>Share with outside entities or partners</li><li>Create Copies of this Calculator</li>
-        </ul>
+      <div class="hcard"><div class="hcard-hdr green">Product Types</div>
+        <div class="hcard-body">
+          <div class="info-row"><span><span class="info-tag">Loan</span></span><span class="info-desc">Standard loan. Dealer fee applies to full GSP. Net PPW = (GSP − Adders − DF) / System Size.</span></div>
+          <div class="info-row"><span><span class="info-tag">Cash</span></span><span class="info-desc">No dealer fee. Net PPW = (GSP − Adders) / System Size.</span></div>
+          <div class="info-row"><span><span class="info-tag">TPO</span></span><span class="info-desc">Monthly rate + escalator. No dealer fee. Use the escalator table to model total cost over term.</span></div>
+          <div class="info-row"><span><span class="info-tag">Pre-Paid Lease</span></span><span class="info-desc">Loan with dealer fee. The PPL company covers 25% (or 30%) of GSP upfront. Customer pays the remainder via cash or Credit Human loan.</span></div>
+          <div class="info-row"><span><span class="info-tag">Pre-Paid Lease+</span></span><span class="info-desc">Same as PPL with a 30% customer refund (5% at install, 25% at PTO). Uses ≈23.08/76.92 fixed split. Customer can apply refund to the loan or take as cash.</span></div>
+        </div>
       </div>
-      <div class="hcard" style="border-top:3px solid var(--sl)">
-        <div style="font-size:13px;font-weight:700;color:var(--sd);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--sb)">Adjustment Explanations</div>
-        <div style="font-size:13px;line-height:2">
-          <strong>Target Net PPW</strong> &#8212; Required loan GSP or EPC PPW to hit the target.<br>
-          <strong>Target Contract Price</strong> &#8212; Required PPW to achieve the target contract price.<br>
-          <strong>Waive Adder Amount</strong> &#8212; New Net PPW after waiving the entered dollar amount.
+      <div class="hcard"><div class="hcard-hdr violet">Roofing HIC — Option Summary</div>
+        <div class="hcard-body">
+          <div style="font-size:11px;color:var(--t2);margin-bottom:10px">Pre-Paid Lease tab compares 4 structuring options when a roof is bundled into a solar deal:</div>
+          <div class="info-row"><span><span class="info-tag">Option 1</span></span><span class="info-desc">Split HIC &amp; PPL, keep the same PPW. Loan increases slightly to compensate for PPL lost on the HIC portion.</span></div>
+          <div class="info-row"><span><span class="info-tag">Option 2</span></span><span class="info-desc">Split HIC &amp; PPL, $0 loan increase. PPW decreases slightly.</span></div>
+          <div class="info-row"><span><span class="info-tag">Option 3</span></span><span class="info-desc">Swap with fixed loan (alt GSP back-solve). PPW decreases more than Option 2.</span></div>
+          <div class="info-row"><span><span class="info-tag">Option 4</span></span><span class="info-desc">Full HIC transfer. Entire roof cost moves to HIC. Loan and PPW increase significantly.</span></div>
+          <div style="font-size:11px;color:var(--t2);margin:10px 0 6px">Pre-Paid Lease+ tab compares 2 options:</div>
+          <div class="info-row"><span><span class="info-tag">Option 1</span></span><span class="info-desc">Keep same loan/PPW. Customer refund decreases.</span></div>
+          <div class="info-row"><span><span class="info-tag">Option 2</span></span><span class="info-desc">Keep same customer refund. Loan increases to compensate.</span></div>
+        </div>
+      </div>
+      <div class="hcard"><div class="hcard-hdr red">Do NOT</div>
+        <div class="hcard-body">
+          <ul style="list-style:none;padding:0">
+            <li class="dont-li">Manually override or edit any calculated output</li>
+            <li class="dont-li">Enter values into read-only output fields — use input fields only</li>
+            <li class="dont-li">Share this tool with outside entities or partners</li>
+            <li class="dont-li">Create unauthorized copies of this calculator</li>
+            <li class="dont-li">Use outputs as final contract values without verifying in the finance portal</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div>
+</div><!-- /wrap -->
 <script>
+// ── GLOBAL STATE ────────────────────────────────────────────────────
+var PPL_RATE = 0.25; // default 25%, updated by checkboxes
 var chartYears=25,chartInstance=null,lineVisible=[true,true];
-function initChart(){
-  var canvas=document.getElementById('utilChart');if(!canvas)return;
-  var ctx=canvas.getContext('2d');
-  chartInstance={ctx:ctx,canvas:canvas,data:{util:[],solar:[]},labels:[],
-    draw:function(){
-      var W=this.canvas.offsetWidth,H=this.canvas.offsetHeight;
-      this.canvas.width=W;this.canvas.height=H;
-      var pad={t:20,r:20,b:40,l:56},cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-      var allVals=this.data.util.concat(this.data.solar),mx=Math.max.apply(null,allVals.concat([1]));
-      var self=this;
-      var scaleY=function(v){return pad.t+cH-((v/mx)*cH);};
-      var scaleX=function(i){return pad.l+(i/(self.labels.length-1))*cW;};
-      this.ctx.fillStyle='#fff';this.ctx.fillRect(0,0,W,H);
-      this.ctx.strokeStyle='#f0f0f0';this.ctx.lineWidth=1;
-      for(var g=0;g<=4;g++){
-        var y=pad.t+(g/4)*cH;
-        this.ctx.beginPath();this.ctx.moveTo(pad.l,y);this.ctx.lineTo(pad.l+cW,y);this.ctx.stroke();
-        this.ctx.fillStyle='#aaa';this.ctx.font='10px Calibri';this.ctx.textAlign='right';
-        this.ctx.fillText('$'+Math.round(mx*(1-g/4)/1000)+'k',pad.l-4,y+4);
-      }
-      this.ctx.fillStyle='#aaa';this.ctx.font='10px Calibri';this.ctx.textAlign='center';
-      for(var i=0;i<this.labels.length;i++){if(i%3===0||i===this.labels.length-1)this.ctx.fillText(this.labels[i],scaleX(i),H-pad.b+14);}
-      if(lineVisible[0]&&lineVisible[1]&&this.data.util.length){
-        this.ctx.beginPath();
-        for(var i=0;i<this.data.util.length;i++){if(i===0)this.ctx.moveTo(scaleX(i),scaleY(this.data.util[i]));else this.ctx.lineTo(scaleX(i),scaleY(this.data.util[i]));}
-        for(var i=this.data.solar.length-1;i>=0;i--){this.ctx.lineTo(scaleX(i),scaleY(this.data.solar[i]));}
-        this.ctx.closePath();
-        var gr=this.ctx.createLinearGradient(0,0,0,H);
-        gr.addColorStop(0,'rgba(67,160,71,0.15)');gr.addColorStop(1,'rgba(229,57,53,0.1)');
-        this.ctx.fillStyle=gr;this.ctx.fill();
-      }
-      var colors=['#e53935','#43a047'];
-      var series=[this.data.util,this.data.solar];
-      for(var si=0;si<2;si++){
-        if(!lineVisible[si]||!series[si].length)continue;
-        this.ctx.beginPath();this.ctx.strokeStyle=colors[si];this.ctx.lineWidth=2.5;this.ctx.lineJoin='round';
-        for(var i=0;i<series[si].length;i++){if(i===0)this.ctx.moveTo(scaleX(i),scaleY(series[si][i]));else this.ctx.lineTo(scaleX(i),scaleY(series[si][i]));}
-        this.ctx.stroke();
-      }
-    }
-  };
-}
-function toggleLine(i){lineVisible[i]=!lineVisible[i];if(chartInstance)chartInstance.draw();}
-var prod='loan',adderRows=[],adderCount=0,refundChoice='apply',tpoMode='input';
-var _pc={};
-function $(id){return document.getElementById(id);}
-function v(id){return parseFloat($(id)&&$(id).value)||0;}
+var prod='loan',adderRows=[],adderCount=0,refundChoice='apply',tpoMode='input',_pc={};
+function $e(id){return document.getElementById(id);}
+function v(id){return parseFloat($e(id)&&$e(id).value)||0;}
 function f$(n,d){if(d===undefined)d=2;if(isNaN(n)||!isFinite(n))return'—';return'$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
-function fN(n,d){if(d===undefined)d=2;if(isNaN(n)||!isFinite(n))return'—';return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function fN(n,d){if(d===undefined)d=2;return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
 function fP(n){if(isNaN(n)||!isFinite(n))return'—';return n.toFixed(4)+' $/W';}
-function set(id,val){var e=$(id);if(e)e.textContent=val;}
-function updateStickyBar(o){
-  var np=o.np,bp=o.bp,tbp=o.tbp,df=o.df,at=o.at,gp=o.gp,ss=o.ss,gsp=o.gsp;
-  var onPricing=$('page-pricing').classList.contains('active');
-  $('sticky-bar').classList.toggle('bar-visible',onPricing);
-  if(!onPricing)return;
-  var sbPpw=$('sb-ppw'),sbLow=$('sb-low'),sbVs=$('sb-vs');
-  if(gsp>0&&ss>0){
-    sbPpw.textContent=fP(np);
-    sbPpw.className='smet-val '+(np>=bp?'sval-green':'sval-red');
-    sbLow.classList.toggle('hidden',np>=bp);
-    sbVs.textContent='vs Baseline '+(tbp>=0?'+':'')+fP(tbp);
-  } else {sbPpw.textContent='—';sbPpw.className='smet-val';sbLow.classList.add('hidden');sbVs.textContent='vs Baseline —';}
-  $('sb-df-wrap').classList.toggle('hidden',prod==='cash'||prod==='tpo');
-  set('sb-df',f$(df));set('sb-at',f$(at));set('sb-gp',fP(gp));
-  var tbEl=$('sb-tbp');if(tbEl){tbEl.textContent=gsp>0&&ss>0?fP(tbp):'—';tbEl.className='smet-val '+(tbp>=0?'sval-green':'sval-red');}
-  set('sb-ss',ss>0?ss.toLocaleString()+' W':'—');
+function set(id,val){var e=$e(id);if(e)e.textContent=val;}
+function fDelta(n){if(isNaN(n)||!isFinite(n))return'—';var s=n>=0?'+':'';return s+f$(n);}
+function fDeltaP(n){if(isNaN(n)||!isFinite(n))return'—';var s=n>=0?'+':'';return s+fP(n);}
+// ── PPL RATE ─────────────────────────────────────────────────────────
+function _applyPPLRate(rate){
+  PPL_RATE=rate;
+  var pct=Math.round(rate*100),custPct=100-pct;
+  var col=pct===30?'var(--green)':'var(--teal)';
+  // Update both rate displays
+  ['ppl-rate-display','ppl-rate-display-hic'].forEach(function(id){
+    var el=$e(id);if(el){el.textContent=pct+'%';el.style.color=col;}
+  });
+  // Update Pricing tab PPL banner text
+  set('ppl-rate-banner',pct);set('ppl-cust-banner',custPct);
+  set('ppl-cust-pct-txt',custPct+'%');
+  // Update PPL calcs split headers
+  ['c1-split-hdr','c2-split-hdr','c3-split-hdr'].forEach(function(id){set(id,'Split — '+pct+' / '+custPct);});
+  set('c5-split-hdr','Standard Split ('+pct+'% / '+custPct+'%)');
+  set('c6-split-hdr','Standard Reverse ('+pct+'% / '+custPct+'%)');
+  // Update HIC breakdown rate labels
+  document.querySelectorAll('.h1-rate-lbl').forEach(function(el){el.textContent=pct;});
+  document.querySelectorAll('.h2-rate-lbl').forEach(function(el){el.textContent=pct;});
+  // Recalculate
+  calc();calcPPL();calcHIC1();calcHIC2();
 }
+function updatePPLRate(){
+  var dc=$e('chk-dc').checked,ec=$e('chk-ec').checked;
+  var rate=(dc||ec)?0.30:0.25;
+  // Sync HIC checkboxes
+  if($e('chk-dc-hic'))$e('chk-dc-hic').checked=dc;
+  if($e('chk-ec-hic'))$e('chk-ec-hic').checked=ec;
+  $e('dc-wrap').classList.toggle('on',dc);$e('ec-wrap').classList.toggle('on',ec);
+  if($e('dc-wrap-hic'))$e('dc-wrap-hic').classList.toggle('on',dc);
+  if($e('ec-wrap-hic'))$e('ec-wrap-hic').classList.toggle('on',ec);
+  _applyPPLRate(rate);
+}
+function updatePPLRateHIC(){
+  var dc=$e('chk-dc-hic').checked,ec=$e('chk-ec-hic').checked;
+  var rate=(dc||ec)?0.30:0.25;
+  // Sync PPL checkboxes
+  if($e('chk-dc'))$e('chk-dc').checked=dc;
+  if($e('chk-ec'))$e('chk-ec').checked=ec;
+  $e('dc-wrap-hic').classList.toggle('on',dc);$e('ec-wrap-hic').classList.toggle('on',ec);
+  if($e('dc-wrap'))$e('dc-wrap').classList.toggle('on',dc);
+  if($e('ec-wrap'))$e('ec-wrap').classList.toggle('on',ec);
+  _applyPPLRate(rate);
+}
+// ── TAB NAVIGATION ───────────────────────────────────────────────────
 function showTab(id,btn){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
-  $('page-'+id).classList.add('active');btn.classList.add('active');
-  $('sticky-bar').classList.toggle('bar-visible',id==='pricing');
+  $e('page-'+id).classList.add('active');btn.classList.add('active');
+  $e('sticky-bar').classList.toggle('bar-visible',id==='pricing');
   if(id==='pricing'&&chartInstance)setTimeout(function(){chartInstance.draw();},50);
 }
+function showSubTab(id,btn){
+  document.querySelectorAll('.sub-page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('active');});
+  $e('sub-'+id).classList.add('active');btn.classList.add('active');
+}
+// ── PRICING CALC ─────────────────────────────────────────────────────
 function setProd(p,btn){
   prod=p;
   document.querySelectorAll('.pbtn').forEach(function(b){b.classList.remove('active');});
@@ -623,14 +1192,14 @@ function setProd(p,btn){
 function updateUI(){
   var p=prod;
   document.querySelectorAll('.df-field').forEach(function(el){el.classList.toggle('hidden',p==='cash'||p==='tpo');});
-  $('aura-banner').classList.toggle('hidden',p!=='aura');
-  $('auraplus-refund').classList.toggle('hidden',p!=='auraplus');
-  $('tpo-section').classList.toggle('hidden',p!=='tpo');
+  $e('ppl-banner').classList.toggle('hidden',p!=='ppl');
+  $e('pplplus-refund').classList.toggle('hidden',p!=='pplplus');
+  $e('tpo-section').classList.toggle('hidden',p!=='tpo');
 }
 function setRefund(c){
   refundChoice=c;
-  $('cb-apply').classList.toggle('active',c==='apply');
-  $('cb-cash').classList.toggle('active',c==='cash');
+  $e('cb-apply').classList.toggle('active',c==='apply');
+  $e('cb-cash').classList.toggle('active',c==='cash');
   calc();
 }
 function initAdders(){for(var i=0;i<5;i++)addRow();}
@@ -638,69 +1207,70 @@ function addRow(){
   adderCount++;var id=adderCount;adderRows.push(id);
   var tr=document.createElement('tr');tr.id='ar-'+id;
   var auto=(id===1);
-  var td0=document.createElement('td');td0.style.cssText='color:#ccc;font-size:10px';td0.textContent=id;
-  var td1=document.createElement('td');var inp1=document.createElement('input');inp1.type='text';inp1.placeholder='Type...';inp1.id='at-'+id;inp1.oninput=calc;td1.appendChild(inp1);
-  var td2=document.createElement('td');var inp2=document.createElement('input');inp2.type='number';inp2.placeholder='0';inp2.id='aq-'+id;inp2.oninput=calc;if(auto){inp2.readOnly=true;inp2.style.cssText='background:#e8f5e9;font-weight:700';}td2.appendChild(inp2);
-  var td3=document.createElement('td');var inp3=document.createElement('input');inp3.type='number';inp3.placeholder='0.00';inp3.step='0.01';inp3.id='aa-'+id;inp3.oninput=calc;td3.appendChild(inp3);
+  var td0=document.createElement('td');td0.style.cssText='color:var(--t4);font-size:10px;padding:5px 8px;font-family:var(--mono)';td0.textContent=id;
+  var td1=document.createElement('td');var i1=document.createElement('input');i1.type='text';i1.placeholder='Type...';i1.id='at-'+id;i1.oninput=calc;td1.appendChild(i1);
+  var td2=document.createElement('td');var i2=document.createElement('input');i2.type='number';i2.placeholder='0';i2.id='aq-'+id;i2.oninput=calc;if(auto){i2.readOnly=true;i2.style.cssText='background:var(--s2);font-weight:600';}td2.appendChild(i2);
+  var td3=document.createElement('td');var i3=document.createElement('input');i3.type='number';i3.placeholder='0.00';i3.step='0.01';i3.id='aa-'+id;i3.oninput=calc;td3.appendChild(i3);
   var td4=document.createElement('td');td4.className='cc';td4.id='aT-'+id;td4.textContent='—';
   tr.appendChild(td0);tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);tr.appendChild(td4);
-  $('adderBody').appendChild(tr);
+  $e('adderBody').appendChild(tr);
 }
-function clearRows(){$('adderBody').innerHTML='';adderRows=[];adderCount=0;initAdders();calc();}
+function clearRows(){$e('adderBody').innerHTML='';adderRows=[];adderCount=0;initAdders();calc();}
 function calc(){
   var gsp=v('gsp'),dfp=(prod==='cash'||prod==='tpo')?0:v('dfp');
-  var bp=v('bppw'),mw=v('modw'),mq=v('modq');
-  var ss=mw*mq;
+  var bp=v('bppw'),mw=v('modw'),mq=v('modq'),ss=mw*mq;
   set('om-ss',ss>0?ss.toLocaleString()+' W':'—');
-  var q1=$('aq-1');if(q1&&ss>0)q1.value=ss;
+  var q1=$e('aq-1');if(q1&&ss>0)q1.value=ss;
   var at=0;
   adderRows.forEach(function(id){
-    var qty=parseFloat($('aq-'+id)&&$('aq-'+id).value)||0;
-    var amt=parseFloat($('aa-'+id)&&$('aa-'+id).value)||0;
-    var tot=qty*amt;
-    var c=$('aT-'+id);if(c)c.textContent=tot>0?f$(tot):'—';
-    at+=tot;
+    var qty=parseFloat($e('aq-'+id)&&$e('aq-'+id).value)||0;
+    var amt=parseFloat($e('aa-'+id)&&$e('aa-'+id).value)||0;
+    var tot=qty*amt;var c=$e('aT-'+id);if(c)c.textContent=tot>0?f$(tot):'—';at+=tot;
   });
-  var df=gsp*dfp,tot=df+at;
-  var gp=ss>0?gsp/ss:0,ap=ss>0?at/ss:0;
-  var np=ss>0?(gsp-tot)/ss:0;
-  var tbp=np-bp,tb$=tbp*ss;
-  set('om-df',f$(df));set('om-at',f$(at));set('om-tot',f$(tot));
-  set('om-gp',fP(gp));set('om-ap',fP(ap));
-  var tbpEl=$('om-tbp');if(tbpEl){tbpEl.textContent=gsp>0&&ss>0?fP(tbp):'—';tbpEl.className='imet-v '+(tbp>=0?'green':'red');}
-  var tb$El=$('om-tb$');if(tb$El){tb$El.textContent=gsp>0&&ss>0?f$(tb$):'—';tb$El.className='imet-v '+(tb$>=0?'green':'red');}
-  if(prod==='aura'&&gsp>0){set('aura-disc',f$(gsp*.3));set('aura-net',f$(gsp*.7));}
-  if(prod==='auraplus'&&gsp>0){set('ap-install',f$(gsp*.05,0));set('ap-pto',f$(gsp*.25,0));set('ap-total',f$(gsp*.3)+' Total Refund');}
+  var df=gsp*dfp,tot=df+at,gp=ss>0?gsp/ss:0,ap=ss>0?at/ss:0;
+  var np=ss>0?(gsp-tot)/ss:0,tbp=np-bp,tb$=tbp*ss;
+  set('om-df',f$(df));set('om-at',f$(at));set('om-tot',f$(tot));set('om-gp',fP(gp));set('om-ap',fP(ap));
+  var te=$e('om-tbp');if(te){te.textContent=gsp>0&&ss>0?fP(tbp):'—';te.className='mi-v '+(tbp>=0?'up':'dn');}
+  var te2=$e('om-tb$');if(te2){te2.textContent=gsp>0&&ss>0?f$(tb$):'—';te2.className='mi-v '+(tb$>=0?'up':'dn');}
+  if(prod==='ppl'&&gsp>0){set('ppl-disc',f$(gsp*PPL_RATE));set('ppl-net',f$(gsp*(1-PPL_RATE)));}
+  if(prod==='pplplus'&&gsp>0){set('ap-install',f$(gsp*.05,0));set('ap-pto',f$(gsp*.25,0));set('ap-total',f$(gsp*.3)+' Total Refund');}
   _pc={gsp:gsp,dfp:dfp,bp:bp,ss:ss,at:at};
   updateStickyBar({np:np,bp:bp,tbp:tbp,df:df,at:at,gp:gp,ss:ss,gsp:gsp});
   calcAdj();calcUtil();
 }
+function updateStickyBar(o){
+  var np=o.np,bp=o.bp,tbp=o.tbp,df=o.df,at=o.at,gp=o.gp,ss=o.ss,gsp=o.gsp;
+  var onP=$e('page-pricing').classList.contains('active');
+  $e('sticky-bar').classList.toggle('bar-visible',onP);
+  if(!onP)return;
+  if(gsp>0&&ss>0){
+    set('sb-ppw',fP(np));$e('sb-ppw').className='smet-val '+(np>=bp?'sval-up':'sval-dn');
+    $e('sb-low').classList.toggle('hidden',np>=bp);
+    set('sb-vs','vs Baseline '+(tbp>=0?'+':'')+fP(tbp));
+  } else{set('sb-ppw','—');$e('sb-ppw').className='smet-val';$e('sb-low').classList.add('hidden');set('sb-vs','vs Baseline —');}
+  $e('sb-df-wrap').classList.toggle('hidden',prod==='cash'||prod==='tpo');
+  set('sb-df',f$(df));set('sb-at',f$(at));set('sb-gp',fP(gp));
+  var tbe=$e('sb-tbp');if(tbe){tbe.textContent=gsp>0&&ss>0?fP(tbp):'—';tbe.className='smet-val '+(tbp>=0?'sval-up':'sval-dn');}
+  set('sb-ss',ss>0?ss.toLocaleString()+' W':'—');
+}
 function calcAdj(){
   var gsp=_pc.gsp||0,dfp=_pc.dfp||0,ss=_pc.ss||0,at=_pc.at||0;
   var tp=v('tppw'),tc=v('tcon'),wa=v('waive');
-  if(tp&&ss>0){
-    set('adj-loan',f$(dfp<1?((tp*ss)+at)/(1-dfp):0));
-    set('adj-epc',fP(((tp*ss)+at)/ss));
-    set('adj-cash2',f$((tp*ss)+at));
-  } else{set('adj-loan','—');set('adj-epc','—');set('adj-cash2','—');}
-  if(tc&&ss>0){
-    set('adj-tc-loan',fP(((tc-(tc*dfp))-at)/ss));
-    var sp=(tc-at)/ss;set('adj-tc-epc',fP(sp));set('adj-tc-cash',fP(sp));
-  } else{set('adj-tc-loan','—');set('adj-tc-epc','—');set('adj-tc-cash','—');}
+  if(tp&&ss>0){set('adj-loan',f$(dfp<1?((tp*ss)+at)/(1-dfp):0));set('adj-epc',fP(((tp*ss)+at)/ss));set('adj-cash2',f$((tp*ss)+at));}
+  else{set('adj-loan','—');set('adj-epc','—');set('adj-cash2','—');}
+  if(tc&&ss>0){set('adj-tc-loan',fP(((tc-(tc*dfp))-at)/ss));var sp=(tc-at)/ss;set('adj-tc-epc',fP(sp));set('adj-tc-cash',fP(sp));}
+  else{set('adj-tc-loan','—');set('adj-tc-epc','—');set('adj-tc-cash','—');}
   if(gsp&&ss>0)set('adj-waive',fP((gsp-(at-wa))/ss));else set('adj-waive','—');
 }
 function setYears(y,btn){
-  chartYears=y;
-  document.querySelectorAll('.ytbtn').forEach(function(b){b.classList.remove('active');});
+  chartYears=y;document.querySelectorAll('.ytbtn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');set('util-yr-label','Est. '+y+'-Year Savings');calcUtil();
 }
 function calcUtil(){
-  var bill=v('util-bill'),esc=v('util-esc')/100||0.035,solar=v('util-solar');
-  var pay=v('util-pay');
+  var bill=v('util-bill'),esc=v('util-esc')/100||0.035,solar=v('util-solar'),pay=v('util-pay');
   if(!pay&&_pc.gsp>0)pay=Math.round(_pc.gsp*0.006*100)/100;
-  var y=chartYears,labels=[],utilD=[],solarD=[];
-  var totalUtil=0,totalSolar=0;
-  var tbody=$('utilBody');if(tbody)tbody.innerHTML='';
+  var y=chartYears,labels=[],utilD=[],solarD=[],totalUtil=0,totalSolar=0;
+  var tbody=$e('utilBody');if(tbody)tbody.innerHTML='';
   for(var yr=1;yr<=y;yr++){
     var annUtil=bill*Math.pow(1+esc,yr-1)*12,annSolar=(pay+solar)*12;
     totalUtil+=annUtil;totalSolar+=annSolar;
@@ -708,11 +1278,8 @@ function calcUtil(){
     if(tbody){
       var diff=totalUtil-totalSolar;
       var tr=document.createElement('tr');
-      var c1=document.createElement('td');c1.textContent='Yr '+yr;
-      var c2=document.createElement('td');c2.textContent=f$(totalUtil,0);
-      var c3=document.createElement('td');c3.textContent=f$(totalSolar,0);
-      var c4=document.createElement('td');c4.textContent=(diff>=0?'+':'')+f$(diff,0);c4.style.color=diff>=0?'#2d6a2d':'#d32f2f';c4.style.fontWeight='700';
-      tr.appendChild(c1);tr.appendChild(c2);tr.appendChild(c3);tr.appendChild(c4);
+      [['Yr '+yr],f$(totalUtil,0),f$(totalSolar,0)].forEach(function(t,i){var c=tr.insertCell();c.textContent=Array.isArray(t)?t[0]:t;});
+      var c4=tr.insertCell();c4.textContent=(diff>=0?'+':'')+f$(diff,0);c4.style.color=diff>=0?'var(--green)':'var(--red)';c4.style.fontWeight='600';
       tbody.appendChild(tr);
     }
   }
@@ -720,44 +1287,29 @@ function calcUtil(){
   if(chartInstance){chartInstance.data.util=utilD;chartInstance.data.solar=solarD;chartInstance.labels=labels;chartInstance.draw();}
 }
 function setTPO(m){
-  tpoMode=m;
-  $('tm-in').classList.toggle('active',m==='input');
-  $('tm-calc').classList.toggle('active',m==='calc');
-  $('tpo-calc-in').classList.toggle('hidden',m==='input');
-  calcTPO();
+  tpoMode=m;$e('tm-in').classList.toggle('active',m==='input');$e('tm-calc').classList.toggle('active',m==='calc');
+  $e('tpo-calc-in').classList.toggle('hidden',m==='input');calcTPO();
 }
 function calcTPO(){
   var rate=v('tpo-rate'),esc=v('tpo-esc')/100,term=v('tpo-term');
-  // EPC → GSP calculation (always runs)
-  var epc=v('tpo-epc'),epcSz=v('tpo-epc-sz');
-  var gspEl=$('tpo-gsp');
-  if(epc>0&&epcSz>0){
-    var gspVal=epc*epcSz;
-    if(gspEl)gspEl.textContent=f$(gspVal);
-  } else {
-    if(gspEl)gspEl.textContent='—';
-  }
+  var epc=v('tpo-epc'),epcSz=v('tpo-epc-sz'),gspEl=$e('tpo-gsp');
+  if(epc>0&&epcSz>0&&gspEl)gspEl.textContent=f$(epc*epcSz);else if(gspEl)gspEl.textContent='—';
   if(tpoMode==='calc'){
     var tp=v('tpo-tppw'),sz=v('tpo-sz'),adds=v('tpo-adds');
     if(sz>0)set('tpo-crate',f$((tp*sz+adds)/12)+'/mo');
     if(rate>0&&sz>0)set('tpo-ppwr',fP((rate*12)/sz));
   }
   if(rate>0&&term>0){
-    $('tpo-esc-wrap').classList.remove('hidden');
-    var tbl=$('tpoEscTbl');tbl.innerHTML='';
-    var thead=tbl.createTHead(),hrow=thead.insertRow();
-    var heads=['Year','Monthly Rate','Annual Total','Cumulative'];
-    heads.forEach(function(h){var th=document.createElement('th');th.textContent=h;hrow.appendChild(th);});
+    $e('tpo-esc-wrap').classList.remove('hidden');
+    var tbl=$e('tpoEscTbl');tbl.innerHTML='';
+    var thead=tbl.createTHead(),hr=thead.insertRow();
+    ['Year','Monthly Rate','Annual Total','Cumulative'].forEach(function(h){var th=document.createElement('th');th.textContent=h;hr.appendChild(th);});
     var tb=tbl.createTBody(),cum=0;
     for(var yr=1;yr<=Math.min(term,30);yr++){
       var mo=rate*Math.pow(1+esc,yr-1),ann=mo*12;cum+=ann;
-      var r=tb.insertRow();
-      var rc1=r.insertCell();rc1.textContent='Yr '+yr;
-      var rc2=r.insertCell();rc2.textContent=f$(mo);
-      var rc3=r.insertCell();rc3.textContent=f$(ann);
-      var rc4=r.insertCell();rc4.textContent=f$(cum);
+      var r=tb.insertRow();['Yr '+yr,f$(mo),f$(ann),f$(cum)].forEach(function(txt){var c=r.insertCell();c.textContent=txt;});
     }
-  } else {$('tpo-esc-wrap').classList.add('hidden');}
+  } else $e('tpo-esc-wrap').classList.add('hidden');
 }
 function calcBasic(){
   var sT=v('sr-t'),sA=v('sr-a'),sS=v('sr-s');
@@ -765,13 +1317,132 @@ function calcBasic(){
   var mT=v('ml-t'),mS=v('ml-s'),mA=v('ml-a'),mD=v('ml-d');
   set('ml-r',mD<1?f$((mT*mS+mA)/(1-mD)):'—');
 }
+// ── PPL CALCS ────────────────────────────────────────────────────────
+function calcPPL(){
+  var R=PPL_RATE,CR=1-R;  // e.g. 0.25 / 0.75
+  // Calcs 1 & 2 — cash, escrow-adjusted
+  [['c1','c1-tppw','c1-sz','c1-gsp','c1-adders'],['c2','c2-tppw','c2-sz','c2-gsp','c2-adders']].forEach(function(arr){
+    var p=arr[0],t=v(arr[1]),s=v(arr[2]),g=v(arr[3]),a=v(arr[4]);
+    if(t&&s&&g&&a){
+      var e1=(g*CR)*0.017,ng=(t*s)+a,e2=(ng*CR)*0.017,req=(ng-e1)+e2;
+      set(p+'-escrow',f$(e1));set(p+'-newgsp',f$(ng));set(p+'-escrow2',f$(e2));
+      set(p+'-gsp-req',f$(req));set(p+'-ppl',f$(req*R));set(p+'-cash',f$(req*CR));
+    } else[p+'-escrow',p+'-newgsp',p+'-escrow2',p+'-gsp-req',p+'-ppl',p+'-cash'].forEach(function(id){set(id,'—');});
+  });
+  // Calc 3 — credit human
+  var c3t=v('c3-tppw'),c3s=v('c3-sz'),c3a=v('c3-adders');
+  if(c3t&&c3s){var req3=(c3t*c3s)+c3a;set('c3-gsp-req',f$(req3));set('c3-ppl',f$(req3*R));set('c3-loan',f$(req3*CR));}
+  else['c3-gsp-req','c3-ppl','c3-loan'].forEach(function(id){set(id,'—');});
+  // Calc 4 — PPL+ (fixed 3/13 ratio regardless of global rate)
+  var R4=3/13,CR4=10/13;
+  var c4t=v('c4-tppw'),c4s=v('c4-sz'),c4g=v('c4-gsp'),c4a=v('c4-adders');
+  if(c4t&&c4s&&c4g&&c4a){
+    var ref4=c4g*R4,ach=c4a-ref4,ng4=(c4t*c4s)+ach,g1=ng4/CR4/100*100,req4=ng4/CR4;
+    set('c4-refund',f$(ref4));set('c4-adderch',f$(ach));set('c4-newgsp',f$(ng4));set('c4-gsp1pct',f$(ng4/CR4/100));
+    set('c4-gsp-req',f$(req4));set('c4-ppl',f$(req4*R4));set('c4-loan',f$(req4*CR4));set('c4-refund2',f$(req4*R4));
+  } else['c4-refund','c4-adderch','c4-newgsp','c4-gsp1pct','c4-gsp-req','c4-ppl','c4-loan','c4-refund2'].forEach(function(id){set(id,'—');});
+  // Calc 5
+  var c5g=v('c5-gsp');
+  if(c5g){set('c5-ppl-std',f$(c5g*R));set('c5-cash-std',f$(c5g*CR));set('c5-ppl-plus',f$(c5g*R4));set('c5-ch-plus',f$(c5g*CR4));}
+  else['c5-ppl-std','c5-cash-std','c5-ppl-plus','c5-ch-plus'].forEach(function(id){set(id,'—');});
+  // Calc 6
+  var c6l=v('c6-loan');
+  if(c6l){
+    var gss=c6l/CR,gsp2=c6l/CR4;
+    set('c6-gsp-std',f$(gss));set('c6-ppl-std',f$(gss*R));set('c6-cash-std',f$(c6l));
+    set('c6-gsp-plus',f$(gsp2));set('c6-ppl-plus',f$(gsp2*R4));set('c6-net-plus',f$(c6l));
+  } else['c6-gsp-std','c6-ppl-std','c6-cash-std','c6-gsp-plus','c6-ppl-plus','c6-net-plus'].forEach(function(id){set(id,'—');});
+}
+// ── ROOFING HIC — PPL (4 options) ───────────────────────────────────
+function calcHIC1(){
+  var R=PPL_RATE,CR=1-R;
+  var gsp=v('h1-gsp'),adders=v('h1-adders'),roof=v('h1-roof'),sz=v('h1-sz'),pvcov=v('h1-pvcov')/100;
+  var ok=gsp>0&&sz>0;
+  // Original breakdown
+  var origPPL=gsp*R,origLoan=gsp*CR,origPPW=ok?(gsp-adders)/sz:0;
+  set('h1-orig-gsp',f$(gsp));set('h1-orig-ppl',f$(origPPL));set('h1-orig-loan',f$(origLoan));
+  set('h1-orig-ppw',ok?fP(origPPW):'—');set('h1-orig-total',f$(gsp));
+  if(!ok){['h1o1-hic','h1o1-gsp','h1o1-pplbase','h1o1-ppl','h1o1-loan','h1o1-ppw','h1o1-ppwch','h1o1-loandelta','h1o2-hic','h1o2-gsp','h1o2-pplbase','h1o2-ppl','h1o2-loan','h1o2-ppw','h1o2-ppwch','h1o2-loandelta','h1o3-hic','h1o3-gsp','h1o3-pplbase','h1o3-ppl','h1o3-loan','h1o3-ppw','h1o3-ppwch','h1o3-loandelta','h1o4-hic','h1o4-gsp','h1o4-pplbase','h1o4-ppl','h1o4-loan','h1o4-ppw','h1o4-ppwch','h1o4-loandelta'].forEach(function(id){set(id,'—');});return;}
+  var hic=roof*(1-pvcov);
+  // Option 1: Keep same PPW — loan increases
+  var o1loan=origLoan+(hic*R);
+  var o1gsp=(o1loan-(hic*R))/CR;
+  var o1pplbase=o1gsp-hic,o1ppl=o1pplbase*R;
+  var o1ppw=(o1gsp-adders)/sz,o1ppwch=o1ppw-origPPW,o1loandelta=o1loan-origLoan;
+  set('h1o1-hic',f$(hic));set('h1o1-gsp',f$(o1gsp));set('h1o1-pplbase',f$(o1pplbase));set('h1o1-ppl',f$(o1ppl));set('h1o1-loan',f$(o1loan));
+  set('h1o1-ppw',fP(o1ppw));set('h1o1-ppwch',fDeltaP(o1ppwch));set('h1o1-loandelta',fDelta(o1loandelta));
+  $e('h1o1-ppwch').className='mv '+(Math.abs(o1ppwch)<0.0001?'zero':o1ppwch>0?'up':'dn');
+  $e('h1o1-loandelta').className='mv '+(o1loandelta>0?'up':'zero');
+  // Option 2: $0 loan increase
+  var o2loan=origLoan;
+  var o2ppl=origPPL-(hic*R),o2pplbase=o2ppl/R;
+  var o2gsp=o2ppl+o2loan,o2ppw=(o2gsp-adders)/sz,o2ppwch=o2ppw-origPPW;
+  set('h1o2-hic',f$(hic));set('h1o2-gsp',f$(o2gsp));set('h1o2-pplbase',f$(o2pplbase));set('h1o2-ppl',f$(o2ppl));set('h1o2-loan',f$(o2loan));
+  set('h1o2-ppw',fP(o2ppw));set('h1o2-ppwch',fDeltaP(o2ppwch));set('h1o2-loandelta','$0.00');
+  $e('h1o2-ppwch').className='mv dn';
+  // Option 3: Swap w/ Fixed Loan (alt GSP back-solve)
+  var o3loan=origLoan,o3gsp=hic+((o3loan-hic)/CR);
+  var o3pplbase=o3gsp-hic,o3ppl=o3pplbase*R;
+  var o3ppw=(o3gsp-adders)/sz,o3ppwch=o3ppw-origPPW;
+  set('h1o3-hic',f$(hic));set('h1o3-gsp',f$(o3gsp));set('h1o3-pplbase',f$(o3pplbase));set('h1o3-ppl',f$(o3ppl));set('h1o3-loan',f$(o3loan));
+  set('h1o3-ppw',fP(o3ppw));set('h1o3-ppwch',fDeltaP(o3ppwch));set('h1o3-loandelta','$0.00');
+  $e('h1o3-ppwch').className='mv dn';
+  // Option 4: Full HIC (whole roof, no PV reduction)
+  var o4hic=roof,o4gsp=gsp+o4hic;
+  var o4pplbase=o4gsp-o4hic,o4ppl=o4pplbase*R,o4loan=o4gsp-o4ppl;
+  var o4ppw=(o4gsp-adders)/sz,o4ppwch=o4ppw-origPPW,o4loandelta=o4loan-origLoan;
+  set('h1o4-hic',f$(o4hic));set('h1o4-gsp',f$(o4gsp));set('h1o4-pplbase',f$(o4pplbase));set('h1o4-ppl',f$(o4ppl));set('h1o4-loan',f$(o4loan));
+  set('h1o4-ppw',fP(o4ppw));set('h1o4-ppwch',fDeltaP(o4ppwch));set('h1o4-loandelta',fDelta(o4loandelta));
+  $e('h1o4-ppwch').className='mv up';$e('h1o4-loandelta').className='mv up';
+}
+// ── ROOFING HIC — PPL+ (2 options) ──────────────────────────────────
+function calcHIC2(){
+  var R=PPL_RATE,CR=1-R;
+  var origLoan=v('h2-loan'),adders=v('h2-adders'),roof=v('h2-roof'),sz=v('h2-sz'),pvcov=v('h2-pvcov')/100;
+  var ok=origLoan>0&&sz>0;
+  // Original — GSP reconstructed from Loan + PPL Discount
+  // PPL Discount = origLoan * R (original loan × PPL rate)
+  var origPplDisc=origLoan*R,origGSP=origLoan+origPplDisc;
+  var origPPW=ok?((origGSP-adders)/sz):0;
+  var origRefund=origLoan*0.3; // PPL+ refund is always 30% of loan
+  set('h2-orig-gsp',f$(origGSP));set('h2-orig-ppl',f$(origPplDisc));set('h2-orig-loan',f$(origLoan));
+  set('h2-orig-ream',f$(origLoan));set('h2-orig-ppw',ok?fP(origPPW):'—');
+  set('h2-orig-total',f$(origLoan));set('h2-orig-refund',f$(origRefund));
+  if(!ok){['h2o1-hic','h2o1-gsp','h2o1-pplgsp','h2o1-ppl','h2o1-loan','h2o1-refund','h2o1-ream','h2o1-ppw','h2o1-ppwch','h2o1-loandelta','h2o1-refdelta','h2o2-hic','h2o2-gsp','h2o2-pplgsp','h2o2-ppl','h2o2-loan','h2o2-refund','h2o2-ream','h2o2-ppw','h2o2-ppwch','h2o2-loandelta','h2o2-refdelta'].forEach(function(id){set(id,'—');});return;}
+  var hic=roof*(1-pvcov);
+  // Option 1: Keep same Loan/PPW
+  var o1loan=origLoan;
+  var o1ppl=(o1loan-hic)*R,o1ref=(o1loan-hic)*R;
+  var o1pplgsp=(o1loan-hic)+o1ppl; // this is the PPL GSP portion
+  var o1gsp=o1loan+o1ppl; // total new GSP = loan + PPL amount
+  var o1ppw=(o1pplgsp-(adders-origPplDisc+o1ppl))/sz;
+  var o1ppwch=o1ppw-origPPW,o1loandelta=o1loan-origLoan,o1refdelta=o1ref-origRefund;
+  set('h2o1-hic',f$(hic));set('h2o1-gsp',f$(o1gsp));set('h2o1-pplgsp',f$(o1pplgsp));
+  set('h2o1-ppl',f$(o1ppl));set('h2o1-loan',f$(o1loan));set('h2o1-refund',f$(o1ref));set('h2o1-ream',f$(o1loan));
+  set('h2o1-ppw',fP(o1ppw));set('h2o1-ppwch',fDeltaP(o1ppwch));set('h2o1-loandelta','$0.00');set('h2o1-refdelta',fDelta(o1refdelta));
+  $e('h2o1-ppwch').className='mv '+(Math.abs(o1ppwch)<0.0001?'zero':o1ppwch>0?'up':'dn');
+  $e('h2o1-refdelta').className='mv dn';
+  // Option 2: Keep same refund — back-solve loan
+  var o2loan=(origRefund/R)+hic; // so that (loan-hic)*R = origRefund
+  var o2ppl=(o2loan-hic)*R,o2ref=(o2loan-hic)*R;
+  var o2pplgsp=(o2loan-hic)+o2ppl;
+  var o2gsp=o2loan+o2ppl;
+  var o2ppw=(o2pplgsp-(adders-origPplDisc+o2ppl))/sz;
+  var o2ppwch=o2ppw-origPPW,o2loandelta=o2loan-origLoan,o2refdelta=o2ref-origRefund;
+  set('h2o2-hic',f$(hic));set('h2o2-gsp',f$(o2gsp));set('h2o2-pplgsp',f$(o2pplgsp));
+  set('h2o2-ppl',f$(o2ppl));set('h2o2-loan',f$(o2loan));set('h2o2-refund',f$(o2ref));set('h2o2-ream',f$(o2loan));
+  set('h2o2-ppw',fP(o2ppw));set('h2o2-ppwch',fDeltaP(o2ppwch));set('h2o2-loandelta',fDelta(o2loandelta));set('h2o2-refdelta','$0.00');
+  $e('h2o2-ppwch').className='mv up';$e('h2o2-loandelta').className='mv up';$e('h2o2-refdelta').className='mv zero';
+}
+// ── DF ───────────────────────────────────────────────────────────────
 function calcDF(){
-  var price=v('df-p'),man=v('df-man'),dateV=$('df-date')&&$('df-date').value;
+  var price=v('df-p'),man=v('df-man'),dv=$e('df-date')&&$e('df-date').value;
   set('df-pct',man>0?(man*100).toFixed(2)+'%':'—');
   set('df-fee',price>0&&man>0?f$(price*man):'—');
-  if(dateV){var d=new Date(dateV);d.setDate(d.getDate()+180);set('df-exp',d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));}
+  if(dv){var d=new Date(dv);d.setDate(d.getDate()+180);set('df-exp',d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));}
   else set('df-exp','—');
 }
+// ── ESCALATIONS ──────────────────────────────────────────────────────
 var ESC=[
   {l:'Current (100% to Freedom)',f:function(p,a,m,b,s){return{fs:m,ds:0,ppw:(p-a)/s};}},
   {l:'0% to Freedom',f:function(p,a,m,b,s){return{fs:0,ds:m,ppw:(p-a-m)/s};}},
@@ -782,73 +1453,136 @@ var ESC=[
 ];
 function calcEsc(){
   var p=v('ep'),s=v('es'),b=v('eb'),a=v('ea'),m=v('em');
-  var tb=$('escBody');tb.innerHTML='';
+  var tb=$e('escBody');tb.innerHTML='';
   ESC.forEach(function(sc){
-    var res=sc.f(p,a,m,b,s),fs=res.fs,ds=res.ds,ppw=res.ppw;
-    var diff=ppw-b,ok=p>0&&s>0;
+    var res=sc.f(p,a,m,b,s),fs=res.fs,ds=res.ds,ppw=res.ppw,diff=ppw-b,ok=p>0&&s>0;
     var tr=document.createElement('tr');
     var e0=document.createElement('td');e0.className='el';e0.textContent=sc.l;
-    var e1=document.createElement('td');e1.textContent=ok?f$(fs):'—';
-    var e2=document.createElement('td');e2.textContent=ok?f$(ds):'—';
-    var e3=document.createElement('td');e3.textContent=ok?fP(ppw):'—';e3.style.color=ok?(ppw>=b?'#2d6a2d':'#d32f2f'):'#333';e3.style.fontWeight='700';
-    var e4=document.createElement('td');e4.textContent=ok?(diff>=0?'+':'')+fP(diff):'—';e4.style.color=ok?(diff>=0?'#2d6a2d':'#d32f2f'):'#333';e4.style.fontWeight='700';
-    var e5=document.createElement('td');e5.className='ey';e5.contentEditable='true';e5.style.cssText='min-width:120px;font-style:italic;color:#ccc;font-size:11px';e5.textContent='Click to add...';
-    tr.appendChild(e0);tr.appendChild(e1);tr.appendChild(e2);tr.appendChild(e3);tr.appendChild(e4);tr.appendChild(e5);
-    tb.appendChild(tr);
+    var e1=document.createElement('td');e1.textContent=ok?f$(fs):'—';e1.style.fontFamily='var(--mono)';
+    var e2=document.createElement('td');e2.textContent=ok?f$(ds):'—';e2.style.fontFamily='var(--mono)';
+    var e3=document.createElement('td');e3.textContent=ok?fP(ppw):'—';e3.style.color=ok?(ppw>=b?'var(--green)':'var(--red)'):'';e3.style.fontWeight='600';e3.style.fontFamily='var(--mono)';
+    var e4=document.createElement('td');e4.textContent=ok?(diff>=0?'+':'')+fP(diff):'—';e4.style.color=ok?(diff>=0?'var(--green)':'var(--red)'):'';e4.style.fontWeight='600';e4.style.fontFamily='var(--mono)';
+    var e5=document.createElement('td');e5.className='enotes';e5.contentEditable='true';e5.textContent='Click to add…';
+    tr.appendChild(e0);tr.appendChild(e1);tr.appendChild(e2);tr.appendChild(e3);tr.appendChild(e4);tr.appendChild(e5);tb.appendChild(tr);
   });
 }
+// ── CONVERSIONS ──────────────────────────────────────────────────────
 var CONVS=[
-  {label:'kW to W',from:'kW',to:'W',mult:1000},{label:'W to kW',from:'W',to:'kW',mult:0.001},
-  {label:'MW to W',from:'MW',to:'W',mult:1000000},{label:'W to MW',from:'W',to:'MW',mult:0.000001},
-  {label:'MWh to kWh',from:'MWh',to:'kWh',mult:1000},{label:'kWh to MWh',from:'kWh',to:'MWh',mult:0.001},
-  {label:'kWh to Wh',from:'kWh',to:'Wh',mult:1000},{label:'Wh to kWh',from:'Wh',to:'kWh',mult:0.001},
-  {label:'DC to AC (kW)',from:'DC kW',to:'AC kW',special:'dc2ac'},
-  {label:'AC to DC (kW)',from:'AC kW',to:'DC kW',special:'ac2dc'}
+  {label:'kW → W',from:'kW',to:'W',mult:1000},{label:'W → kW',from:'W',to:'kW',mult:0.001},
+  {label:'MW → W',from:'MW',to:'W',mult:1000000},{label:'W → MW',from:'W',to:'MW',mult:0.000001},
+  {label:'MWh → kWh',from:'MWh',to:'kWh',mult:1000},{label:'kWh → MWh',from:'kWh',to:'MWh',mult:0.001},
+  {label:'kWh → Wh',from:'kWh',to:'Wh',mult:1000},{label:'Wh → kWh',from:'Wh',to:'kWh',mult:0.001},
+  {label:'DC → AC (kW)',from:'DC kW',to:'AC kW',special:'dc2ac'},
+  {label:'AC → DC (kW)',from:'AC kW',to:'DC kW',special:'ac2dc'}
 ];
 var activeConv=0;
 function buildConvBtns(){
-  var wrap=$('convBtns');
+  var wrap=$e('convBtns');
   CONVS.forEach(function(c,i){
     var btn=document.createElement('button');
     btn.className='ctbtn'+(i===0?' active':'');btn.textContent=c.label;
     btn.onclick=function(){
-      activeConv=i;
-      document.querySelectorAll('.ctbtn').forEach(function(b){b.classList.remove('active');});
-      btn.classList.add('active');
-      $('conv-val').value='';set('conv-res','—');
-      $('conv-lbl').textContent=c.from+' value';
-      $('conv-unit').textContent='';
-      $('conv-acdcfields').classList.toggle('hidden',!c.special);
-      if(c.special){
-        $('conv-formula').textContent='Formula: AC = DC × inverter efficiency (default 96%)';
-      } else {
-        $('conv-formula').textContent='Formula: 1 '+c.from+' = '+c.mult.toLocaleString()+' '+c.to;
-      }
+      activeConv=i;document.querySelectorAll('.ctbtn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');$e('conv-val').value='';set('conv-res','—');
+      $e('conv-lbl').textContent=c.from+' value';$e('conv-unit').textContent='';
+      $e('conv-acdcfields').classList.toggle('hidden',!c.special);
+      $e('conv-formula').textContent=c.special?'Formula: AC = DC × inverter efficiency':'Formula: 1 '+c.from+' = '+c.mult.toLocaleString()+' '+c.to;
       set('conv-res-lbl',c.to);
     };
     wrap.appendChild(btn);
   });
-  $('conv-lbl').textContent=CONVS[0].from+' value';
-  $('conv-formula').textContent='Formula: 1 '+CONVS[0].from+' = '+CONVS[0].mult.toLocaleString()+' '+CONVS[0].to;
+  $e('conv-lbl').textContent=CONVS[0].from+' value';
+  $e('conv-formula').textContent='Formula: 1 '+CONVS[0].from+' = '+CONVS[0].mult.toLocaleString()+' '+CONVS[0].to;
   set('conv-res-lbl',CONVS[0].to);
 }
 function calcConv(){
   var val=v('conv-val'),c=CONVS[activeConv];
-  if(!val||!c){set('conv-res','—');$('conv-unit').textContent='';return;}
+  if(!val||!c){set('conv-res','—');$e('conv-unit').textContent='';return;}
   if(c.special){
-    var eff=v('conv-eff')||0.96;
-    var res=c.special==='dc2ac'?val*eff:val/eff;
-    set('conv-res',fN(res,4));
-    $('conv-unit').textContent=c.to;
-    $('conv-formula').textContent='Formula: '+(c.special==='dc2ac'?'AC = DC × '+eff+' efficiency':'DC = AC ÷ '+eff+' efficiency');
-  } else {
-    var res=val*c.mult;
-    set('conv-res',fN(res,res<0.001?6:res<1?4:res<1000?2:0));
-    $('conv-unit').textContent=c.to;
+    var eff=v('conv-eff')||0.96,res=c.special==='dc2ac'?val*eff:val/eff;
+    set('conv-res',fN(res,4));$e('conv-unit').textContent=c.to;
+    $e('conv-formula').textContent='Formula: '+(c.special==='dc2ac'?'AC = DC × '+eff:'DC = AC ÷ '+eff);
+  } else{var res=val*c.mult;set('conv-res',fN(res,res<0.001?6:res<1?4:res<1000?2:0));$e('conv-unit').textContent=c.to;}
+}
+// ── CLEAR ────────────────────────────────────────────────────────────
+function clearPage(tab){
+  var page=$e('page-'+tab);if(!page)return;
+  page.querySelectorAll('input[type=number],input[type=text],input[type=date]').forEach(function(el){el.value='';});
+  if(tab==='pricing'){
+    clearRows();
+    ['om-df','om-at','om-gp','om-ap','om-tbp','om-tb$','om-tot','om-ss','adj-loan','adj-epc','adj-cash2','adj-tc-loan','adj-tc-epc','adj-tc-cash','adj-waive'].forEach(function(id){set(id,'—');});
+    set('util-savings','—');if(chartInstance){chartInstance.data.util=[];chartInstance.data.solar=[];chartInstance.labels=[];chartInstance.draw();}
+    var ub=$e('utilBody');if(ub)ub.innerHTML='';
+    ['sb-ppw','sb-df','sb-at','sb-gp','sb-tbp','sb-ss'].forEach(function(id){set(id,'—');});_pc={};
+  }
+  if(tab==='ppl'){['c1-escrow','c1-newgsp','c1-escrow2','c1-gsp-req','c1-ppl','c1-cash','c2-escrow','c2-newgsp','c2-escrow2','c2-gsp-req','c2-ppl','c2-cash','c3-gsp-req','c3-ppl','c3-loan','c4-refund','c4-adderch','c4-newgsp','c4-gsp1pct','c4-gsp-req','c4-ppl','c4-loan','c4-refund2','c5-ppl-std','c5-cash-std','c5-ppl-plus','c5-ch-plus','c6-gsp-std','c6-ppl-std','c6-cash-std','c6-gsp-plus','c6-ppl-plus','c6-net-plus'].forEach(function(id){set(id,'—');});}
+  if(tab==='df'){set('df-fee','—');set('df-exp','—');set('df-pct','—');}
+  if(tab==='esc'){$e('escBody').innerHTML='';calcEsc();}
+  if(tab==='basic'){set('sr-r','—');set('ml-r','—');}
+  if(tab==='conv'){set('conv-res','—');var cu=$e('conv-unit');if(cu)cu.textContent='';}
+  if(tab==='hic'){
+    ['h1-orig-gsp','h1-orig-ppl','h1-orig-loan','h1-orig-ppw','h1-orig-total','h2-orig-gsp','h2-orig-ppl','h2-orig-loan','h2-orig-ream','h2-orig-ppw','h2-orig-total','h2-orig-refund'].forEach(function(id){set(id,'—');});
+    ['h1o1','h1o2','h1o3','h1o4'].forEach(function(o){['hic','gsp','pplbase','ppl','loan','ppw','ppwch','loandelta'].forEach(function(f){set(o+'-'+f,'—');});});
+    ['h2o1','h2o2'].forEach(function(o){['hic','gsp','pplgsp','ppl','loan','refund','ream','ppw','ppwch','loandelta','refdelta'].forEach(function(f){set(o+'-'+f,'—');});});
   }
 }
+// ── EXPORT ───────────────────────────────────────────────────────────
+function exportPDF(tab){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('print-target');});
+  var page=$e('page-'+tab);if(page)page.classList.add('print-target');
+  if(tab==='hic'){
+    document.querySelectorAll('.sub-page').forEach(function(p){
+      if(p.classList.contains('active'))p.classList.add('print-target-sub');
+    });
+  }
+  window.print();
+  setTimeout(function(){
+    if(page)page.classList.remove('print-target');
+    document.querySelectorAll('.sub-page').forEach(function(p){p.classList.remove('print-target-sub');});
+  },800);
+}
+// ── CHART ────────────────────────────────────────────────────────────
+function initChart(){
+  var canvas=$e('utilChart');if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  chartInstance={ctx:ctx,canvas:canvas,data:{util:[],solar:[]},labels:[],
+    draw:function(){
+      var W=this.canvas.offsetWidth,H=this.canvas.offsetHeight;
+      this.canvas.width=W;this.canvas.height=H;
+      var pad={t:14,r:14,b:34,l:52},cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+      var allVals=this.data.util.concat(this.data.solar),mx=Math.max.apply(null,allVals.concat([1]));
+      var self=this,sy=function(v){return pad.t+cH-((v/mx)*cH);},sx=function(i){return pad.l+(i/(self.labels.length-1))*cW;};
+      this.ctx.fillStyle='#f8f9fb';this.ctx.fillRect(0,0,W,H);
+      this.ctx.strokeStyle='rgba(15,23,42,.06)';this.ctx.lineWidth=1;
+      for(var g=0;g<=4;g++){
+        var y=pad.t+(g/4)*cH;this.ctx.beginPath();this.ctx.moveTo(pad.l,y);this.ctx.lineTo(pad.l+cW,y);this.ctx.stroke();
+        this.ctx.fillStyle='#94a3b8';this.ctx.font='10px IBM Plex Mono,monospace';this.ctx.textAlign='right';
+        this.ctx.fillText('$'+Math.round(mx*(1-g/4)/1000)+'k',pad.l-5,y+4);
+      }
+      this.ctx.fillStyle='#94a3b8';this.ctx.font='10px IBM Plex Mono,monospace';this.ctx.textAlign='center';
+      for(var i=0;i<this.labels.length;i++){if(i%3===0||i===this.labels.length-1)this.ctx.fillText(this.labels[i],sx(i),H-pad.b+13);}
+      if(lineVisible[0]&&lineVisible[1]&&this.data.util.length){
+        this.ctx.beginPath();
+        for(var i=0;i<this.data.util.length;i++){if(i===0)this.ctx.moveTo(sx(i),sy(this.data.util[i]));else this.ctx.lineTo(sx(i),sy(this.data.util[i]));}
+        for(var i=this.data.solar.length-1;i>=0;i--){this.ctx.lineTo(sx(i),sy(this.data.solar[i]));}
+        this.ctx.closePath();this.ctx.fillStyle='rgba(5,150,105,.06)';this.ctx.fill();
+      }
+      var cols=['#dc2626','#059669'],series=[this.data.util,this.data.solar];
+      for(var si=0;si<2;si++){
+        if(!lineVisible[si]||!series[si].length)continue;
+        this.ctx.beginPath();this.ctx.strokeStyle=cols[si];this.ctx.lineWidth=2.5;this.ctx.lineJoin='round';
+        for(var i=0;i<series[si].length;i++){if(i===0)this.ctx.moveTo(sx(i),sy(series[si][i]));else this.ctx.lineTo(sx(i),sy(series[si][i]));}
+        this.ctx.stroke();
+      }
+    }
+  };
+}
+function toggleLine(i){lineVisible[i]=!lineVisible[i];if(chartInstance)chartInstance.draw();}
+// ── INIT ─────────────────────────────────────────────────────────────
 initAdders();updateUI();calcEsc();buildConvBtns();initChart();
 window.addEventListener('resize',function(){if(chartInstance)chartInstance.draw();});
 </script>
 </body>
 </html>
+
+Can you review this HTML and update the help tab to be more specific to each tab, how to use the calc, how it works and important details. It sitll has the old helpguide from when it was an excel sheet
